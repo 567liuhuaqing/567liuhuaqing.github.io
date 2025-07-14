@@ -7,13 +7,1155 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>liuhuaqing</copyright>
-        <lastBuildDate>Wed, 12 Mar 2025 22:35:59 +0800</lastBuildDate><atom:link href="https://567liuhuaqing.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Fri, 04 Jul 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://567liuhuaqing.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>PE文件结构</title>
+        <link>https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/</link>
+        <pubDate>Fri, 04 Jul 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/</guid>
+        <description>&lt;img src="https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E6%AF%8D%E7%A5%9E%E5%82%A9.jpg" alt="Featured image of post PE文件结构" /&gt;&lt;h2 id=&#34;pe结构概述&#34;&gt;PE结构概述
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;程序入口地址OEP&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;pe分节&#34;&gt;PE分节
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;节省硬盘空间&lt;/li&gt;
+&lt;li&gt;节省内存空间&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250705154245979.png&#34;
+	width=&#34;980&#34;
+	height=&#34;680&#34;
+	srcset=&#34;https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250705154245979_hu_88176ed6f8827cfd.png 480w, https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250705154245979_hu_b34adb2426eb4ce7.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;硬盘空间和内存空间&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;144&#34;
+		data-flex-basis=&#34;345px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250705160234746.png&#34;
+	width=&#34;1373&#34;
+	height=&#34;812&#34;
+	srcset=&#34;https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250705160234746_hu_cd4a547308d8be1b.png 480w, https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250705160234746_hu_e97db606a9c087cb.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;文件与内存映像&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;169&#34;
+		data-flex-basis=&#34;405px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;peloader-pe加载&#34;&gt;PEloader-&amp;gt;PE加载
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;根据SizeOfImage的大小，开辟一块缓冲区（ImageBuffer）&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;根据SizeOfHeader的大小，将头信息从FileBuffer拷贝到ImageBuffer&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;根据节表中的信息循环将FileBuffer中的节拷贝到ImageBuffer中&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250706170543833.png&#34;
+	width=&#34;1086&#34;
+	height=&#34;570&#34;
+	srcset=&#34;https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250706170543833_hu_1893460f93942799.png 480w, https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250706170543833_hu_c11fcac96cade433.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;PE加载过程&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;190&#34;
+		data-flex-basis=&#34;457px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250707161420240.png&#34;
+	width=&#34;1252&#34;
+	height=&#34;647&#34;
+	srcset=&#34;https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250707161420240_hu_a3d235d8a9f11d15.png 480w, https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250707161420240_hu_4aefda4c52deb977.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;文件空间和内存空间&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;193&#34;
+		data-flex-basis=&#34;464px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;rva转化成foa&#34;&gt;RVA转化成FOA
+&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;VA：英文全称是Virual Address，简称VA，中文意思是虚拟地址。指的是文件被载入虚拟空间后的地址。&lt;/p&gt;
+&lt;p&gt;ImageBase：中文意思是基址，指的是程序在虚拟空间中被装载的位置。&lt;/p&gt;
+&lt;p&gt;RVA：英文全称是Relative Virual Address，简称RVA，中文意思是相对虚拟地址。可以理解为文件被装载到虚拟空间(拉伸)后先对于基址的偏移地址。计算方式：RVA = VA(虚拟地址) - ImageBase(基址)。它的对齐方式一般是以1000h为单位在虚拟空间中对齐的(传说中的4K对齐)，具体对齐需要参照IMAGE_OPTIONAL_HEADER32中的SectionAlignment成员。&lt;/p&gt;
+&lt;p&gt;FOA：英文全称是File Offset Address，简称FOA，中文意思是文件偏移地址。可以理解为文件在磁盘上存放时相对于文件开头的偏移地址。它的对齐方式一般是以200h为单位在硬盘中对齐的(512对齐)，具体对齐需要参照IMAGE_OPTIONAL_HEADER32中的FileAlignment成员。&lt;/p&gt;
+&lt;p&gt;全局变量：如果全局变量没有初始化值，那么这个全局变量在PE文件中是没有保存它的位置的，如果有初始化那么就有它位置保存初始值。定位到全局变量的位置后即可修改。&lt;/p&gt;
+&lt;p&gt;FOA(文件偏移，基于PE文件开始的地址0)和RVA(虚拟地址偏移，基于ImageBase)：&lt;/p&gt;
+&lt;p&gt;当SectionAlignment（内存中节区对齐大）和FileAlignment（文件中节区对齐大）相同时，这2个偏移相同，现在的大部分程序都相同.&lt;/p&gt;
+&lt;p&gt;如果不相同时：要判断是否在PE头中，如果在PE头这个节区那么他们还是相同，如果不在PE头节区，RVA先算出当前虚拟地址相对与当前节区的开始地址的偏移，然后在文件中也找到这个节区在PE文件中的偏移位置加上相同的偏移即可。&lt;/p&gt;
+&lt;p&gt;就算SectionAlignment（内存中节区对齐大）和FileAlignment（文件中节区对齐大）相同时，每个节区加载地址也可能不同这时还是要自己转换RVA和FOA&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;作业见&lt;code&gt;PE加载与回收+RVA转换成FOA.cpp&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&#34;pe头字段说明&#34;&gt;PE头字段说明
+&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250705215427147.png&#34;
+	width=&#34;1703&#34;
+	height=&#34;1170&#34;
+	srcset=&#34;https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250705215427147_hu_99225f834359e6cb.png 480w, https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250705215427147_hu_66480ecccfb72fdc.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;PE头字段位视图&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;145&#34;
+		data-flex-basis=&#34;349px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;dos头&#34;&gt;DOS头
+&lt;/h3&gt;&lt;p&gt;文件开始的地方&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;	&lt;span class=&#34;n&#34;&gt;DOS头&lt;/span&gt;												   &lt;span class=&#34;c1&#34;&gt;//滴水				//我自己
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;typedef&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;_IMAGE_DOS_HEADER&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	&lt;span class=&#34;n&#34;&gt;WORD&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e_magic&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;		&lt;span class=&#34;c1&#34;&gt;//Magic number(MZ);					//5A4D
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;n&#34;&gt;WORD&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e_cblp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;		&lt;span class=&#34;c1&#34;&gt;//Bytes on last page of file		//0090
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;n&#34;&gt;WORD&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e_cp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;          &lt;span class=&#34;c1&#34;&gt;//Pages in file						//0003
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;n&#34;&gt;WORD&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e_crlc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;        &lt;span class=&#34;c1&#34;&gt;//Relocations						//0000
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;n&#34;&gt;WORD&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e_cparhdr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;		&lt;span class=&#34;c1&#34;&gt;//Size of header in paragraphs		//0004
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;n&#34;&gt;WORD&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e_minalloc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;//Minimum extra paragraphs needed	//0000
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;n&#34;&gt;WORD&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e_maxalloc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;	&lt;span class=&#34;c1&#34;&gt;//Maximum extra paragraphs needed	//FFFF
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;n&#34;&gt;WORD&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e_ss&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;          &lt;span class=&#34;c1&#34;&gt;//Initial (relative) SS value		//0000
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;n&#34;&gt;WORD&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e_sp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;			&lt;span class=&#34;c1&#34;&gt;//Initial SP value					//00B8
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;n&#34;&gt;WORD&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e_csum&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;		&lt;span class=&#34;c1&#34;&gt;//Checksum							//0000
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;n&#34;&gt;WORD&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e_ip&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;			&lt;span class=&#34;c1&#34;&gt;//Initial IP value					//0000
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;n&#34;&gt;WORD&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e_cs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;			&lt;span class=&#34;c1&#34;&gt;//Initial (relative) CS value		//0000
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;n&#34;&gt;WORD&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e_lfarlc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;		&lt;span class=&#34;c1&#34;&gt;//File address of relocation table	//0040
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;n&#34;&gt;WORD&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e_ovno&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;		&lt;span class=&#34;c1&#34;&gt;//Overlay number					//0000
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;n&#34;&gt;WORD&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e_res&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;];&lt;/span&gt;		&lt;span class=&#34;c1&#34;&gt;//Reserved words	 //0000 0000 0000 0000
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;n&#34;&gt;WORD&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e_oemid&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;		&lt;span class=&#34;c1&#34;&gt;//OEM identifier (for e_oeminfo)	//0000
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;n&#34;&gt;WORD&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e_oeminfo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;		&lt;span class=&#34;c1&#34;&gt;//OEM information; e_oemid specific	//0000
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;n&#34;&gt;WORD&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e_res2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;];&lt;/span&gt;	&lt;span class=&#34;c1&#34;&gt;//Reserved words	//0000 0000 0000 0000 0000 0000 0000 0000 0000 0000
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e_lfanew&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;	&lt;span class=&#34;c1&#34;&gt;//File address of new exe header 	//0000 00E8	-&amp;gt;	//0000 0108
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;IMAGE_DOS_HEADER&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;PIMAGE_DOS_HEADER&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;nt头pe头&#34;&gt;NT头/PE头
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;NT头 = PE标志+ 标准PE头 + 可选PE头&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;DOS头字段e_lfanew为PE头开始的地方&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;typedef&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;_IMAGE_NT_HEADERS&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Signature&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;                         &lt;span class=&#34;c1&#34;&gt;//NT头标志 即&amp;#39;PE..&amp;#39; 00004550
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;IMAGE_FILE_HEADER&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;FileHeader&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;            &lt;span class=&#34;c1&#34;&gt;//标准PE头
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;IMAGE_OPTIONAL_HEADER32&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;OptionalHeader&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;//扩展PE头
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;IMAGE_NT_HEADERS32&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;PIMAGE_NT_HEADERS32&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;标准pe头文件头&#34;&gt;标准PE头/文件头
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;	&lt;span class=&#34;err&#34;&gt;标准&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;PE头&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;typedef&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;_IMAGE_FILE_HEADER&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;WORD&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;Machine&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;                    &lt;span class=&#34;c1&#34;&gt;//程序运行的CPU型号 x86CPU:0x14C x64CPU:0x8864
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;WORD&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;NumberOfSections&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;           &lt;span class=&#34;c1&#34;&gt;//PE中节的数量
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt;   &lt;span class=&#34;n&#34;&gt;TimeDateStamp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;              &lt;span class=&#34;c1&#34;&gt;//时间戳：文件创建的日期和时间
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt;   &lt;span class=&#34;n&#34;&gt;PointerToSymbolTable&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;         &lt;span class=&#34;c1&#34;&gt;//执行符号表，即编译好的程序生成的pdb文件，用来方便调试的
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt;   &lt;span class=&#34;n&#34;&gt;NumberOfSymbols&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;              &lt;span class=&#34;c1&#34;&gt;//符号表中的符号数量
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;WORD&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;SizeOfOptionalHeader&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;       &lt;span class=&#34;c1&#34;&gt;//可选PE头的大小 x86（32位）:224字节 x64（64位）:240字节
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;WORD&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;Characteristics&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;            &lt;span class=&#34;c1&#34;&gt;//文件属性，每个位有不同的含义 x86:0x3 x64:0x22
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;IMAGE_FILE_HEADER&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;PIMAGE_FILE_HEADER&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;可选pe头扩展头&#34;&gt;可选PE头/扩展头
+&lt;/h3&gt;&lt;p&gt;标准PE头字段SizeOfOptionalHeader为可选PE头大小（32位：E0h字节 / 64位：F0h字节）&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;30
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;31
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;32
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;33
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;34
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;	&lt;span class=&#34;err&#34;&gt;可选&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;PE头&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;typedef&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;_IMAGE_OPTIONAL_HEADER&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;WORD&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;Magic&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;                      &lt;span class=&#34;c1&#34;&gt;//魔数 x86:0x10B x64:0x20B
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;BYTE&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;MajorLinkerVersion&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;           &lt;span class=&#34;c1&#34;&gt;//链接器的版本
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;BYTE&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;MinorLinkerVersion&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;           &lt;span class=&#34;c1&#34;&gt;//连接器的版本
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt;   &lt;span class=&#34;n&#34;&gt;SizeOfCode&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;                 &lt;span class=&#34;c1&#34;&gt;//所有代码区段的大小总和，必须是FileAlignment的整数倍
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt;   &lt;span class=&#34;n&#34;&gt;SizeOfInitializedData&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;      &lt;span class=&#34;c1&#34;&gt;//已经初始化数据区段大小总和，必须是FileAlignment的整数倍
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt;   &lt;span class=&#34;n&#34;&gt;SizeOfUninitializedData&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;//未初始化数据区段大小总和，必须是FileAlignment的整数倍
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt;   &lt;span class=&#34;n&#34;&gt;AddressOfEntryPoint&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;**&lt;/span&gt;       &lt;span class=&#34;c1&#34;&gt;//程序入口OEP+ImageBase
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt;   &lt;span class=&#34;n&#34;&gt;BaseOfCode&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;                 &lt;span class=&#34;c1&#34;&gt;//代码段的起始RVA
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt;   &lt;span class=&#34;n&#34;&gt;BaseOfData&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;                 &lt;span class=&#34;c1&#34;&gt;//数据段的起始RVA（32+PE删除了）
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt;   &lt;span class=&#34;n&#34;&gt;ImageBase&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;**&lt;/span&gt;                 &lt;span class=&#34;c1&#34;&gt;//程序建议的加载地址（内存镜像基地址） x64 ULONGLONG
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt;   &lt;span class=&#34;n&#34;&gt;SectionAlignment&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;**&lt;/span&gt;          &lt;span class=&#34;c1&#34;&gt;//内存中的对齐粒度 x86 0x1000 x64 0x2000
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt;   &lt;span class=&#34;n&#34;&gt;FileAlignment&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;**&lt;/span&gt;             &lt;span class=&#34;c1&#34;&gt;//文件中的对齐粒度 0x200
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;WORD&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;MajorOperatingSystemVersion&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;//操作系统版本号
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;WORD&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;MinorOperatingSystemVersi&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;on&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;WORD&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;MajorImageVersion&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;            &lt;span class=&#34;c1&#34;&gt;//PE的镜像备案本号
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;WORD&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;MinorImageVersion&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;WORD&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;MajorSubsystemVersion&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;        &lt;span class=&#34;c1&#34;&gt;//子系统的版本号。
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;WORD&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;MinorSubsystemVersion&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt;   &lt;span class=&#34;n&#34;&gt;Win32VersionValue&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;            &lt;span class=&#34;c1&#34;&gt;//Win32版本（未使用）
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt;   &lt;span class=&#34;n&#34;&gt;SizeOfImage&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;**&lt;/span&gt;               &lt;span class=&#34;c1&#34;&gt;//内存中整个PE镜像的尺寸，必须是SectionAlignment的整数倍
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt;   &lt;span class=&#34;n&#34;&gt;SizeOfHeaders&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;**&lt;/span&gt;             &lt;span class=&#34;c1&#34;&gt;//所有头+节表按照文件对齐后的大小
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt;   &lt;span class=&#34;n&#34;&gt;CheckSum&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;                   &lt;span class=&#34;c1&#34;&gt;//校验和
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;WORD&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;Subsystem&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;                    &lt;span class=&#34;c1&#34;&gt;//子系统，其决定了程序入口点main函数的不同，常见的子系统有窗口，控制台等等
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;WORD&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;DllCharacteristics&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;           &lt;span class=&#34;c1&#34;&gt;//DLL动态链接库特性
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt;   &lt;span class=&#34;n&#34;&gt;SizeOfStackReserve&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;         &lt;span class=&#34;c1&#34;&gt;//初始化时的栈大小
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt;   &lt;span class=&#34;n&#34;&gt;SizeOfStackCommit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;          &lt;span class=&#34;c1&#34;&gt;//初始化时实际上提交的栈大小
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt;   &lt;span class=&#34;n&#34;&gt;SizeOfHeapReserve&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;          &lt;span class=&#34;c1&#34;&gt;//初始化时保留的堆大小
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt;   &lt;span class=&#34;n&#34;&gt;SizeOfHeapCommit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;           &lt;span class=&#34;c1&#34;&gt;//初始化时实际上提交的堆大小
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt;   &lt;span class=&#34;n&#34;&gt;LoaderFlags&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;                  &lt;span class=&#34;c1&#34;&gt;//加载标记
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt;   &lt;span class=&#34;n&#34;&gt;NumberOfRvaAndSizes&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;        &lt;span class=&#34;c1&#34;&gt;//数据目录结构的数量
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;IMAGE_DATA_DIRECTORY&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;DataDirectory&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;IMAGE_NUMBEROF_DIRECTORY_ENTRIES&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;];&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;//数据目录表数组
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;IMAGE_OPTIONAL_HEADER32&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;PIMAGE_OPTIONAL_HEADER32&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;最重要属性&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt;   &lt;span class=&#34;n&#34;&gt;AddressOfEntryPoint&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;**&lt;/span&gt;       &lt;span class=&#34;c1&#34;&gt;//程序入口OEP+ImageBase
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt;   &lt;span class=&#34;n&#34;&gt;ImageBase&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;**&lt;/span&gt;                 &lt;span class=&#34;c1&#34;&gt;//程序建议的加载地址（内存镜像基地址）
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt;   &lt;span class=&#34;n&#34;&gt;SectionAlignment&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;**&lt;/span&gt;          &lt;span class=&#34;c1&#34;&gt;//内存中的对齐粒度 x86 0x1000 x64 0x2000
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt;   &lt;span class=&#34;n&#34;&gt;FileAlignment&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;**&lt;/span&gt;             &lt;span class=&#34;c1&#34;&gt;//文件中的对齐粒度 0x200
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt;   &lt;span class=&#34;n&#34;&gt;SizeOfImage&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;**&lt;/span&gt;               &lt;span class=&#34;c1&#34;&gt;//内存中整个PE文件的映像（镜像）的尺寸，必须是SectionAlignment的整数倍
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt;   &lt;span class=&#34;n&#34;&gt;SizeOfHeaders&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;**&lt;/span&gt;             &lt;span class=&#34;c1&#34;&gt;//所有头+节表按照文件对齐后的大小
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt;   &lt;span class=&#34;n&#34;&gt;NumberOfRvaAndSizes&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;        &lt;span class=&#34;c1&#34;&gt;//数据目录结构的数量
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;IMAGE_DATA_DIRECTORY&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;DataDirectory&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;IMAGE_NUMBEROF_DIRECTORY_ENTRIES&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;];&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;//数据目录表数组（16*8字节）
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;节表&#34;&gt;节表
+&lt;/h3&gt;&lt;p&gt;可选PE头结束后紧跟着的地方为节表，标准PE表中字段NumberOfSections为节表个数，一个节表大小为40个字节&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#define IMAGE_SIZEOF_SHORT_NAME 8 			&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;//宏定义 
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;typedef&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;_IMAGE_SECTION_HEADER&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;BYTE&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;IMAGE_SIZEOF_SHORT_NAME&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;];&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;	&lt;span class=&#34;c1&#34;&gt;//每一个节都可以取一个名字，最大长度为8字节
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;k&#34;&gt;union&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;									&lt;span class=&#34;c1&#34;&gt;//联合体（大小为最大属性的大小）
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;        &lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt;   &lt;span class=&#34;n&#34;&gt;PhysicalAddress&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt;   &lt;span class=&#34;n&#34;&gt;VirtualSize&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Misc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;								&lt;span class=&#34;c1&#34;&gt;//是该节在没有对齐前的真实尺寸（若被修改则不准确）
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;VirtualAddress&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;					&lt;span class=&#34;c1&#34;&gt;//节在内存中的偏移地址（相对偏移）
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SizeOfRawData&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;					&lt;span class=&#34;c1&#34;&gt;//节在文件中对齐后的尺寸
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;PointerToRawData&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;				&lt;span class=&#34;c1&#34;&gt;//节在文件中的偏移
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;PointerToRelocations&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;PointerToLinenumbers&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;WORD&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;NumberOfRelocations&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;WORD&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;NumberOfLinenumbers&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;DWORD&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Characteristics&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;				&lt;span class=&#34;c1&#34;&gt;//节的属性
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;IMAGE_SECTION_HEADER&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;PIMAGE_SECTION_HEADER&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250706174838543.png&#34;
+	width=&#34;1128&#34;
+	height=&#34;486&#34;
+	srcset=&#34;https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250706174838543_hu_dc7d9726f22c2c67.png 480w, https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250706174838543_hu_13ae888cb3379ee6.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;属性对照表&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;232&#34;
+		data-flex-basis=&#34;557px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;打印所有头和节表代码详见&lt;/em&gt;&lt;code&gt;打印PE头.cpp&lt;/code&gt;&lt;em&gt;，运行如下&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250707145819853.png&#34;
+	width=&#34;1112&#34;
+	height=&#34;1604&#34;
+	srcset=&#34;https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250707145819853_hu_4c34036572f76ec9.png 480w, https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250707145819853_hu_f71de7b01d9632d4.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;打印结果&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;69&#34;
+		data-flex-basis=&#34;166px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;空白区添加代码&#34;&gt;空白区添加代码
+&lt;/h2&gt;&lt;h3 id=&#34;代码节空白区添加代码&#34;&gt;代码节空白区添加代码
+&lt;/h3&gt;&lt;p&gt;1.MessageBox函数说明
+MessageBox()函数：功能是弹出一个标准的Windows对话框；它不是C函数库的标准函数，而是一个API，我们可以用C语言调用API函数。可以理解成我们在C中使用MessageBox函数就表示调用系统提供的API函数–MessageBoxA。包含在头文件windows.h；如果一个程序中包含user32.dll，则此程序就有MessageBoxAAPI函数&lt;/p&gt;
+&lt;p&gt;2.函数原型&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;MessageBox&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;HWND&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;hWnd&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;LPCTSTR&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;lpText&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;LPCTSTR&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;lpCaption&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;NULL&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;UINT&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;nType&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;MB_OK&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol&gt;
+&lt;li&gt;获取MessageBox地址，构造ShellCode代码&lt;/li&gt;
+&lt;li&gt;E8 E9计算公式，x=MessageBox地址-下一条指令在内存中的地址&lt;/li&gt;
+&lt;li&gt;在代码区手动添加代码&lt;/li&gt;
+&lt;li&gt;修改OEP，指向ShellCode&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;任意节空白区添加代码&#34;&gt;任意节空白区添加代码
+&lt;/h3&gt;&lt;h3 id=&#34;新增节添加代码&#34;&gt;新增节添加代码
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;SizeOfHeader - (DOS + 垃圾数据 + PE标记 + 标准PE头 + 可选PE头 + 已存在的节表) &amp;gt;= 2个节表的大小&lt;/li&gt;
+&lt;li&gt;需要修改的数据&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;1）添加一个新的节&lt;/p&gt;
+&lt;p&gt;2）在新增节后面，填充一个节大小的000&lt;/p&gt;
+&lt;p&gt;3）修改PE头中节的数量NumberOfSections&lt;/p&gt;
+&lt;p&gt;4）修改ImageBase的大小&lt;/p&gt;
+&lt;p&gt;5）在原有数据的最后，新增一个节的数据为内存对齐的整数倍&lt;/p&gt;
+&lt;p&gt;6）修正新增节表的属性&lt;/p&gt;
+&lt;h3 id=&#34;扩大节-合并节-数据目录&#34;&gt;扩大节-合并节-数据目录
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;扩大节&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;拉伸到内存&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;分配一块新的空间：SizeOfImage + Ex&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;将最后一个节的SizeOfRawData和VirtualSize改成N&lt;/p&gt;
+&lt;p&gt;其中 N = MAX（SizeOfRawData，VirtualSize）内存对齐 + Ex&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;修改SizeOfImage&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;合并节&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;拉伸到内存&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;将第一个节的内存大小、文件大小改成一样&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Max = SizeOfRawData&amp;gt;VirtualSize?SizeOfRawData:VirtualSize&lt;/p&gt;
+&lt;p&gt;SizeOfRawData = VirtualSize = 最后一个节的VirtualAddress + Max - SizeOfHeaders内存对齐的大小&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;将第一个节的属性改为包含所有节的属性&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;修改节的数量为1&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        </item>
+        <item>
+        <title>汇编</title>
+        <link>https://567liuhuaqing.github.io/p/%E6%B1%87%E7%BC%96/</link>
+        <pubDate>Mon, 12 May 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://567liuhuaqing.github.io/p/%E6%B1%87%E7%BC%96/</guid>
+        <description>&lt;img src="https://567liuhuaqing.github.io/p/%E6%B1%87%E7%BC%96/%E8%9C%98%E8%9B%9B.jpg" alt="Featured image of post 汇编" /&gt;&lt;h1 id=&#34;汇编&#34;&gt;汇编
+&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;数据宽度&lt;/strong&gt;&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;BYTE&lt;/th&gt;
+          &lt;th&gt;WORD&lt;/th&gt;
+          &lt;th&gt;DWORD&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;8bit&lt;/td&gt;
+          &lt;td&gt;16bit&lt;/td&gt;
+          &lt;td&gt;32bit&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+$$
+*寻址范围-&gt;32位or64位*
+$$&lt;p&gt;&lt;img src=&#34;https://567liuhuaqing.github.io/p/%E6%B1%87%E7%BC%96/68879095-ef38-4d76-9be0-8aa1c7eb90bc.png&#34;
+	width=&#34;1106&#34;
+	height=&#34;405&#34;
+	srcset=&#34;https://567liuhuaqing.github.io/p/%E6%B1%87%E7%BC%96/68879095-ef38-4d76-9be0-8aa1c7eb90bc_hu_8581611279874a42.png 480w, https://567liuhuaqing.github.io/p/%E6%B1%87%E7%BC%96/68879095-ef38-4d76-9be0-8aa1c7eb90bc_hu_8550b5f7b2729d8a.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;68879095-ef38-4d76-9be0-8aa1c7eb90bc&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;273&#34;
+		data-flex-basis=&#34;655px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;汇编指令&#34;&gt;汇编指令
+&lt;/h2&gt;&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;mov&lt;/th&gt;
+          &lt;th&gt;lea&lt;/th&gt;
+          &lt;th&gt;add&lt;/th&gt;
+          &lt;th&gt;sub&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;取数据&lt;/td&gt;
+          &lt;td&gt;取地址&lt;/td&gt;
+          &lt;td&gt;加&lt;/td&gt;
+          &lt;td&gt;减&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;strong&gt;and&lt;/strong&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;strong&gt;or&lt;/strong&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;strong&gt;xor&lt;/strong&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;strong&gt;not&lt;/strong&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&amp;amp;&lt;/td&gt;
+          &lt;td&gt;|&lt;/td&gt;
+          &lt;td&gt;^&lt;/td&gt;
+          &lt;td&gt;!&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;进阶&lt;/strong&gt;&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;指令格式&lt;/th&gt;
+          &lt;th&gt;功能&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;ADC R/M,R/M/IMM&lt;/td&gt;
+          &lt;td&gt;带进位加法&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;SBB R/M,R/M/IMM&lt;/td&gt;
+          &lt;td&gt;带借位减法&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;XCHG R/M,R/M&lt;/td&gt;
+          &lt;td&gt;交换数据&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;MOVS B/W/D :[EDI],:[ESI]&lt;/td&gt;
+          &lt;td&gt;移动数据（内存-内存）（[EDI]/[ESI]根据方向标志DF决定自增/减）&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;STOS B/W/D :[EDI]&lt;/td&gt;
+          &lt;td&gt;将AL/AX/EAX的值储存到[EDI]指定的内存单元&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;REP MOVSD/STOSB/&amp;hellip;&lt;/td&gt;
+          &lt;td&gt;按计数寄存器（ECX）中指定的次数重复执行字符串指令&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;类型转换&lt;/th&gt;
+          &lt;th&gt;功能&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;MOVSX CX, AL&lt;/td&gt;
+          &lt;td&gt;符号拓展&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;MOVZX CX, AL&lt;/td&gt;
+          &lt;td&gt;无符号拓展&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;内存的读写&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;MOV DWORD ptr ds:[0x0012FFC4], 0x12345678&lt;/code&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;汇编、寄存器、堆栈窗口大端序；数据窗口小端序&lt;/p&gt;&lt;/blockquote&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;寻址公式&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;[立即数]&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;[reg] -&amp;gt; dword ptr ds:[ecx]&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;[reg+立即数] -&amp;gt; dword ptr ds:[ecx+4]&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;[reg+reg*{1, 2, 4, 8}] -&amp;gt; dword ptr ds:[eax+ecx*4]&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;[reg+reg*{1, 2, 4, 8}+立即数] -&amp;gt; dword ptr ds:[eax+ecx*4+4]&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;标志寄存器&#34;&gt;标志寄存器
+&lt;/h3&gt;&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;各类标志寄存器&lt;/th&gt;
+          &lt;th&gt;值为1的条件&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;进位标志CF&lt;/td&gt;
+          &lt;td&gt;运算结果最高位产生一个进位或借位&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;奇偶标志PF&lt;/td&gt;
+          &lt;td&gt;运算结果中“1”的个数为偶数&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;辅助进位标志AF&lt;/td&gt;
+          &lt;td&gt;在字/字节操作时，低字节/4位向高字节/4位进位或借位&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;零标志ZF&lt;/td&gt;
+          &lt;td&gt;运算结果为0&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;符号标志SF&lt;/td&gt;
+          &lt;td&gt;与运算结果的最高位相同&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;溢出标志OF&lt;/td&gt;
+          &lt;td&gt;有符号数加减运算是否溢出&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;img src=&#34;https://567liuhuaqing.github.io/p/%E6%B1%87%E7%BC%96/image-20250528145359288.png&#34;
+	width=&#34;1356&#34;
+	height=&#34;647&#34;
+	srcset=&#34;https://567liuhuaqing.github.io/p/%E6%B1%87%E7%BC%96/image-20250528145359288_hu_f835a32d08958586.png 480w, https://567liuhuaqing.github.io/p/%E6%B1%87%E7%BC%96/image-20250528145359288_hu_c804131eec58d630.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;image-20250528145359288&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;209&#34;
+		data-flex-basis=&#34;502px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;常见汇编及jcc&#34;&gt;常见汇编及JCC
+&lt;/h3&gt;&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;常见汇编&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;JMP 寄存器/立即数 修改EIP的值&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;CALL [A]/寄存器&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;PUSH [B]&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;MOV EIP,[A]/寄存器&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;RET -&amp;gt; POP EIP&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;CMP R/M,R/M/IMM&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;TEST R/M,R/M/IMM&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;JCC&lt;/th&gt;
+          &lt;th&gt;条件&lt;/th&gt;
+          &lt;th&gt;标志&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;JE，JZ&lt;/td&gt;
+          &lt;td&gt;结果为零则跳转&lt;/td&gt;
+          &lt;td&gt;ZF=1&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;JNE，JNZ&lt;/td&gt;
+          &lt;td&gt;结果不为零则跳转&lt;/td&gt;
+          &lt;td&gt;ZF=0&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;JS&lt;/td&gt;
+          &lt;td&gt;结果为负则跳转&lt;/td&gt;
+          &lt;td&gt;SF=1&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;JNS&lt;/td&gt;
+          &lt;td&gt;结果为非负则跳转&lt;/td&gt;
+          &lt;td&gt;SF=0&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;JP，JPE&lt;/td&gt;
+          &lt;td&gt;结果中1的个数为偶数则跳转&lt;/td&gt;
+          &lt;td&gt;PF=1&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;JNP，JPO&lt;/td&gt;
+          &lt;td&gt;结果中1的个数为奇数则跳转&lt;/td&gt;
+          &lt;td&gt;PF=0&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;JO&lt;/td&gt;
+          &lt;td&gt;结果溢出了则跳转&lt;/td&gt;
+          &lt;td&gt;OF=1&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;JNO&lt;/td&gt;
+          &lt;td&gt;结果没有溢出则跳转&lt;/td&gt;
+          &lt;td&gt;OF=0&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;JB，JNAE&lt;/td&gt;
+          &lt;td&gt;小于则跳转（无符号数）&lt;/td&gt;
+          &lt;td&gt;CF=1&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;JNB，JAE&lt;/td&gt;
+          &lt;td&gt;大于等于则跳转（无符号数）&lt;/td&gt;
+          &lt;td&gt;CF=0&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;JBE，JNA&lt;/td&gt;
+          &lt;td&gt;小于等于则跳转（无符号数）&lt;/td&gt;
+          &lt;td&gt;CF=1 or ZF=1&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;JNBE，JA&lt;/td&gt;
+          &lt;td&gt;大于则跳转（无符号数）&lt;/td&gt;
+          &lt;td&gt;CF=0 and ZF=0&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;JL，JNGE&lt;/td&gt;
+          &lt;td&gt;小于则跳转（有符号数）&lt;/td&gt;
+          &lt;td&gt;SF!=OF&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;JNL，JGE&lt;/td&gt;
+          &lt;td&gt;大于等于则跳转（有符号数）&lt;/td&gt;
+          &lt;td&gt;SF=OF&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;JLE，JNG&lt;/td&gt;
+          &lt;td&gt;小于等于则跳转（有符号数）&lt;/td&gt;
+          &lt;td&gt;ZF=1 or SF!=OF&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;JNLE，JG&lt;/td&gt;
+          &lt;td&gt;大于则跳转（有符号数）&lt;/td&gt;
+          &lt;td&gt;ZF=0 and SF=OF&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;堆栈&#34;&gt;堆栈
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;push&lt;/strong&gt; R/M&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;pop&lt;/strong&gt; R/M&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;esp 栈顶 / ebp 栈底&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 无参函数&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;汇编代码&lt;/th&gt;
+          &lt;th&gt;功能&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;call        00E71316&lt;/td&gt;
+          &lt;td&gt;调用函数（无参）&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;jmp         00E723D0&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;00E723D0  push        ebp  &lt;br/&gt;00E723D1  mov         ebp,esp  &lt;br /&gt;00E723D3  sub         esp,0C0h&lt;/td&gt;
+          &lt;td&gt;提升堆栈&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;00E723D9  push        ebx  &lt;br/&gt;00E723DA  push        esi  &lt;br/&gt;00E723DB  push        edi&lt;/td&gt;
+          &lt;td&gt;保留现场&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;00E723DC  mov         edi,ebp  &lt;br/&gt;00E723DE  xor         ecx,ecx  &lt;br/&gt;00E723E0  mov         eax,0CCCCCCCCh  &lt;br/&gt;00E723E5  rep stos    dword ptr es:[edi]  &lt;br/&gt;00E723E7  mov         ecx,0E7E069h  &lt;br/&gt;00E723EC  call        00E71389&lt;/td&gt;
+          &lt;td&gt;为缓冲区填充数据&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;00E723F2  pop         edi  &lt;br/&gt;00E723F3  pop         esi  &lt;br/&gt;00E723F4  pop         ebx&lt;/td&gt;
+          &lt;td&gt;恢复现场&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;00E723F5  add         esp,0C0h  &lt;br/&gt;00E723FB  cmp         ebp,esp  &lt;br/&gt;00E723FD  call        00E7128F&lt;/td&gt;
+          &lt;td&gt;检查堆栈平衡&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;00E72402  mov         esp,ebp  &lt;br/&gt;00E72404  pop         ebp&lt;/td&gt;
+          &lt;td&gt;降低堆栈&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;00E72405  ret&lt;/td&gt;
+          &lt;td&gt;函数返回&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 有参函数（加法）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;汇编代码&lt;/th&gt;
+          &lt;th&gt;功能&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;000B1D35  push        2  &lt;br/&gt;000B1D37  push        1&lt;/td&gt;
+          &lt;td&gt;参数&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;000B1D39  call        000B143D&lt;/td&gt;
+          &lt;td&gt;调用函数&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;000B1D3E  add         esp,8&lt;/td&gt;
+          &lt;td&gt;平衡堆栈&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;000B143D  jmp         000B1CC0&lt;/td&gt;
+          &lt;td&gt;中转&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;000B1CC0  push        ebp  &lt;br/&gt;000B1CC1  mov         ebp,esp  &lt;br/&gt;000B1CC3  sub         esp,0C0h&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;000B1CC9  push        ebx  &lt;br/&gt;000B1CCA  push        esi  &lt;br/&gt;000B1CCB  push        edi&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;000B1CCC  mov         edi,ebp  &lt;br/&gt;000B1CCE  xor         ecx,ecx  &lt;br/&gt;000B1CD0  mov         eax,0CCCCCCCCh  &lt;br/&gt;000B1CD5  rep stos    dword ptr es:[edi]  &lt;br/&gt;000B1CD7  mov         ecx,0BE069h  &lt;br/&gt;000B1CDC  call        000B1389  &lt;br/&gt;000B1CE1  nop&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;000B1CE2  mov         eax,dword ptr [ebp+8]  &lt;br/&gt;000B1CE5  add         eax,dword ptr [ebp+0Ch]&lt;/td&gt;
+          &lt;td&gt;eax中存储的就是返回值&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;000B1CE8  pop         edi  &lt;br/&gt;000B1CE9  pop         esi  &lt;br/&gt;000B1CEA  pop         ebx&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;000B1CEB  add         esp,0C0h  &lt;br/&gt;000B1CF1  cmp         ebp,esp  &lt;br/&gt;000B1CF3  call        000B128F&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;000B1CF8  mov         esp,ebp  &lt;br/&gt;000B1CFA  pop         ebp&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;000B1CFB  ret&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;input checked=&#34;&#34; disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 嵌套函数&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;汇编代码&lt;/th&gt;
+          &lt;th&gt;功能&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;00761D45  push        3  &lt;br/&gt;00761D47  push        2  &lt;br/&gt;00761D49  push        1&lt;/td&gt;
+          &lt;td&gt;参数&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;00761D4B  call        plus2 (0761442h)&lt;/td&gt;
+          &lt;td&gt;调用函数&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;00761D50  add         esp,0Ch&lt;/td&gt;
+          &lt;td&gt;平衡堆栈&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;00761442  jmp         plus2 (0762490h)&lt;/td&gt;
+          &lt;td&gt;中转&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;00762490  push        ebp  &lt;br/&gt;00762491  mov         ebp,esp  &lt;br/&gt;00762493  sub         esp,0CCh  &lt;br/&gt;00762499  push        ebx  &lt;br/&gt;0076249A  push        esi  &lt;br/&gt;0076249B  push        edi  &lt;br/&gt;0076249C  lea         edi,[ebp-0Ch]  &lt;br/&gt;0076249F  mov         ecx,3  &lt;br/&gt;007624A4  mov         eax,0CCCCCCCCh  &lt;br/&gt;007624A9  rep stos    dword ptr es:[edi]  &lt;br/&gt;007624AB  mov         ecx,76E069h  &lt;br/&gt;007624B0  call        00761389  &lt;br/&gt;007624B5  nop&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;12:     int t = plus1(a, b);&lt;br/&gt;007624B6  mov         eax,dword ptr [ebp+0Ch]&lt;/td&gt;
+          &lt;td&gt;eax=2&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;007624B9  push        eax&lt;/td&gt;
+          &lt;td&gt;2入栈（参数）&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;007624BA  mov         ecx,dword ptr [ebp+8]&lt;/td&gt;
+          &lt;td&gt;ecx=1&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;007624BD  push        ecx&lt;/td&gt;
+          &lt;td&gt;1入栈（参数）&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;007624BE  call        plus1 (076143Dh)&lt;/td&gt;
+          &lt;td&gt;函数调用&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;007624C3  add         esp,8&lt;/td&gt;
+          &lt;td&gt;平衡堆栈&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;007624C6  mov         dword ptr [ebp-8],eax&lt;/td&gt;
+          &lt;td&gt;eax是plus1返回结果，ebp-8是局部变量t&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;13:     return  plus1(t, c);&lt;br/&gt;007624C9  mov         eax,dword ptr [ebp+10h]  &lt;br/&gt;007624CC  push        eax  &lt;br/&gt;007624CD  mov         ecx,dword ptr [ebp-8]  &lt;br/&gt;007624D0  push        ecx  &lt;br/&gt;007624D1  call        0076143D  &lt;br/&gt;007624D6  add         esp,8&lt;/td&gt;
+          &lt;td&gt;同上&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;0076143D  jmp         plus1 (00761CC0h)&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;00761CC0  push        ebp  &lt;br/&gt;00761CC1  mov         ebp,esp  &lt;br/&gt;00761CC3  sub         esp,0C0h  &lt;br/&gt;00761CC9  push        ebx  &lt;br/&gt;00761CCA  push        esi  &lt;br/&gt;00761CCB  push        edi  &lt;br/&gt;00761CCC  mov         edi,ebp  &lt;br/&gt;00761CCE  xor         ecx,ecx  &lt;br/&gt;00761CD0  mov         eax,0CCCCCCCCh  &lt;br/&gt;00761CD5  rep stos    dword ptr es:[edi]  &lt;br/&gt;00761CD7  mov         ecx,76E069h  &lt;br/&gt;00761CDC  call        00761389  &lt;br/&gt;00761CE1  nop  &lt;br/&gt;     9:     return a + b;&lt;br/&gt;00761CE2  mov         eax,dword ptr [ebp+8]  &lt;br/&gt;00761CE5  add         eax,dword ptr [ebp+0Ch]  &lt;br/&gt;00761CE8  pop         edi  &lt;br/&gt;00761CE9  pop         esi  &lt;br/&gt;00761CEA  pop         ebx  &lt;br/&gt;00761CEB  add         esp,0C0h  &lt;br/&gt;00761CF1  cmp         ebp,esp  &lt;br/&gt;00761CF3  call        0076128F  &lt;br/&gt;00761CF8  mov         esp,ebp  &lt;br/&gt;00761CFA  pop         ebp  &lt;br/&gt;00761CFB  ret&lt;/td&gt;
+          &lt;td&gt;plus1(t, c)&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;007624D9  pop         edi  &lt;br/&gt;007624DA  pop         esi  &lt;br/&gt;007624DB  pop         ebx  &lt;br/&gt;007624DC  add         esp,0CCh  &lt;br/&gt;007624E2  cmp         ebp,esp  &lt;br/&gt;007624E4  call        0076128F  &lt;br/&gt;007624E9  mov         esp,ebp  &lt;br/&gt;007624EB  pop         ebp  &lt;br/&gt;007624EC  ret&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;裸函数及其调用约定&#34;&gt;裸函数及其调用约定
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;__declspec&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kr&#34;&gt;naked&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;plus&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;cm&#34;&gt;/*int x, int y, int z*/&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;//裸函数
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;kr&#34;&gt;__asm&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;cm&#34;&gt;/*
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;        push ebp;   //提升堆栈
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;		mov ebp, esp;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;		sub esp, 0x40;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;		push ebx;   //保留现场
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;		push esi;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;		push edi;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;		mov eax, 0xCCCCCCCC;  //填充缓冲区
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;		mov ecx, 0x10;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;		lea edi, dword ptr ds : [ebp - 0x40] ;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;		rep stosd;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;		mov eax, dword ptr ds : [ebp + 8] ;  //函数功能	x
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;		add eax, dword ptr ds : [ebp + 0xC] ;	//y
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;		add eax, dword ptr ds : [ebp + 0x10] ;	//z
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;		//__emit 0xe8;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;		pop edi;   //恢复现场
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;		pop esi;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;		pop edx;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;		mov esp, ebp;    //降低堆栈
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;		pop ebp;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;		*/&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;ret&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;调用约定&lt;/th&gt;
+          &lt;th&gt;参数压栈顺序&lt;/th&gt;
+          &lt;th&gt;平衡堆栈&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;__cdecl&lt;/td&gt;
+          &lt;td&gt;从右至左入栈&lt;/td&gt;
+          &lt;td&gt;调用者清理栈&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;__stdcall&lt;/td&gt;
+          &lt;td&gt;从右至左入栈&lt;/td&gt;
+          &lt;td&gt;自身清理堆栈-&amp;gt;ret  8&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;__fastcall&lt;/td&gt;
+          &lt;td&gt;ecx/edx传送前两个&lt;br /&gt;剩下：从右至左入栈&lt;/td&gt;
+          &lt;td&gt;自身清理堆栈&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;blockquote&gt;
+&lt;p&gt;内存图&lt;/p&gt;&lt;/blockquote&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;if，else，while&lt;/th&gt;
+          &lt;th&gt;代码区&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;参数，局部变量，临时数据&lt;/td&gt;
+          &lt;td&gt;堆栈&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;动态申请的，大小可变的&lt;br /&gt;可读，可写&lt;/td&gt;
+          &lt;td&gt;堆&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;可读，可写&lt;/td&gt;
+          &lt;td&gt;全局变量区&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;只读&lt;/td&gt;
+          &lt;td&gt;常量区&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;位运算&lt;/strong&gt;&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;算数移位&lt;/th&gt;
+          &lt;th&gt;指令格式&lt;/th&gt;
+          &lt;th&gt;逻辑移位&lt;/th&gt;
+          &lt;th&gt;指令格式&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;溢出位进CF&lt;/td&gt;
+          &lt;td&gt;SAL/SAR R/M,CL/I&lt;/td&gt;
+          &lt;td&gt;溢出位进CF&lt;/td&gt;
+          &lt;td&gt;SHL/SHR R/M,CL/I&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;算数左移&lt;/td&gt;
+          &lt;td&gt;SAL（补0）&lt;/td&gt;
+          &lt;td&gt;逻辑左移&lt;/td&gt;
+          &lt;td&gt;SHL（补0）&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;算数右移&lt;/td&gt;
+          &lt;td&gt;SAR（补符号位）&lt;/td&gt;
+          &lt;td&gt;逻辑右移&lt;/td&gt;
+          &lt;td&gt;SHR（补0）&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;strong&gt;循环移位&lt;/strong&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;strong&gt;指令格式&lt;/strong&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;strong&gt;带进位循环&lt;/strong&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;strong&gt;指令格式&lt;/strong&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;溢出位进CF&lt;/td&gt;
+          &lt;td&gt;ROL R/M, I&lt;br /&gt;ROR R/M,  CL&lt;/td&gt;
+          &lt;td&gt;溢出位进CF&lt;/td&gt;
+          &lt;td&gt;RCL R/M, I&lt;br /&gt;RCR R/M, CL&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;循环左移&lt;/td&gt;
+          &lt;td&gt;ROL（补溢出位）&lt;/td&gt;
+          &lt;td&gt;左移&lt;/td&gt;
+          &lt;td&gt;RCL（补CF位）&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;循环右移&lt;/td&gt;
+          &lt;td&gt;ROR（补溢出位）&lt;/td&gt;
+          &lt;td&gt;右移&lt;/td&gt;
+          &lt;td&gt;RCR（补CF位）&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+</description>
+        </item>
+        <item>
         <title>SMC自修改</title>
         <link>https://567liuhuaqing.github.io/p/smc%E8%87%AA%E4%BF%AE%E6%94%B9/</link>
         <pubDate>Wed, 12 Mar 2025 22:35:59 +0800</pubDate>
         
         <guid>https://567liuhuaqing.github.io/p/smc%E8%87%AA%E4%BF%AE%E6%94%B9/</guid>
-        <description>&lt;h2 id=&#34;简介&#34;&gt;简介
+        <description>&lt;img src="https://567liuhuaqing.github.io/p/smc%E8%87%AA%E4%BF%AE%E6%94%B9/%E5%89%AA%E5%88%80.jpg" alt="Featured image of post SMC自修改" /&gt;&lt;h2 id=&#34;简介&#34;&gt;简介
 &lt;/h2&gt;&lt;p&gt;&lt;strong&gt;自修改代码&lt;/strong&gt;（Self-Modified Code）是一类特殊的代码加密技术，即&lt;strong&gt;在运行时修改自身代码或数据&lt;/strong&gt;，从而使得程序实际行为与反汇编结果不符，同时修改前的代码段数据也可能非合法指令，从而无法被反汇编器识别，这加大了软件逆向工程的难度&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;基本原理&lt;/strong&gt;：是在编译可执行文件时，将需要加密的代码区段（如函数、代码块） 单独编译成一个section（段），并将其标记为可读，可写，不可执行，然后通过某种方法在程序运行的时候将section解密为可执行代码，并将其标记为可读、可执行、不可写，这样就不能直接在内存里面找到加密的代码，从而无法执行或修改加密的代码&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;SMC的实现方式&lt;/strong&gt;有很多种，可以通过修改PE文件的Section Header、使用API Hook实现代码加密和解密、使用VMProtect等第三方加密工具等&lt;/p&gt;
@@ -155,7 +1297,7 @@
         <pubDate>Wed, 12 Mar 2025 15:19:48 +0800</pubDate>
         
         <guid>https://567liuhuaqing.github.io/p/%E8%8A%B1%E6%8C%87%E4%BB%A4%E6%94%BB%E5%85%8B/</guid>
-        <description>&lt;h2 id=&#34;简介&#34;&gt;简介
+        <description>&lt;img src="https://567liuhuaqing.github.io/p/%E8%8A%B1%E6%8C%87%E4%BB%A4%E6%94%BB%E5%85%8B/%E8%9D%B4%E8%9D%B6.jpg" alt="Featured image of post 花指令攻克" /&gt;&lt;h2 id=&#34;简介&#34;&gt;简介
 &lt;/h2&gt;&lt;p&gt;花指令（junk code）是一种专门用来迷惑反编译器的指令片段，这些指令片段不会影响程序的原有功能，但会使得反汇编器的结果出现偏差，从而使破解者分析失败。比较经典的花指令技巧有利用 &lt;code&gt;jmp&lt;/code&gt; 、&lt;code&gt;call&lt;/code&gt;、&lt;code&gt;ret&lt;/code&gt; 指令改变执行流，从而使得反汇编器解析出与运行时不相符的错误代码&lt;/p&gt;
 &lt;h2 id=&#34;铺垫&#34;&gt;铺垫
 &lt;/h2&gt;&lt;h3 id=&#34;反汇编算法&#34;&gt;反汇编算法
@@ -598,7 +1740,29 @@
 	
 	
 &gt;&lt;/p&gt;
-&lt;p&gt;​     相应工具以上传至文章顶部&lt;/p&gt;
+&lt;p&gt;有时python版本太高，反编译不出python源码&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;使用python解释器调用dis解释出pyc文件的字节码&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;marshal&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;dis&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;open&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;sa&#34;&gt;r&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;easyRE.pyc&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;rb&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 将pyc文件和该脚本放于同一文件夹内,或者自行指定绝对路径&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;code&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;marshal&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;loads&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;read&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;16&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:])&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;dis&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;dis&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;code&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;close&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;​     相应工具以上传至文章顶部&lt;/p&gt;
 &lt;h2 id=&#34;举个例子&#34;&gt;举个例子
 &lt;/h2&gt;&lt;p&gt;将题目附件拖进DIE查壳，可发现为python可执行文件&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://i-blog.csdnimg.cn/direct/e7f23785e5d440788e828f5178f73273.png&#34;
@@ -1521,6 +2685,8 @@
 
 &lt;h3 id=&#34;examples&#34;&gt;Examples
 &lt;/h3&gt;&lt;p&gt;Inline math: $\varphi = \dfrac{1+\sqrt5}{2}= 1.6180339887…$&lt;/p&gt;
+&lt;p&gt;Block math:
+&lt;/p&gt;
 $$
  \varphi = 1+\frac{1} {1+\frac{1} {1+\frac{1} {1+\cdots} } } 
 $$</description>

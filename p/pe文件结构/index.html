@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="PE结构概述 程序入口地址OEP\nPE分节 节省硬盘空间 节省内存空间 PEloader-&gt;PE加载 根据SizeOfImage的大小，开辟一块缓冲区（ImageBuffer） 根据SizeOfHeader的大小，将头信息从FileBuffer拷贝到ImageBuffer 根据节表中的信息循环将FileBuffer中的节拷贝到ImageBuffer中 ">
+<title>PE文件结构</title>
+
+<link rel='canonical' href='https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/'>
+
+<link rel="stylesheet" href="/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="PE文件结构">
+<meta property='og:description' content="PE结构概述 程序入口地址OEP\nPE分节 节省硬盘空间 节省内存空间 PEloader-&gt;PE加载 根据SizeOfImage的大小，开辟一块缓冲区（ImageBuffer） 根据SizeOfHeader的大小，将头信息从FileBuffer拷贝到ImageBuffer 根据节表中的信息循环将FileBuffer中的节拷贝到ImageBuffer中 ">
+<meta property='og:url' content='https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/'>
+<meta property='og:site_name' content='liuhuaqing'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2025-07-04T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-07-04T00:00:00&#43;00:00'/><meta property='og:image' content='https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E6%AF%8D%E7%A5%9E%E5%82%A9.jpg' />
+<meta name="twitter:title" content="PE文件结构">
+<meta name="twitter:description" content="PE结构概述 程序入口地址OEP\nPE分节 节省硬盘空间 节省内存空间 PEloader-&gt;PE加载 根据SizeOfImage的大小，开辟一块缓冲区（ImageBuffer） 根据SizeOfHeader的大小，将头信息从FileBuffer拷贝到ImageBuffer 根据节表中的信息循环将FileBuffer中的节拷贝到ImageBuffer中 "><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E6%AF%8D%E7%A5%9E%E5%82%A9.jpg' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_ebe7edef6fa87d8d.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🌌</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">liuhuaqing</a></h1>
+            <h2 class="site-description">lctf{reverse_is_c00l!}</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://www.bilibili.com'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-bilibili"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" /><path d="M8 3l2 3" /><path d="M16 3l-2 3" /><path d="M9 13v-2" /><path d="M15 11v2" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/CaiJimmy/hugo-theme-stack'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com'
+                        target="_blank"
+                        title="Twitter"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友情链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://567liuhuaqing.github.io/en/" >English</option>
+                                
+                                    <option value="https://567liuhuaqing.github.io/" selected>简体中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#pe结构概述">PE结构概述</a>
+      <ol>
+        <li><a href="#pe分节">PE分节</a></li>
+        <li><a href="#peloader-pe加载">PEloader-&gt;PE加载</a></li>
+        <li><a href="#rva转化成foa">RVA转化成FOA</a></li>
+      </ol>
+    </li>
+    <li><a href="#pe头字段说明">PE头字段说明</a>
+      <ol>
+        <li><a href="#dos头">DOS头</a></li>
+        <li><a href="#nt头pe头">NT头/PE头</a></li>
+        <li><a href="#标准pe头文件头">标准PE头/文件头</a></li>
+        <li><a href="#可选pe头扩展头">可选PE头/扩展头</a></li>
+        <li><a href="#节表">节表</a></li>
+      </ol>
+    </li>
+    <li><a href="#空白区添加代码">空白区添加代码</a>
+      <ol>
+        <li><a href="#代码节空白区添加代码">代码节空白区添加代码</a></li>
+        <li><a href="#任意节空白区添加代码">任意节空白区添加代码</a></li>
+        <li><a href="#新增节添加代码">新增节添加代码</a></li>
+        <li><a href="#扩大节-合并节-数据目录">扩大节-合并节-数据目录</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/">
+                <img src="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E6%AF%8D%E7%A5%9E%E5%82%A9_hu_7781033be6d9ce25.jpg"
+                        srcset="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E6%AF%8D%E7%A5%9E%E5%82%A9_hu_7781033be6d9ce25.jpg 800w, /p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E6%AF%8D%E7%A5%9E%E5%82%A9_hu_e69dd39a0cd017c7.jpg 1600w"
+                        width="800" 
+                        height="450" 
+                        loading="lazy"
+                        alt="Featured image of post PE文件结构" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E7%9F%A5%E8%AF%86%E7%82%B9%E5%AD%A6%E4%B9%A0/" >
+                知识点学习
+            </a>
+        
+            <a href="/categories/reverse/" >
+                Reverse
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/">PE文件结构</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jul 04, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 7 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="pe结构概述">PE结构概述
+</h2><p><strong>程序入口地址OEP</strong></p>
+<h3 id="pe分节">PE分节
+</h3><ol>
+<li>节省硬盘空间</li>
+<li>节省内存空间</li>
+</ol>
+<p><img src="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250705154245979.png"
+	width="980"
+	height="680"
+	srcset="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250705154245979_hu_88176ed6f8827cfd.png 480w, /p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250705154245979_hu_b34adb2426eb4ce7.png 1024w"
+	loading="lazy"
+	
+		alt="硬盘空间和内存空间"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="144"
+		data-flex-basis="345px"
+	
+></p>
+<p><img src="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250705160234746.png"
+	width="1373"
+	height="812"
+	srcset="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250705160234746_hu_cd4a547308d8be1b.png 480w, /p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250705160234746_hu_e97db606a9c087cb.png 1024w"
+	loading="lazy"
+	
+		alt="文件与内存映像"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="169"
+		data-flex-basis="405px"
+	
+></p>
+<h3 id="peloader-pe加载">PEloader-&gt;PE加载
+</h3><ol>
+<li><strong>根据SizeOfImage的大小，开辟一块缓冲区（ImageBuffer）</strong></li>
+<li><strong>根据SizeOfHeader的大小，将头信息从FileBuffer拷贝到ImageBuffer</strong></li>
+<li><strong>根据节表中的信息循环将FileBuffer中的节拷贝到ImageBuffer中</strong></li>
+</ol>
+<p><img src="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250706170543833.png"
+	width="1086"
+	height="570"
+	srcset="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250706170543833_hu_1893460f93942799.png 480w, /p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250706170543833_hu_c11fcac96cade433.png 1024w"
+	loading="lazy"
+	
+		alt="PE加载过程"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="190"
+		data-flex-basis="457px"
+	
+></p>
+<p><img src="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250707161420240.png"
+	width="1252"
+	height="647"
+	srcset="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250707161420240_hu_a3d235d8a9f11d15.png 480w, /p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250707161420240_hu_4aefda4c52deb977.png 1024w"
+	loading="lazy"
+	
+		alt="文件空间和内存空间"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="193"
+		data-flex-basis="464px"
+	
+></p>
+<h3 id="rva转化成foa">RVA转化成FOA
+</h3><blockquote>
+<p>VA：英文全称是Virual Address，简称VA，中文意思是虚拟地址。指的是文件被载入虚拟空间后的地址。</p>
+<p>ImageBase：中文意思是基址，指的是程序在虚拟空间中被装载的位置。</p>
+<p>RVA：英文全称是Relative Virual Address，简称RVA，中文意思是相对虚拟地址。可以理解为文件被装载到虚拟空间(拉伸)后先对于基址的偏移地址。计算方式：RVA = VA(虚拟地址) - ImageBase(基址)。它的对齐方式一般是以1000h为单位在虚拟空间中对齐的(传说中的4K对齐)，具体对齐需要参照IMAGE_OPTIONAL_HEADER32中的SectionAlignment成员。</p>
+<p>FOA：英文全称是File Offset Address，简称FOA，中文意思是文件偏移地址。可以理解为文件在磁盘上存放时相对于文件开头的偏移地址。它的对齐方式一般是以200h为单位在硬盘中对齐的(512对齐)，具体对齐需要参照IMAGE_OPTIONAL_HEADER32中的FileAlignment成员。</p>
+<p>全局变量：如果全局变量没有初始化值，那么这个全局变量在PE文件中是没有保存它的位置的，如果有初始化那么就有它位置保存初始值。定位到全局变量的位置后即可修改。</p>
+<p>FOA(文件偏移，基于PE文件开始的地址0)和RVA(虚拟地址偏移，基于ImageBase)：</p>
+<p>当SectionAlignment（内存中节区对齐大）和FileAlignment（文件中节区对齐大）相同时，这2个偏移相同，现在的大部分程序都相同.</p>
+<p>如果不相同时：要判断是否在PE头中，如果在PE头这个节区那么他们还是相同，如果不在PE头节区，RVA先算出当前虚拟地址相对与当前节区的开始地址的偏移，然后在文件中也找到这个节区在PE文件中的偏移位置加上相同的偏移即可。</p>
+<p>就算SectionAlignment（内存中节区对齐大）和FileAlignment（文件中节区对齐大）相同时，每个节区加载地址也可能不同这时还是要自己转换RVA和FOA</p></blockquote>
+<p>作业见<code>PE加载与回收+RVA转换成FOA.cpp</code></p>
+<h2 id="pe头字段说明">PE头字段说明
+</h2><p><img src="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250705215427147.png"
+	width="1703"
+	height="1170"
+	srcset="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250705215427147_hu_99225f834359e6cb.png 480w, /p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250705215427147_hu_66480ecccfb72fdc.png 1024w"
+	loading="lazy"
+	
+		alt="PE头字段位视图"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="145"
+		data-flex-basis="349px"
+	
+></p>
+<h3 id="dos头">DOS头
+</h3><p>文件开始的地方</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="mi">1</span>	<span class="n">DOS头</span>												   <span class="c1">//滴水				//我自己
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">typedef</span> <span class="k">struct</span> <span class="nc">_IMAGE_DOS_HEADER</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">WORD</span> <span class="n">e_magic</span><span class="p">;</span> <span class="o">*</span>		<span class="c1">//Magic number(MZ);					//5A4D
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_cblp</span><span class="p">;</span>		<span class="c1">//Bytes on last page of file		//0090
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_cp</span><span class="p">;</span>          <span class="c1">//Pages in file						//0003
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_crlc</span><span class="p">;</span>        <span class="c1">//Relocations						//0000
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_cparhdr</span><span class="p">;</span>		<span class="c1">//Size of header in paragraphs		//0004
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_minalloc</span><span class="p">;</span>    <span class="c1">//Minimum extra paragraphs needed	//0000
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_maxalloc</span><span class="p">;</span>	<span class="c1">//Maximum extra paragraphs needed	//FFFF
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_ss</span><span class="p">;</span>          <span class="c1">//Initial (relative) SS value		//0000
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_sp</span><span class="p">;</span>			<span class="c1">//Initial SP value					//00B8
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_csum</span><span class="p">;</span>		<span class="c1">//Checksum							//0000
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_ip</span><span class="p">;</span>			<span class="c1">//Initial IP value					//0000
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_cs</span><span class="p">;</span>			<span class="c1">//Initial (relative) CS value		//0000
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_lfarlc</span><span class="p">;</span>		<span class="c1">//File address of relocation table	//0040
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_ovno</span><span class="p">;</span>		<span class="c1">//Overlay number					//0000
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_res</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>		<span class="c1">//Reserved words	 //0000 0000 0000 0000
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_oemid</span><span class="p">;</span>		<span class="c1">//OEM identifier (for e_oeminfo)	//0000
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_oeminfo</span><span class="p">;</span>		<span class="c1">//OEM information; e_oemid specific	//0000
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_res2</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>	<span class="c1">//Reserved words	//0000 0000 0000 0000 0000 0000 0000 0000 0000 0000
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">DWORD</span> <span class="n">e_lfanew</span><span class="p">;</span> <span class="o">*</span>	<span class="c1">//File address of new exe header 	//0000 00E8	-&gt;	//0000 0108
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span> <span class="n">IMAGE_DOS_HEADER</span><span class="p">,</span> <span class="o">*</span><span class="n">PIMAGE_DOS_HEADER</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="nt头pe头">NT头/PE头
+</h3><p><strong>NT头 = PE标志+ 标准PE头 + 可选PE头</strong></p>
+<p>DOS头字段e_lfanew为PE头开始的地方</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="nc">_IMAGE_NT_HEADERS</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">DWORD</span> <span class="n">Signature</span><span class="p">;</span>                         <span class="c1">//NT头标志 即&#39;PE..&#39; 00004550
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">IMAGE_FILE_HEADER</span> <span class="n">FileHeader</span><span class="p">;</span>            <span class="c1">//标准PE头
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">IMAGE_OPTIONAL_HEADER32</span> <span class="n">OptionalHeader</span><span class="p">;</span>  <span class="c1">//扩展PE头
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span> <span class="n">IMAGE_NT_HEADERS32</span><span class="p">,</span> <span class="o">*</span><span class="n">PIMAGE_NT_HEADERS32</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="标准pe头文件头">标准PE头/文件头
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="mi">2</span>	<span class="err">标准</span><span class="n">PE头</span>
+</span></span><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="nc">_IMAGE_FILE_HEADER</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">WORD</span>    <span class="n">Machine</span><span class="p">;</span> <span class="o">*</span>                    <span class="c1">//程序运行的CPU型号 x86CPU:0x14C x64CPU:0x8864
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">WORD</span>    <span class="n">NumberOfSections</span><span class="p">;</span> <span class="o">*</span>           <span class="c1">//PE中节的数量
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span>   <span class="n">TimeDateStamp</span><span class="p">;</span> <span class="o">*</span>              <span class="c1">//时间戳：文件创建的日期和时间
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span>   <span class="n">PointerToSymbolTable</span><span class="p">;</span>         <span class="c1">//执行符号表，即编译好的程序生成的pdb文件，用来方便调试的
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span>   <span class="n">NumberOfSymbols</span><span class="p">;</span>              <span class="c1">//符号表中的符号数量
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">WORD</span>    <span class="n">SizeOfOptionalHeader</span><span class="p">;</span> <span class="o">*</span>       <span class="c1">//可选PE头的大小 x86（32位）:224字节 x64（64位）:240字节
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">WORD</span>    <span class="n">Characteristics</span><span class="p">;</span> <span class="o">*</span>            <span class="c1">//文件属性，每个位有不同的含义 x86:0x3 x64:0x22
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span> <span class="n">IMAGE_FILE_HEADER</span><span class="p">,</span> <span class="o">*</span><span class="n">PIMAGE_FILE_HEADER</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="可选pe头扩展头">可选PE头/扩展头
+</h3><p>标准PE头字段SizeOfOptionalHeader为可选PE头大小（32位：E0h字节 / 64位：F0h字节）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="mi">3</span>	<span class="err">可选</span><span class="n">PE头</span>
+</span></span><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="nc">_IMAGE_OPTIONAL_HEADER</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">WORD</span>    <span class="n">Magic</span><span class="p">;</span> <span class="o">*</span>                      <span class="c1">//魔数 x86:0x10B x64:0x20B
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">BYTE</span>    <span class="n">MajorLinkerVersion</span><span class="p">;</span>           <span class="c1">//链接器的版本
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">BYTE</span>    <span class="n">MinorLinkerVersion</span><span class="p">;</span>           <span class="c1">//连接器的版本
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span>   <span class="n">SizeOfCode</span><span class="p">;</span> <span class="o">*</span>                 <span class="c1">//所有代码区段的大小总和，必须是FileAlignment的整数倍
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span>   <span class="n">SizeOfInitializedData</span><span class="p">;</span> <span class="o">*</span>      <span class="c1">//已经初始化数据区段大小总和，必须是FileAlignment的整数倍
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span>   <span class="n">SizeOfUninitializedData</span><span class="p">;</span> <span class="o">*</span>    <span class="c1">//未初始化数据区段大小总和，必须是FileAlignment的整数倍
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span>   <span class="n">AddressOfEntryPoint</span><span class="p">;</span> <span class="o">**</span>       <span class="c1">//程序入口OEP+ImageBase
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span>   <span class="n">BaseOfCode</span><span class="p">;</span> <span class="o">*</span>                 <span class="c1">//代码段的起始RVA
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span>   <span class="n">BaseOfData</span><span class="p">;</span> <span class="o">*</span>                 <span class="c1">//数据段的起始RVA（32+PE删除了）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span>   <span class="n">ImageBase</span><span class="p">;</span> <span class="o">**</span>                 <span class="c1">//程序建议的加载地址（内存镜像基地址） x64 ULONGLONG
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span>   <span class="n">SectionAlignment</span><span class="p">;</span> <span class="o">**</span>          <span class="c1">//内存中的对齐粒度 x86 0x1000 x64 0x2000
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span>   <span class="n">FileAlignment</span><span class="p">;</span> <span class="o">**</span>             <span class="c1">//文件中的对齐粒度 0x200
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">WORD</span>    <span class="n">MajorOperatingSystemVersion</span><span class="p">;</span>  <span class="c1">//操作系统版本号
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">WORD</span>    <span class="n">MinorOperatingSystemVersi</span> <span class="n">on</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">WORD</span>    <span class="n">MajorImageVersion</span><span class="p">;</span>            <span class="c1">//PE的镜像备案本号
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">WORD</span>    <span class="n">MinorImageVersion</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">WORD</span>    <span class="n">MajorSubsystemVersion</span><span class="p">;</span>        <span class="c1">//子系统的版本号。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">WORD</span>    <span class="n">MinorSubsystemVersion</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">DWORD</span>   <span class="n">Win32VersionValue</span><span class="p">;</span>            <span class="c1">//Win32版本（未使用）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span>   <span class="n">SizeOfImage</span><span class="p">;</span> <span class="o">**</span>               <span class="c1">//内存中整个PE镜像的尺寸，必须是SectionAlignment的整数倍
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span>   <span class="n">SizeOfHeaders</span><span class="p">;</span> <span class="o">**</span>             <span class="c1">//所有头+节表按照文件对齐后的大小
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span>   <span class="n">CheckSum</span><span class="p">;</span> <span class="o">*</span>                   <span class="c1">//校验和
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">WORD</span>    <span class="n">Subsystem</span><span class="p">;</span>                    <span class="c1">//子系统，其决定了程序入口点main函数的不同，常见的子系统有窗口，控制台等等
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">WORD</span>    <span class="n">DllCharacteristics</span><span class="p">;</span>           <span class="c1">//DLL动态链接库特性
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span>   <span class="n">SizeOfStackReserve</span><span class="p">;</span> <span class="o">*</span>         <span class="c1">//初始化时的栈大小
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span>   <span class="n">SizeOfStackCommit</span><span class="p">;</span> <span class="o">*</span>          <span class="c1">//初始化时实际上提交的栈大小
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span>   <span class="n">SizeOfHeapReserve</span><span class="p">;</span> <span class="o">*</span>          <span class="c1">//初始化时保留的堆大小
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span>   <span class="n">SizeOfHeapCommit</span><span class="p">;</span> <span class="o">*</span>           <span class="c1">//初始化时实际上提交的堆大小
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span>   <span class="n">LoaderFlags</span><span class="p">;</span>                  <span class="c1">//加载标记
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span>   <span class="n">NumberOfRvaAndSizes</span><span class="p">;</span> <span class="o">*</span>        <span class="c1">//数据目录结构的数量
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">IMAGE_DATA_DIRECTORY</span> <span class="n">DataDirectory</span><span class="p">[</span><span class="n">IMAGE_NUMBEROF_DIRECTORY_ENTRIES</span><span class="p">];</span> <span class="c1">//数据目录表数组
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span> <span class="n">IMAGE_OPTIONAL_HEADER32</span><span class="p">,</span> <span class="o">*</span><span class="n">PIMAGE_OPTIONAL_HEADER32</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>最重要属性</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">DWORD</span>   <span class="n">AddressOfEntryPoint</span><span class="p">;</span> <span class="o">**</span>       <span class="c1">//程序入口OEP+ImageBase
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">DWORD</span>   <span class="n">ImageBase</span><span class="p">;</span> <span class="o">**</span>                 <span class="c1">//程序建议的加载地址（内存镜像基地址）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">DWORD</span>   <span class="n">SectionAlignment</span><span class="p">;</span> <span class="o">**</span>          <span class="c1">//内存中的对齐粒度 x86 0x1000 x64 0x2000
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">DWORD</span>   <span class="n">FileAlignment</span><span class="p">;</span> <span class="o">**</span>             <span class="c1">//文件中的对齐粒度 0x200
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">DWORD</span>   <span class="n">SizeOfImage</span><span class="p">;</span> <span class="o">**</span>               <span class="c1">//内存中整个PE文件的映像（镜像）的尺寸，必须是SectionAlignment的整数倍
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">DWORD</span>   <span class="n">SizeOfHeaders</span><span class="p">;</span> <span class="o">**</span>             <span class="c1">//所有头+节表按照文件对齐后的大小
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">DWORD</span>   <span class="n">NumberOfRvaAndSizes</span><span class="p">;</span> <span class="o">*</span>        <span class="c1">//数据目录结构的数量
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">IMAGE_DATA_DIRECTORY</span> <span class="n">DataDirectory</span><span class="p">[</span><span class="n">IMAGE_NUMBEROF_DIRECTORY_ENTRIES</span><span class="p">];</span> <span class="c1">//数据目录表数组（16*8字节）
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="节表">节表
+</h3><p>可选PE头结束后紧跟着的地方为节表，标准PE表中字段NumberOfSections为节表个数，一个节表大小为40个字节</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#define IMAGE_SIZEOF_SHORT_NAME 8 			</span><span class="c1">//宏定义 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">typedef</span> <span class="k">struct</span> <span class="nc">_IMAGE_SECTION_HEADER</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">BYTE</span> <span class="n">Name</span><span class="p">[</span><span class="n">IMAGE_SIZEOF_SHORT_NAME</span><span class="p">];</span> <span class="o">*</span>	<span class="c1">//每一个节都可以取一个名字，最大长度为8字节
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">union</span><span class="p">{</span>									<span class="c1">//联合体（大小为最大属性的大小）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">DWORD</span>   <span class="n">PhysicalAddress</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">DWORD</span>   <span class="n">VirtualSize</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="n">Misc</span><span class="p">;</span> <span class="o">*</span>								<span class="c1">//是该节在没有对齐前的真实尺寸（若被修改则不准确）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span> <span class="n">VirtualAddress</span><span class="p">;</span> <span class="o">*</span>					<span class="c1">//节在内存中的偏移地址（相对偏移）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span> <span class="n">SizeOfRawData</span><span class="p">;</span> <span class="o">*</span>					<span class="c1">//节在文件中对齐后的尺寸
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span> <span class="n">PointerToRawData</span><span class="p">;</span> <span class="o">*</span>				<span class="c1">//节在文件中的偏移
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span> <span class="n">PointerToRelocations</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">DWORD</span> <span class="n">PointerToLinenumbers</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">WORD</span> <span class="n">NumberOfRelocations</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">WORD</span> <span class="n">NumberOfLinenumbers</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">DWORD</span> <span class="n">Characteristics</span><span class="p">;</span> <span class="o">*</span>				<span class="c1">//节的属性
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span> <span class="n">IMAGE_SECTION_HEADER</span><span class="p">,</span> <span class="o">*</span><span class="n">PIMAGE_SECTION_HEADER</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250706174838543.png"
+	width="1128"
+	height="486"
+	srcset="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250706174838543_hu_dc7d9726f22c2c67.png 480w, /p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250706174838543_hu_13ae888cb3379ee6.png 1024w"
+	loading="lazy"
+	
+		alt="属性对照表"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="232"
+		data-flex-basis="557px"
+	
+></p>
+<p><em>打印所有头和节表代码详见</em><code>打印PE头.cpp</code><em>，运行如下</em></p>
+<p><img src="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250707145819853.png"
+	width="1112"
+	height="1604"
+	srcset="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250707145819853_hu_4c34036572f76ec9.png 480w, /p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/image-20250707145819853_hu_f71de7b01d9632d4.png 1024w"
+	loading="lazy"
+	
+		alt="打印结果"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="69"
+		data-flex-basis="166px"
+	
+></p>
+<h2 id="空白区添加代码">空白区添加代码
+</h2><h3 id="代码节空白区添加代码">代码节空白区添加代码
+</h3><p>1.MessageBox函数说明
+MessageBox()函数：功能是弹出一个标准的Windows对话框；它不是C函数库的标准函数，而是一个API，我们可以用C语言调用API函数。可以理解成我们在C中使用MessageBox函数就表示调用系统提供的API函数–MessageBoxA。包含在头文件windows.h；如果一个程序中包含user32.dll，则此程序就有MessageBoxAAPI函数</p>
+<p>2.函数原型</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">MessageBox</span><span class="p">(</span> <span class="n">HWND</span> <span class="n">hWnd</span><span class="p">,</span><span class="n">LPCTSTR</span> <span class="n">lpText</span><span class="p">,</span> <span class="n">LPCTSTR</span> <span class="n">lpCaption</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">UINT</span> <span class="n">nType</span> <span class="o">=</span> <span class="n">MB_OK</span> <span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol>
+<li>获取MessageBox地址，构造ShellCode代码</li>
+<li>E8 E9计算公式，x=MessageBox地址-下一条指令在内存中的地址</li>
+<li>在代码区手动添加代码</li>
+<li>修改OEP，指向ShellCode</li>
+</ol>
+<h3 id="任意节空白区添加代码">任意节空白区添加代码
+</h3><h3 id="新增节添加代码">新增节添加代码
+</h3><ol>
+<li>SizeOfHeader - (DOS + 垃圾数据 + PE标记 + 标准PE头 + 可选PE头 + 已存在的节表) &gt;= 2个节表的大小</li>
+<li>需要修改的数据</li>
+</ol>
+<p>1）添加一个新的节</p>
+<p>2）在新增节后面，填充一个节大小的000</p>
+<p>3）修改PE头中节的数量NumberOfSections</p>
+<p>4）修改ImageBase的大小</p>
+<p>5）在原有数据的最后，新增一个节的数据为内存对齐的整数倍</p>
+<p>6）修正新增节表的属性</p>
+<h3 id="扩大节-合并节-数据目录">扩大节-合并节-数据目录
+</h3><p><strong>扩大节</strong></p>
+<ol>
+<li>
+<p>拉伸到内存</p>
+</li>
+<li>
+<p>分配一块新的空间：SizeOfImage + Ex</p>
+</li>
+<li>
+<p>将最后一个节的SizeOfRawData和VirtualSize改成N</p>
+<p>其中 N = MAX（SizeOfRawData，VirtualSize）内存对齐 + Ex</p>
+</li>
+<li>
+<p>修改SizeOfImage</p>
+</li>
+</ol>
+<p><strong>合并节</strong></p>
+<ol>
+<li>
+<p>拉伸到内存</p>
+</li>
+<li>
+<p>将第一个节的内存大小、文件大小改成一样</p>
+</li>
+<li>
+<p>Max = SizeOfRawData&gt;VirtualSize?SizeOfRawData:VirtualSize</p>
+<p>SizeOfRawData = VirtualSize = 最后一个节的VirtualAddress + Max - SizeOfHeaders内存对齐的大小</p>
+</li>
+<li>
+<p>将第一个节的属性改为包含所有节的属性</p>
+</li>
+<li>
+<p>修改节的数量为1</p>
+</li>
+</ol>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/%E6%B1%87%E7%BC%96/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E6%B1%87%E7%BC%96/%E8%9C%98%E8%9B%9B.0a867634743b3823929b7c4bcb69cd3c_hu_a28985ae574a8cb4.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 汇编"
+                        
+                        data-hash="md5-CoZ2NHQ7OCOSm3xLy2nNPA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">汇编</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "hugo-theme-stack" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2025 liuhuaqing
+    </section>
+    
+    <section class="powerby">
+        
+            人生若只如初见 <br/>
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

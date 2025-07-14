@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="汇编 数据宽度\nBYTE WORD DWORD 8bit 16bit 32bit $$ *寻址范围->32位or64位* $$\n汇编指令 mov lea add sub 取数据 取地址 加 减 and or xor not &amp; | ^ ! 进阶\n指令格式 功能 ADC R/M,R/M/IMM 带进位加法 SBB R/M,R/M/IMM 带借位减法 XCHG R/M,R/M 交换数据 MOVS B/W/D :[EDI],:[ESI] 移动数据（内存-内存）（[EDI]/[ESI]根据方向标志DF决定自增/减） STOS B/W/D :[EDI] 将AL/AX/EAX的值储存到[EDI]指定的内存单元 REP MOVSD/STOSB/&hellip; 按计数寄存器（ECX）中指定的次数重复执行字符串指令 类型转换 功能 MOVSX CX, AL 符号拓展 MOVZX CX, AL 无符号拓展 内存的读写\n">
+<title>汇编</title>
+
+<link rel='canonical' href='https://567liuhuaqing.github.io/p/%E6%B1%87%E7%BC%96/'>
+
+<link rel="stylesheet" href="/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="汇编">
+<meta property='og:description' content="汇编 数据宽度\nBYTE WORD DWORD 8bit 16bit 32bit $$ *寻址范围->32位or64位* $$\n汇编指令 mov lea add sub 取数据 取地址 加 减 and or xor not &amp; | ^ ! 进阶\n指令格式 功能 ADC R/M,R/M/IMM 带进位加法 SBB R/M,R/M/IMM 带借位减法 XCHG R/M,R/M 交换数据 MOVS B/W/D :[EDI],:[ESI] 移动数据（内存-内存）（[EDI]/[ESI]根据方向标志DF决定自增/减） STOS B/W/D :[EDI] 将AL/AX/EAX的值储存到[EDI]指定的内存单元 REP MOVSD/STOSB/&hellip; 按计数寄存器（ECX）中指定的次数重复执行字符串指令 类型转换 功能 MOVSX CX, AL 符号拓展 MOVZX CX, AL 无符号拓展 内存的读写\n">
+<meta property='og:url' content='https://567liuhuaqing.github.io/p/%E6%B1%87%E7%BC%96/'>
+<meta property='og:site_name' content='liuhuaqing'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2025-05-12T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-05-12T00:00:00&#43;00:00'/><meta property='og:image' content='https://567liuhuaqing.github.io/p/%E6%B1%87%E7%BC%96/%E8%9C%98%E8%9B%9B.jpg' />
+<meta name="twitter:title" content="汇编">
+<meta name="twitter:description" content="汇编 数据宽度\nBYTE WORD DWORD 8bit 16bit 32bit $$ *寻址范围->32位or64位* $$\n汇编指令 mov lea add sub 取数据 取地址 加 减 and or xor not &amp; | ^ ! 进阶\n指令格式 功能 ADC R/M,R/M/IMM 带进位加法 SBB R/M,R/M/IMM 带借位减法 XCHG R/M,R/M 交换数据 MOVS B/W/D :[EDI],:[ESI] 移动数据（内存-内存）（[EDI]/[ESI]根据方向标志DF决定自增/减） STOS B/W/D :[EDI] 将AL/AX/EAX的值储存到[EDI]指定的内存单元 REP MOVSD/STOSB/&hellip; 按计数寄存器（ECX）中指定的次数重复执行字符串指令 类型转换 功能 MOVSX CX, AL 符号拓展 MOVZX CX, AL 无符号拓展 内存的读写\n"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://567liuhuaqing.github.io/p/%E6%B1%87%E7%BC%96/%E8%9C%98%E8%9B%9B.jpg' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_ebe7edef6fa87d8d.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🌌</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">liuhuaqing</a></h1>
+            <h2 class="site-description">lctf{reverse_is_c00l!}</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://www.bilibili.com'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-bilibili"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" /><path d="M8 3l2 3" /><path d="M16 3l-2 3" /><path d="M9 13v-2" /><path d="M15 11v2" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/CaiJimmy/hugo-theme-stack'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com'
+                        target="_blank"
+                        title="Twitter"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友情链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://567liuhuaqing.github.io/en/" >English</option>
+                                
+                                    <option value="https://567liuhuaqing.github.io/" selected>简体中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#汇编指令">汇编指令</a>
+      <ol>
+        <li><a href="#标志寄存器">标志寄存器</a></li>
+        <li><a href="#常见汇编及jcc">常见汇编及JCC</a></li>
+      </ol>
+    </li>
+    <li><a href="#堆栈">堆栈</a>
+      <ol>
+        <li><a href="#裸函数及其调用约定">裸函数及其调用约定</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/%E6%B1%87%E7%BC%96/">
+                <img src="/p/%E6%B1%87%E7%BC%96/%E8%9C%98%E8%9B%9B_hu_98c6ba55caf7bd0d.jpg"
+                        srcset="/p/%E6%B1%87%E7%BC%96/%E8%9C%98%E8%9B%9B_hu_98c6ba55caf7bd0d.jpg 800w, /p/%E6%B1%87%E7%BC%96/%E8%9C%98%E8%9B%9B_hu_69e06a5e104a4b.jpg 1600w"
+                        width="800" 
+                        height="450" 
+                        loading="lazy"
+                        alt="Featured image of post 汇编" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E7%9F%A5%E8%AF%86%E7%82%B9%E5%AD%A6%E4%B9%A0/" >
+                知识点学习
+            </a>
+        
+            <a href="/categories/reverse/" >
+                Reverse
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E6%B1%87%E7%BC%96/">汇编</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">May 12, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 4 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="汇编">汇编
+</h1><p><strong>数据宽度</strong></p>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>BYTE</th>
+          <th>WORD</th>
+          <th>DWORD</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>8bit</td>
+          <td>16bit</td>
+          <td>32bit</td>
+      </tr>
+  </tbody>
+</table></div>
+$$
+*寻址范围->32位or64位*
+$$<p><img src="/p/%E6%B1%87%E7%BC%96/68879095-ef38-4d76-9be0-8aa1c7eb90bc.png"
+	width="1106"
+	height="405"
+	srcset="/p/%E6%B1%87%E7%BC%96/68879095-ef38-4d76-9be0-8aa1c7eb90bc_hu_8581611279874a42.png 480w, /p/%E6%B1%87%E7%BC%96/68879095-ef38-4d76-9be0-8aa1c7eb90bc_hu_8550b5f7b2729d8a.png 1024w"
+	loading="lazy"
+	
+		alt="68879095-ef38-4d76-9be0-8aa1c7eb90bc"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="273"
+		data-flex-basis="655px"
+	
+></p>
+<h2 id="汇编指令">汇编指令
+</h2><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>mov</th>
+          <th>lea</th>
+          <th>add</th>
+          <th>sub</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>取数据</td>
+          <td>取地址</td>
+          <td>加</td>
+          <td>减</td>
+      </tr>
+      <tr>
+          <td><strong>and</strong></td>
+          <td><strong>or</strong></td>
+          <td><strong>xor</strong></td>
+          <td><strong>not</strong></td>
+      </tr>
+      <tr>
+          <td>&amp;</td>
+          <td>|</td>
+          <td>^</td>
+          <td>!</td>
+      </tr>
+  </tbody>
+</table></div>
+<p><strong>进阶</strong></p>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>指令格式</th>
+          <th>功能</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>ADC R/M,R/M/IMM</td>
+          <td>带进位加法</td>
+      </tr>
+      <tr>
+          <td>SBB R/M,R/M/IMM</td>
+          <td>带借位减法</td>
+      </tr>
+      <tr>
+          <td>XCHG R/M,R/M</td>
+          <td>交换数据</td>
+      </tr>
+      <tr>
+          <td>MOVS B/W/D :[EDI],:[ESI]</td>
+          <td>移动数据（内存-内存）（[EDI]/[ESI]根据方向标志DF决定自增/减）</td>
+      </tr>
+      <tr>
+          <td>STOS B/W/D :[EDI]</td>
+          <td>将AL/AX/EAX的值储存到[EDI]指定的内存单元</td>
+      </tr>
+      <tr>
+          <td>REP MOVSD/STOSB/&hellip;</td>
+          <td>按计数寄存器（ECX）中指定的次数重复执行字符串指令</td>
+      </tr>
+  </tbody>
+</table></div>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>类型转换</th>
+          <th>功能</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>MOVSX CX, AL</td>
+          <td>符号拓展</td>
+      </tr>
+      <tr>
+          <td>MOVZX CX, AL</td>
+          <td>无符号拓展</td>
+      </tr>
+  </tbody>
+</table></div>
+<p><strong>内存的读写</strong></p>
+<p><code>MOV DWORD ptr ds:[0x0012FFC4], 0x12345678</code></p>
+<blockquote>
+<p>汇编、寄存器、堆栈窗口大端序；数据窗口小端序</p></blockquote>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>寻址公式</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>[立即数]</td>
+      </tr>
+      <tr>
+          <td>[reg] -&gt; dword ptr ds:[ecx]</td>
+      </tr>
+      <tr>
+          <td>[reg+立即数] -&gt; dword ptr ds:[ecx+4]</td>
+      </tr>
+      <tr>
+          <td>[reg+reg*{1, 2, 4, 8}] -&gt; dword ptr ds:[eax+ecx*4]</td>
+      </tr>
+      <tr>
+          <td>[reg+reg*{1, 2, 4, 8}+立即数] -&gt; dword ptr ds:[eax+ecx*4+4]</td>
+      </tr>
+  </tbody>
+</table></div>
+<h3 id="标志寄存器">标志寄存器
+</h3><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>各类标志寄存器</th>
+          <th>值为1的条件</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>进位标志CF</td>
+          <td>运算结果最高位产生一个进位或借位</td>
+      </tr>
+      <tr>
+          <td>奇偶标志PF</td>
+          <td>运算结果中“1”的个数为偶数</td>
+      </tr>
+      <tr>
+          <td>辅助进位标志AF</td>
+          <td>在字/字节操作时，低字节/4位向高字节/4位进位或借位</td>
+      </tr>
+      <tr>
+          <td>零标志ZF</td>
+          <td>运算结果为0</td>
+      </tr>
+      <tr>
+          <td>符号标志SF</td>
+          <td>与运算结果的最高位相同</td>
+      </tr>
+      <tr>
+          <td>溢出标志OF</td>
+          <td>有符号数加减运算是否溢出</td>
+      </tr>
+  </tbody>
+</table></div>
+<p><img src="/p/%E6%B1%87%E7%BC%96/image-20250528145359288.png"
+	width="1356"
+	height="647"
+	srcset="/p/%E6%B1%87%E7%BC%96/image-20250528145359288_hu_f835a32d08958586.png 480w, /p/%E6%B1%87%E7%BC%96/image-20250528145359288_hu_c804131eec58d630.png 1024w"
+	loading="lazy"
+	
+		alt="image-20250528145359288"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="209"
+		data-flex-basis="502px"
+	
+></p>
+<h3 id="常见汇编及jcc">常见汇编及JCC
+</h3><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>常见汇编</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>JMP 寄存器/立即数 修改EIP的值</td>
+      </tr>
+      <tr>
+          <td>CALL [A]/寄存器</td>
+      </tr>
+      <tr>
+          <td>PUSH [B]</td>
+      </tr>
+      <tr>
+          <td>MOV EIP,[A]/寄存器</td>
+      </tr>
+      <tr>
+          <td>RET -&gt; POP EIP</td>
+      </tr>
+      <tr>
+          <td>CMP R/M,R/M/IMM</td>
+      </tr>
+      <tr>
+          <td>TEST R/M,R/M/IMM</td>
+      </tr>
+  </tbody>
+</table></div>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>JCC</th>
+          <th>条件</th>
+          <th>标志</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>JE，JZ</td>
+          <td>结果为零则跳转</td>
+          <td>ZF=1</td>
+      </tr>
+      <tr>
+          <td>JNE，JNZ</td>
+          <td>结果不为零则跳转</td>
+          <td>ZF=0</td>
+      </tr>
+      <tr>
+          <td>JS</td>
+          <td>结果为负则跳转</td>
+          <td>SF=1</td>
+      </tr>
+      <tr>
+          <td>JNS</td>
+          <td>结果为非负则跳转</td>
+          <td>SF=0</td>
+      </tr>
+      <tr>
+          <td>JP，JPE</td>
+          <td>结果中1的个数为偶数则跳转</td>
+          <td>PF=1</td>
+      </tr>
+      <tr>
+          <td>JNP，JPO</td>
+          <td>结果中1的个数为奇数则跳转</td>
+          <td>PF=0</td>
+      </tr>
+      <tr>
+          <td>JO</td>
+          <td>结果溢出了则跳转</td>
+          <td>OF=1</td>
+      </tr>
+      <tr>
+          <td>JNO</td>
+          <td>结果没有溢出则跳转</td>
+          <td>OF=0</td>
+      </tr>
+      <tr>
+          <td>JB，JNAE</td>
+          <td>小于则跳转（无符号数）</td>
+          <td>CF=1</td>
+      </tr>
+      <tr>
+          <td>JNB，JAE</td>
+          <td>大于等于则跳转（无符号数）</td>
+          <td>CF=0</td>
+      </tr>
+      <tr>
+          <td>JBE，JNA</td>
+          <td>小于等于则跳转（无符号数）</td>
+          <td>CF=1 or ZF=1</td>
+      </tr>
+      <tr>
+          <td>JNBE，JA</td>
+          <td>大于则跳转（无符号数）</td>
+          <td>CF=0 and ZF=0</td>
+      </tr>
+      <tr>
+          <td>JL，JNGE</td>
+          <td>小于则跳转（有符号数）</td>
+          <td>SF!=OF</td>
+      </tr>
+      <tr>
+          <td>JNL，JGE</td>
+          <td>大于等于则跳转（有符号数）</td>
+          <td>SF=OF</td>
+      </tr>
+      <tr>
+          <td>JLE，JNG</td>
+          <td>小于等于则跳转（有符号数）</td>
+          <td>ZF=1 or SF!=OF</td>
+      </tr>
+      <tr>
+          <td>JNLE，JG</td>
+          <td>大于则跳转（有符号数）</td>
+          <td>ZF=0 and SF=OF</td>
+      </tr>
+      <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table></div>
+<h2 id="堆栈">堆栈
+</h2><p><strong>push</strong> R/M</p>
+<p><strong>pop</strong> R/M</p>
+<p><em>esp 栈顶 / ebp 栈底</em></p>
+<ul>
+<li><input disabled="" type="checkbox"> 无参函数</li>
+</ul>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>汇编代码</th>
+          <th>功能</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>call        00E71316</td>
+          <td>调用函数（无参）</td>
+      </tr>
+      <tr>
+          <td>jmp         00E723D0</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>00E723D0  push        ebp  <br/>00E723D1  mov         ebp,esp  <br />00E723D3  sub         esp,0C0h</td>
+          <td>提升堆栈</td>
+      </tr>
+      <tr>
+          <td>00E723D9  push        ebx  <br/>00E723DA  push        esi  <br/>00E723DB  push        edi</td>
+          <td>保留现场</td>
+      </tr>
+      <tr>
+          <td>00E723DC  mov         edi,ebp  <br/>00E723DE  xor         ecx,ecx  <br/>00E723E0  mov         eax,0CCCCCCCCh  <br/>00E723E5  rep stos    dword ptr es:[edi]  <br/>00E723E7  mov         ecx,0E7E069h  <br/>00E723EC  call        00E71389</td>
+          <td>为缓冲区填充数据</td>
+      </tr>
+      <tr>
+          <td>00E723F2  pop         edi  <br/>00E723F3  pop         esi  <br/>00E723F4  pop         ebx</td>
+          <td>恢复现场</td>
+      </tr>
+      <tr>
+          <td>00E723F5  add         esp,0C0h  <br/>00E723FB  cmp         ebp,esp  <br/>00E723FD  call        00E7128F</td>
+          <td>检查堆栈平衡</td>
+      </tr>
+      <tr>
+          <td>00E72402  mov         esp,ebp  <br/>00E72404  pop         ebp</td>
+          <td>降低堆栈</td>
+      </tr>
+      <tr>
+          <td>00E72405  ret</td>
+          <td>函数返回</td>
+      </tr>
+      <tr>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table></div>
+<ul>
+<li><input disabled="" type="checkbox"> 有参函数（加法）</li>
+</ul>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>汇编代码</th>
+          <th>功能</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>000B1D35  push        2  <br/>000B1D37  push        1</td>
+          <td>参数</td>
+      </tr>
+      <tr>
+          <td>000B1D39  call        000B143D</td>
+          <td>调用函数</td>
+      </tr>
+      <tr>
+          <td>000B1D3E  add         esp,8</td>
+          <td>平衡堆栈</td>
+      </tr>
+      <tr>
+          <td>000B143D  jmp         000B1CC0</td>
+          <td>中转</td>
+      </tr>
+      <tr>
+          <td>000B1CC0  push        ebp  <br/>000B1CC1  mov         ebp,esp  <br/>000B1CC3  sub         esp,0C0h</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>000B1CC9  push        ebx  <br/>000B1CCA  push        esi  <br/>000B1CCB  push        edi</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>000B1CCC  mov         edi,ebp  <br/>000B1CCE  xor         ecx,ecx  <br/>000B1CD0  mov         eax,0CCCCCCCCh  <br/>000B1CD5  rep stos    dword ptr es:[edi]  <br/>000B1CD7  mov         ecx,0BE069h  <br/>000B1CDC  call        000B1389  <br/>000B1CE1  nop</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>000B1CE2  mov         eax,dword ptr [ebp+8]  <br/>000B1CE5  add         eax,dword ptr [ebp+0Ch]</td>
+          <td>eax中存储的就是返回值</td>
+      </tr>
+      <tr>
+          <td>000B1CE8  pop         edi  <br/>000B1CE9  pop         esi  <br/>000B1CEA  pop         ebx</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>000B1CEB  add         esp,0C0h  <br/>000B1CF1  cmp         ebp,esp  <br/>000B1CF3  call        000B128F</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>000B1CF8  mov         esp,ebp  <br/>000B1CFA  pop         ebp</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>000B1CFB  ret</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table></div>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> 嵌套函数</li>
+</ul>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>汇编代码</th>
+          <th>功能</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>00761D45  push        3  <br/>00761D47  push        2  <br/>00761D49  push        1</td>
+          <td>参数</td>
+      </tr>
+      <tr>
+          <td>00761D4B  call        plus2 (0761442h)</td>
+          <td>调用函数</td>
+      </tr>
+      <tr>
+          <td>00761D50  add         esp,0Ch</td>
+          <td>平衡堆栈</td>
+      </tr>
+      <tr>
+          <td>00761442  jmp         plus2 (0762490h)</td>
+          <td>中转</td>
+      </tr>
+      <tr>
+          <td>00762490  push        ebp  <br/>00762491  mov         ebp,esp  <br/>00762493  sub         esp,0CCh  <br/>00762499  push        ebx  <br/>0076249A  push        esi  <br/>0076249B  push        edi  <br/>0076249C  lea         edi,[ebp-0Ch]  <br/>0076249F  mov         ecx,3  <br/>007624A4  mov         eax,0CCCCCCCCh  <br/>007624A9  rep stos    dword ptr es:[edi]  <br/>007624AB  mov         ecx,76E069h  <br/>007624B0  call        00761389  <br/>007624B5  nop</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>12:     int t = plus1(a, b);<br/>007624B6  mov         eax,dword ptr [ebp+0Ch]</td>
+          <td>eax=2</td>
+      </tr>
+      <tr>
+          <td>007624B9  push        eax</td>
+          <td>2入栈（参数）</td>
+      </tr>
+      <tr>
+          <td>007624BA  mov         ecx,dword ptr [ebp+8]</td>
+          <td>ecx=1</td>
+      </tr>
+      <tr>
+          <td>007624BD  push        ecx</td>
+          <td>1入栈（参数）</td>
+      </tr>
+      <tr>
+          <td>007624BE  call        plus1 (076143Dh)</td>
+          <td>函数调用</td>
+      </tr>
+      <tr>
+          <td>007624C3  add         esp,8</td>
+          <td>平衡堆栈</td>
+      </tr>
+      <tr>
+          <td>007624C6  mov         dword ptr [ebp-8],eax</td>
+          <td>eax是plus1返回结果，ebp-8是局部变量t</td>
+      </tr>
+      <tr>
+          <td>13:     return  plus1(t, c);<br/>007624C9  mov         eax,dword ptr [ebp+10h]  <br/>007624CC  push        eax  <br/>007624CD  mov         ecx,dword ptr [ebp-8]  <br/>007624D0  push        ecx  <br/>007624D1  call        0076143D  <br/>007624D6  add         esp,8</td>
+          <td>同上</td>
+      </tr>
+      <tr>
+          <td>0076143D  jmp         plus1 (00761CC0h)</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>00761CC0  push        ebp  <br/>00761CC1  mov         ebp,esp  <br/>00761CC3  sub         esp,0C0h  <br/>00761CC9  push        ebx  <br/>00761CCA  push        esi  <br/>00761CCB  push        edi  <br/>00761CCC  mov         edi,ebp  <br/>00761CCE  xor         ecx,ecx  <br/>00761CD0  mov         eax,0CCCCCCCCh  <br/>00761CD5  rep stos    dword ptr es:[edi]  <br/>00761CD7  mov         ecx,76E069h  <br/>00761CDC  call        00761389  <br/>00761CE1  nop  <br/>     9:     return a + b;<br/>00761CE2  mov         eax,dword ptr [ebp+8]  <br/>00761CE5  add         eax,dword ptr [ebp+0Ch]  <br/>00761CE8  pop         edi  <br/>00761CE9  pop         esi  <br/>00761CEA  pop         ebx  <br/>00761CEB  add         esp,0C0h  <br/>00761CF1  cmp         ebp,esp  <br/>00761CF3  call        0076128F  <br/>00761CF8  mov         esp,ebp  <br/>00761CFA  pop         ebp  <br/>00761CFB  ret</td>
+          <td>plus1(t, c)</td>
+      </tr>
+      <tr>
+          <td>007624D9  pop         edi  <br/>007624DA  pop         esi  <br/>007624DB  pop         ebx  <br/>007624DC  add         esp,0CCh  <br/>007624E2  cmp         ebp,esp  <br/>007624E4  call        0076128F  <br/>007624E9  mov         esp,ebp  <br/>007624EB  pop         ebp  <br/>007624EC  ret</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table></div>
+<h3 id="裸函数及其调用约定">裸函数及其调用约定
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">__declspec</span><span class="p">(</span><span class="kr">naked</span><span class="p">)</span> <span class="n">plus</span><span class="p">(</span><span class="cm">/*int x, int y, int z*/</span><span class="p">)</span> <span class="p">{</span> <span class="c1">//裸函数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kr">__asm</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/*
+</span></span></span><span class="line"><span class="cl"><span class="cm">        push ebp;   //提升堆栈
+</span></span></span><span class="line"><span class="cl"><span class="cm">		mov ebp, esp;
+</span></span></span><span class="line"><span class="cl"><span class="cm">		sub esp, 0x40;
+</span></span></span><span class="line"><span class="cl"><span class="cm">		push ebx;   //保留现场
+</span></span></span><span class="line"><span class="cl"><span class="cm">		push esi;
+</span></span></span><span class="line"><span class="cl"><span class="cm">		push edi;
+</span></span></span><span class="line"><span class="cl"><span class="cm">		mov eax, 0xCCCCCCCC;  //填充缓冲区
+</span></span></span><span class="line"><span class="cl"><span class="cm">		mov ecx, 0x10;
+</span></span></span><span class="line"><span class="cl"><span class="cm">		lea edi, dword ptr ds : [ebp - 0x40] ;
+</span></span></span><span class="line"><span class="cl"><span class="cm">		rep stosd;
+</span></span></span><span class="line"><span class="cl"><span class="cm">
+</span></span></span><span class="line"><span class="cl"><span class="cm">		mov eax, dword ptr ds : [ebp + 8] ;  //函数功能	x
+</span></span></span><span class="line"><span class="cl"><span class="cm">		add eax, dword ptr ds : [ebp + 0xC] ;	//y
+</span></span></span><span class="line"><span class="cl"><span class="cm">		add eax, dword ptr ds : [ebp + 0x10] ;	//z
+</span></span></span><span class="line"><span class="cl"><span class="cm">		//__emit 0xe8;
+</span></span></span><span class="line"><span class="cl"><span class="cm">
+</span></span></span><span class="line"><span class="cl"><span class="cm">		pop edi;   //恢复现场
+</span></span></span><span class="line"><span class="cl"><span class="cm">		pop esi;
+</span></span></span><span class="line"><span class="cl"><span class="cm">		pop edx;
+</span></span></span><span class="line"><span class="cl"><span class="cm">		mov esp, ebp;    //降低堆栈
+</span></span></span><span class="line"><span class="cl"><span class="cm">		pop ebp;
+</span></span></span><span class="line"><span class="cl"><span class="cm">		*/</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ret</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>调用约定</th>
+          <th>参数压栈顺序</th>
+          <th>平衡堆栈</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>__cdecl</td>
+          <td>从右至左入栈</td>
+          <td>调用者清理栈</td>
+      </tr>
+      <tr>
+          <td>__stdcall</td>
+          <td>从右至左入栈</td>
+          <td>自身清理堆栈-&gt;ret  8</td>
+      </tr>
+      <tr>
+          <td>__fastcall</td>
+          <td>ecx/edx传送前两个<br />剩下：从右至左入栈</td>
+          <td>自身清理堆栈</td>
+      </tr>
+  </tbody>
+</table></div>
+<blockquote>
+<p>内存图</p></blockquote>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>if，else，while</th>
+          <th>代码区</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>参数，局部变量，临时数据</td>
+          <td>堆栈</td>
+      </tr>
+      <tr>
+          <td>动态申请的，大小可变的<br />可读，可写</td>
+          <td>堆</td>
+      </tr>
+      <tr>
+          <td>可读，可写</td>
+          <td>全局变量区</td>
+      </tr>
+      <tr>
+          <td>只读</td>
+          <td>常量区</td>
+      </tr>
+  </tbody>
+</table></div>
+<p><strong>位运算</strong></p>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>算数移位</th>
+          <th>指令格式</th>
+          <th>逻辑移位</th>
+          <th>指令格式</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>溢出位进CF</td>
+          <td>SAL/SAR R/M,CL/I</td>
+          <td>溢出位进CF</td>
+          <td>SHL/SHR R/M,CL/I</td>
+      </tr>
+      <tr>
+          <td>算数左移</td>
+          <td>SAL（补0）</td>
+          <td>逻辑左移</td>
+          <td>SHL（补0）</td>
+      </tr>
+      <tr>
+          <td>算数右移</td>
+          <td>SAR（补符号位）</td>
+          <td>逻辑右移</td>
+          <td>SHR（补0）</td>
+      </tr>
+      <tr>
+          <td><strong>循环移位</strong></td>
+          <td><strong>指令格式</strong></td>
+          <td><strong>带进位循环</strong></td>
+          <td><strong>指令格式</strong></td>
+      </tr>
+      <tr>
+          <td>溢出位进CF</td>
+          <td>ROL R/M, I<br />ROR R/M,  CL</td>
+          <td>溢出位进CF</td>
+          <td>RCL R/M, I<br />RCR R/M, CL</td>
+      </tr>
+      <tr>
+          <td>循环左移</td>
+          <td>ROL（补溢出位）</td>
+          <td>左移</td>
+          <td>RCL（补CF位）</td>
+      </tr>
+      <tr>
+          <td>循环右移</td>
+          <td>ROR（补溢出位）</td>
+          <td>右移</td>
+          <td>RCR（补CF位）</td>
+      </tr>
+  </tbody>
+</table></div>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/">
+        
+        
+            <div class="article-image">
+                <img src="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E6%AF%8D%E7%A5%9E%E5%82%A9.1cbfec7fd9f434b2e7ce94c863f98c71_hu_5bf0474e753d4b86.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post PE文件结构"
+                        
+                        data-hash="md5-HL/sf9n0NLLnzpTIY/mMcQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PE文件结构</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "hugo-theme-stack" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2025 liuhuaqing
+    </section>
+    
+    <section class="powerby">
+        
+            人生若只如初见 <br/>
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://567liuhuaqing.github.io/p/python_rev/'>
 
-<link rel="stylesheet" href="/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="Python_Rev">
+<link rel="stylesheet" href="/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="Python_Rev">
 <meta property='og:description' content="目录\n[ 工具附件](# 工具附件)\n.py文件和.pyc文件\n[ 提取.pyc文件](# 提取.pyc文件)\npycdc反编译 pycdas查看字节码\n">
 <meta property='og:url' content='https://567liuhuaqing.github.io/p/python_rev/'>
 <meta property='og:site_name' content='liuhuaqing'>
@@ -374,7 +374,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 3 分钟
+                    阅读时长: 4 分钟
                 </time>
             </div>
         
@@ -576,7 +576,29 @@
 	
 	
 ></p>
-<p>​     相应工具以上传至文章顶部</p>
+<p>有时python版本太高，反编译不出python源码</p>
+<p><strong>使用python解释器调用dis解释出pyc文件的字节码</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">marshal</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">dis</span>
+</span></span><span class="line"><span class="cl"><span class="n">f</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;easyRE.pyc&#39;</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl"><span class="c1"># 将pyc文件和该脚本放于同一文件夹内,或者自行指定绝对路径</span>
+</span></span><span class="line"><span class="cl"><span class="n">code</span><span class="o">=</span><span class="n">marshal</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()[</span><span class="mi">16</span><span class="p">:])</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">dis</span><span class="o">.</span><span class="n">dis</span><span class="p">(</span><span class="n">code</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>​     相应工具以上传至文章顶部</p>
 <h2 id="举个例子">举个例子
 </h2><p>将题目附件拖进DIE查壳，可发现为python可执行文件</p>
 <p><img src="https://i-blog.csdnimg.cn/direct/e7f23785e5d440788e828f5178f73273.png"

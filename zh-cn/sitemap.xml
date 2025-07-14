@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://567liuhuaqing.github.io/</loc>
-    <lastmod>2025-03-12T22:35:59+08:00</lastmod>
+    <lastmod>2025-07-04T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -15,8 +15,33 @@
                 href="https://567liuhuaqing.github.io/"
                 />
   </url><url>
+    <loc>https://567liuhuaqing.github.io/categories/</loc>
+    <lastmod>2025-07-04T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://567liuhuaqing.github.io/en/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://567liuhuaqing.github.io/categories/"
+                />
+  </url><url>
+    <loc>https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/</loc>
+    <lastmod>2025-07-04T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://567liuhuaqing.github.io/post/</loc>
-    <lastmod>2025-03-12T22:35:59+08:00</lastmod>
+    <lastmod>2025-07-04T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://567liuhuaqing.github.io/categories/reverse/</loc>
+    <lastmod>2025-07-04T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://567liuhuaqing.github.io/categories/%E7%9F%A5%E8%AF%86%E7%82%B9%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2025-07-04T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://567liuhuaqing.github.io/p/%E6%B1%87%E7%BC%96/</loc>
+    <lastmod>2025-05-12T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://567liuhuaqing.github.io/p/smc%E8%87%AA%E4%BF%AE%E6%94%B9/</loc>
     <lastmod>2025-03-12T22:35:59+08:00</lastmod>
@@ -47,19 +72,6 @@
                 rel="alternate"
                 hreflang="zh-cn"
                 href="https://567liuhuaqing.github.io/tags/"
-                />
-  </url><url>
-    <loc>https://567liuhuaqing.github.io/categories/</loc>
-    <lastmod>2020-09-09T00:00:00+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://567liuhuaqing.github.io/en/categories/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-cn"
-                href="https://567liuhuaqing.github.io/categories/"
                 />
   </url><url>
     <loc>https://567liuhuaqing.github.io/p/test-chinese/</loc>
