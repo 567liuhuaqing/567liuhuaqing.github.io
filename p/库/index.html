@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="在C++开发中，库（Library）是代码复用的重要方式，库的存在形式本质上来说库是一种可执行代码的二进制，分为静态库（.lib、.a）和动态库（.dll、.so）\n">
+<title>库</title>
+
+<link rel='canonical' href='https://567liuhuaqing.github.io/p/%E5%BA%93/'>
+
+<link rel="stylesheet" href="/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="库">
+<meta property='og:description' content="在C++开发中，库（Library）是代码复用的重要方式，库的存在形式本质上来说库是一种可执行代码的二进制，分为静态库（.lib、.a）和动态库（.dll、.so）\n">
+<meta property='og:url' content='https://567liuhuaqing.github.io/p/%E5%BA%93/'>
+<meta property='og:site_name' content='liuhuaqing'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2025-07-15T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-07-15T00:00:00&#43;00:00'/><meta property='og:image' content='https://567liuhuaqing.github.io/p/%E5%BA%93/%E7%93%B7%E5%BF%83%E5%82%80%E5%84%A1.jpg' />
+<meta name="twitter:title" content="库">
+<meta name="twitter:description" content="在C++开发中，库（Library）是代码复用的重要方式，库的存在形式本质上来说库是一种可执行代码的二进制，分为静态库（.lib、.a）和动态库（.dll、.so）\n"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://567liuhuaqing.github.io/p/%E5%BA%93/%E7%93%B7%E5%BF%83%E5%82%80%E5%84%A1.jpg' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_ebe7edef6fa87d8d.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🌌</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">liuhuaqing</a></h1>
+            <h2 class="site-description">lctf{reverse_is_c00l!}</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://www.bilibili.com'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-bilibili"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" /><path d="M8 3l2 3" /><path d="M16 3l-2 3" /><path d="M9 13v-2" /><path d="M15 11v2" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/CaiJimmy/hugo-theme-stack'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com'
+                        target="_blank"
+                        title="Twitter"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友情链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://567liuhuaqing.github.io/en/" >English</option>
+                                
+                                    <option value="https://567liuhuaqing.github.io/" selected>简体中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#静态链接库">静态链接库</a></li>
+    <li><a href="#创建静态链接库">创建静态链接库</a>
+      <ol>
+        <li><a href="#方法一">方法一：</a></li>
+        <li><a href="#方法二">方法二：</a></li>
+      </ol>
+    </li>
+    <li><a href="#动态链接库">动态链接库</a></li>
+    <li><a href="#创建动态链接库">创建动态链接库</a>
+      <ol>
+        <li><a href="#方法一隐式调用">方法一：隐式调用</a></li>
+        <li><a href="#方法二显示调用">方法二：显示调用</a></li>
+      </ol>
+    </li>
+    <li><a href="#静态库与动态库对比">静态库与动态库对比</a></li>
+    <li><a href="#使用def导出库">使用.def导出库</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/%E5%BA%93/">
+                <img src="/p/%E5%BA%93/%E7%93%B7%E5%BF%83%E5%82%80%E5%84%A1_hu_31cc0e2e84c24286.jpg"
+                        srcset="/p/%E5%BA%93/%E7%93%B7%E5%BF%83%E5%82%80%E5%84%A1_hu_31cc0e2e84c24286.jpg 800w, /p/%E5%BA%93/%E7%93%B7%E5%BF%83%E5%82%80%E5%84%A1_hu_b12100e88ae010fe.jpg 1600w"
+                        width="800" 
+                        height="1422" 
+                        loading="lazy"
+                        alt="Featured image of post 库" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E7%9F%A5%E8%AF%86%E7%82%B9%E5%AD%A6%E4%B9%A0/" >
+                知识点学习
+            </a>
+        
+            <a href="/categories/reverse/" >
+                Reverse
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E5%BA%93/">库</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jul 15, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 4 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>在C++开发中，库（Library）是<strong>代码复用</strong>的重要方式，库的存在形式本质上来说库是一种<strong>可执行代码的二进制</strong>，分为静态库（.lib、.a）和动态库（.dll、.so）</p>
+<h2 id="静态链接库">静态链接库
+</h2><p>静态库是一种在编译时<strong>将代码直接嵌入到可执行文件</strong>中的库文件，它具有独立性、性能优势和版本控制等特点，适用于许多不同类型的项目和开发环境。如果你想要别人使用你的代码，但又不想将源代码公开的时候，也可以使用</p>
+<blockquote>
+<p>优：静态写入封装，代码重用</p>
+<p>缺：直接编译到exe（如若修改.lib，需重新编译exe）</p></blockquote>
+<h2 id="创建静态链接库">创建静态链接库
+</h2><p>这里以Visual Studio 2022为例</p>
+<h3 id="方法一">方法一：
+</h3><ul>
+<li>首先创建新项目模板为**”静态库“**</li>
+</ul>
+<p>也可以在项目属性页修改配置类型</p>
+<p><img src="/p/%E5%BA%93/%E9%85%8D%E7%BD%AE%E7%B1%BB%E5%9E%8B.png"
+	width="1567"
+	height="1078"
+	srcset="/p/%E5%BA%93/%E9%85%8D%E7%BD%AE%E7%B1%BB%E5%9E%8B_hu_7a678403c1b4746b.png 480w, /p/%E5%BA%93/%E9%85%8D%E7%BD%AE%E7%B1%BB%E5%9E%8B_hu_f8b1da8a36f11005.png 1024w"
+	loading="lazy"
+	
+		alt="配置类型"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="145"
+		data-flex-basis="348px"
+	
+></p>
+<p>若要自定义头文件，<code>C/C++ → 预编译头 → 设置为&quot;不使用预编译头&quot;</code></p>
+<p>在<code>pch.h</code>中添加函数或类预定义</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#pragma once
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">PPTe</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">namespace</span> <span class="n">test</span> <span class="p">{</span> 
+</span></span><span class="line"><span class="cl">	<span class="kt">void</span> <span class="nf">castue</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="/p/%E5%BA%93/%E9%9D%99%E6%80%81%E5%BA%93%E5%A4%B4%E6%96%87%E4%BB%B6.png"
+	width="2583"
+	height="899"
+	srcset="/p/%E5%BA%93/%E9%9D%99%E6%80%81%E5%BA%93%E5%A4%B4%E6%96%87%E4%BB%B6_hu_5ae6e45290f48c31.png 480w, /p/%E5%BA%93/%E9%9D%99%E6%80%81%E5%BA%93%E5%A4%B4%E6%96%87%E4%BB%B6_hu_ca142d48df8e31e8.png 1024w"
+	loading="lazy"
+	
+		alt="静态库头文件"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="287"
+		data-flex-basis="689px"
+	
+></p>
+<p>在<code>pch.cpp</code>中写出完整的类与方法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;pch.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">PPTe</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">	<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Hello World &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">namespace</span> <span class="n">test</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">castue</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Ualeo Teui&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="/p/%E5%BA%93/%E9%9D%99%E6%80%81%E5%BA%93%E6%BA%90%E6%96%87%E4%BB%B6.png"
+	width="2164"
+	height="668"
+	srcset="/p/%E5%BA%93/%E9%9D%99%E6%80%81%E5%BA%93%E6%BA%90%E6%96%87%E4%BB%B6_hu_cca40e162516aab.png 480w, /p/%E5%BA%93/%E9%9D%99%E6%80%81%E5%BA%93%E6%BA%90%E6%96%87%E4%BB%B6_hu_2c40ee5e31ad458b.png 1024w"
+	loading="lazy"
+	
+		alt="静态库源文件"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="323"
+		data-flex-basis="777px"
+	
+></p>
+<p>选择<code>“生成” -&gt; “生成解决方案”</code>（Ctrl+Shift+B）</p>
+<p>在<code>“x64” -&gt; “Debug”</code>中生成lib文件如下</p>
+<p><img src="/p/%E5%BA%93/%E7%94%9F%E6%88%90%E7%9A%84%E9%9D%99%E6%80%81%E5%BA%93.png"
+	width="927"
+	height="402"
+	srcset="/p/%E5%BA%93/%E7%94%9F%E6%88%90%E7%9A%84%E9%9D%99%E6%80%81%E5%BA%93_hu_d2c00e0477e36ca6.png 480w, /p/%E5%BA%93/%E7%94%9F%E6%88%90%E7%9A%84%E9%9D%99%E6%80%81%E5%BA%93_hu_c2de3c7bfc01d423.png 1024w"
+	loading="lazy"
+	
+		alt="生成的静态库"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="230"
+		data-flex-basis="553px"
+	
+></p>
+<ul>
+<li>然后创建一个新项目**“控制台应用”**</li>
+</ul>
+<p>将刚刚生成的lib文件和头文件打包复制到新项目文件夹</p>
+<p><img src="/p/%E5%BA%93/%E5%AF%BC%E5%85%A5%E6%96%87%E4%BB%B6.png"
+	width="1064"
+	height="729"
+	srcset="/p/%E5%BA%93/%E5%AF%BC%E5%85%A5%E6%96%87%E4%BB%B6_hu_1560f813e369b787.png 480w, /p/%E5%BA%93/%E5%AF%BC%E5%85%A5%E6%96%87%E4%BB%B6_hu_4bd14b7d4f457a64.png 1024w"
+	loading="lazy"
+	
+		alt="导入文件"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="145"
+		data-flex-basis="350px"
+	
+></p>
+<p>在源文件中<strong>预定义头文件</strong>，并且在代码中<strong>指定需要链接的库文件</strong>，添加代码为</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;pch.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#pragma comment(lib, &#34;TestLib.lib&#34;)
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样就成功导入静态链接库啦，可以使用静态库中的类与方法</p>
+<p><img src="/p/%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B.png"
+	width="1783"
+	height="665"
+	srcset="/p/%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B_hu_d6f79242fa4d0242.png 480w, /p/%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B_hu_cebd4d8ef7c0d58a.png 1024w"
+	loading="lazy"
+	
+		alt="程序示例"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="268"
+		data-flex-basis="643px"
+	
+></p>
+<h3 id="方法二">方法二：
+</h3><p>刚刚的指定需要链接的库文件代码不添加</p>
+<p>将头文件和库文件打包在同一个文件夹，将该文件夹路径添加到<code>项目属性 → VC++目录 → 包含目录和库目录</code>，注意前面要加; （<strong>如果是方法一中直接复制文件到新项目就跳过此步</strong>）</p>
+<p>项目属性中设置：<code>打开项目属性 → 链接器 → 输入</code>，在<code>&quot;附加依赖项&quot;</code>中添加 <code>TestLib.lib</code></p>
+<p><img src="/p/%E5%BA%93/%E6%B7%BB%E5%8A%A0%E9%9D%99%E6%80%81%E5%BA%93.png"
+	width="1557"
+	height="1061"
+	srcset="/p/%E5%BA%93/%E6%B7%BB%E5%8A%A0%E9%9D%99%E6%80%81%E5%BA%93_hu_955f4d975b9176d5.png 480w, /p/%E5%BA%93/%E6%B7%BB%E5%8A%A0%E9%9D%99%E6%80%81%E5%BA%93_hu_9d194107c51d3b41.png 1024w"
+	loading="lazy"
+	
+		alt="添加静态库"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="146"
+		data-flex-basis="352px"
+	
+></p>
+<p>或者<code>打开项目属性 → 链接器 → 命令行</code>，在<code>“其他选项”</code>中添加 <code>TestLib.lib</code></p>
+<p><img src="/p/%E5%BA%93/%E8%AE%BE%E7%BD%AE%E7%BB%A7%E6%89%BF.png"
+	width="1569"
+	height="1073"
+	srcset="/p/%E5%BA%93/%E8%AE%BE%E7%BD%AE%E7%BB%A7%E6%89%BF_hu_f74d85ba1b6045af.png 480w, /p/%E5%BA%93/%E8%AE%BE%E7%BD%AE%E7%BB%A7%E6%89%BF_hu_558535f34d4f9907.png 1024w"
+	loading="lazy"
+	
+		alt="设置继承"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="146"
+		data-flex-basis="350px"
+	
+></p>
+<p>点击<code>“应用” → “确定”</code>，和上述功能相同</p>
+<p><img src="/p/%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B2.png"
+	width="1775"
+	height="665"
+	srcset="/p/%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B2_hu_ff5177f8df432cdc.png 480w, /p/%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B2_hu_fdddd26089d9fa75.png 1024w"
+	loading="lazy"
+	
+		alt="程序示例2"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="266"
+		data-flex-basis="640px"
+	
+></p>
+<h2 id="动态链接库">动态链接库
+</h2><p>动态库指的是在程序运行过程中动态加载库的方式使用的库，也就是动态库的链接是<strong>发生在程序运行时期</strong>的，它和可执行文件是分开的，只是可执行文件在运行的某个时期<strong>调用</strong>了它。</p>
+<blockquote>
+<p>优：程序自身的体积不会因为动态函数库变大</p>
+<p>缺：就是程序运行过程中使用到了这些函数库内的功能时，若系统特定的位置没有对应的动态库，就会造成程序崩溃或者各种奇怪的问题</p></blockquote>
+<h2 id="创建动态链接库">创建动态链接库
+</h2><h3 id="方法一隐式调用">方法一：隐式调用
+</h3><p>创建新项目模板为**”动态链接库“**</p>
+<p>或<code>配置属性 → 常规 → 配置类型：动态库(.dll)</code></p>
+<p>函数声明与生成静态库不一样</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#pragma once
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// DLL导出宏
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#ifdef STRINGDYNAMICLIB_EXPORTS	</span><span class="c1">//若使用该语句，C/C++ → 预处理器 → 预处理器定义：添加STRINGDYNAMICLIB_EXPORTS
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#define STRING_API __declspec(dllexport)	</span><span class="c1">//导出声明(__declspec(dllexport))告诉编译器哪些函数应该对外可见，没有导出的函数无法从外部调用
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#else
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define STRING_API __declspec(dllimport)
+</span></span></span><span class="line"><span class="cl"><span class="cp">#endif
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="k">namespace</span> <span class="n">StringDynamic</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">STRING_API</span> <span class="kt">void</span> <span class="nf">reverse</span><span class="p">(</span><span class="kt">char</span><span class="o">*</span> <span class="n">str</span><span class="p">,</span> <span class="kt">int</span> <span class="n">length</span><span class="p">);</span>		<span class="c1">// 反转字符串
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">STRING_API</span> <span class="kt">int</span> <span class="nf">countChar</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">str</span><span class="p">,</span> <span class="kt">char</span> <span class="n">c</span><span class="p">);</span>	<span class="c1">// 统计字符出现次数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">STRING_API</span> <span class="kt">char</span><span class="o">*</span> <span class="nf">concatenate</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">str1</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">str2</span><span class="p">);</span>	<span class="c1">// 连接两个字符串
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="/p/%E5%BA%93/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93%E5%A4%B4%E6%96%87%E4%BB%B6.png"
+	width="2100"
+	height="622"
+	srcset="/p/%E5%BA%93/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93%E5%A4%B4%E6%96%87%E4%BB%B6_hu_e31b92abb2edeccd.png 480w, /p/%E5%BA%93/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93%E5%A4%B4%E6%96%87%E4%BB%B6_hu_7ea908c6287accfc.png 1024w"
+	loading="lazy"
+	
+		alt="动态链接库头文件"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="337"
+		data-flex-basis="810px"
+	
+></p>
+<p><code>.cpp</code>代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;pch.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;cstring&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;cstdlib&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="k">namespace</span> <span class="n">StringDynamic</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">STRING_API</span> <span class="kt">void</span> <span class="nf">reverse</span><span class="p">(</span><span class="kt">char</span><span class="o">*</span> <span class="n">str</span><span class="p">,</span> <span class="kt">int</span> <span class="n">length</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">end</span> <span class="o">=</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">while</span> <span class="p">(</span><span class="n">start</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">std</span><span class="o">::</span><span class="n">swap</span><span class="p">(</span><span class="n">str</span><span class="p">[</span><span class="n">start</span><span class="p">],</span> <span class="n">str</span><span class="p">[</span><span class="n">end</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">start</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">end</span><span class="o">--</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">STRING_API</span> <span class="kt">int</span> <span class="nf">countChar</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">str</span><span class="p">,</span> <span class="kt">char</span> <span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">while</span> <span class="p">(</span><span class="o">*</span><span class="n">str</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="o">*</span><span class="n">str</span> <span class="o">==</span> <span class="n">c</span><span class="p">)</span> <span class="n">count</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">str</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">count</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">STRING_API</span> <span class="kt">char</span><span class="o">*</span> <span class="nf">concatenate</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">str1</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">str2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">size_t</span> <span class="n">len1</span> <span class="o">=</span> <span class="n">strlen</span><span class="p">(</span><span class="n">str1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">size_t</span> <span class="n">len2</span> <span class="o">=</span> <span class="n">strlen</span><span class="p">(</span><span class="n">str2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">char</span><span class="o">*</span> <span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="n">len1</span> <span class="o">+</span> <span class="n">len2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">strcpy</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">str1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">strcat</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">str2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>选择<code>“生成” -&gt; “生成解决方案”</code>（Ctrl+Shift+B），会生成dll文件和lib</p>
+<p><img src="/p/%E5%BA%93/%E7%94%9F%E6%88%90%E7%9A%84%E5%8A%A8%E6%80%81%E5%BA%93.png"
+	width="934"
+	height="466"
+	srcset="/p/%E5%BA%93/%E7%94%9F%E6%88%90%E7%9A%84%E5%8A%A8%E6%80%81%E5%BA%93_hu_48145b9b3a9f7393.png 480w, /p/%E5%BA%93/%E7%94%9F%E6%88%90%E7%9A%84%E5%8A%A8%E6%80%81%E5%BA%93_hu_efd58f64815ed06.png 1024w"
+	loading="lazy"
+	
+		alt="生成的动态库"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="200"
+		data-flex-basis="481px"
+	
+></p>
+<p>同样创建一个新项目，将dll和lib打包复制到新项目文件夹中</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#pragma comment(lib, &#34;TestDll.lib&#34;)
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="k">extern</span> <span class="s">&#34;C&#34;</span> <span class="n">_declspec</span><span class="p">(</span><span class="n">dllimport</span><span class="p">)</span> <span class="kt">int</span> <span class="kr">__stdcall</span> <span class="n">mySub</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">);</span>	<span class="c1">//导入函数时要跟声明类型的一样
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="/p/%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B3.png"
+	width="2131"
+	height="774"
+	srcset="/p/%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B3_hu_6f4994a0e5484d0b.png 480w, /p/%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B3_hu_9a20f3a7a001c604.png 1024w"
+	loading="lazy"
+	
+		alt="程序示例3"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="275"
+		data-flex-basis="660px"
+	
+></p>
+<h3 id="方法二显示调用">方法二：显示调用
+</h3><p>dll文件为方法一中生成的，将dll与exe放于同一目录</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;windows.h&gt;</span><span class="cp">    </span><span class="c1">//使用LoadLibrary函数必须包含此头文件
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">typedef</span> <span class="nf">int</span><span class="p">(</span><span class="kr">__stdcall</span><span class="o">*</span> <span class="n">lpSub</span><span class="p">)(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="p">);</span>    <span class="c1">//定义函数指针
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">lpSub</span> <span class="n">mySub</span><span class="p">;</span>		<span class="c1">//声明函数指针变量				   //动态加载dll到内存
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">HINSTANCE</span> <span class="n">hModule</span> <span class="o">=</span> <span class="n">LoadLibrary</span><span class="p">(</span><span class="sa">L</span><span class="s">&#34;TestDll.dll&#34;</span><span class="p">);</span>    <span class="c1">//L -&gt; 宽字符版本 -&gt; 现代Windows兼容
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">mySub</span> <span class="o">=</span> <span class="p">(</span><span class="n">lpSub</span><span class="p">)</span><span class="n">GetProcAddress</span><span class="p">(</span><span class="n">hModule</span><span class="p">,</span> <span class="s">&#34;mySub&#34;</span><span class="p">);</span>    <span class="c1">//获取函数地址
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;2-1=&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">mySub</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>              <span class="c1">//若是32位程序，__stdcall类型则为_mySub@8
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="/p/%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B4.png"
+	width="2681"
+	height="938"
+	srcset="/p/%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B4_hu_de9942dac23db2a0.png 480w, /p/%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B4_hu_11aadee96afbfffc.png 1024w"
+	loading="lazy"
+	
+		alt="程序示例4"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="285"
+		data-flex-basis="685px"
+	
+></p>
+<h2 id="静态库与动态库对比">静态库与动态库对比
+</h2><p><img src="/p/%E5%BA%93/%E9%9D%99%E6%80%81%E5%BA%93%E4%B8%8E%E5%8A%A8%E6%80%81%E5%BA%93%E5%AF%B9%E6%AF%94.png"
+	width="1914"
+	height="544"
+	srcset="/p/%E5%BA%93/%E9%9D%99%E6%80%81%E5%BA%93%E4%B8%8E%E5%8A%A8%E6%80%81%E5%BA%93%E5%AF%B9%E6%AF%94_hu_590b85b97dad75df.png 480w, /p/%E5%BA%93/%E9%9D%99%E6%80%81%E5%BA%93%E4%B8%8E%E5%8A%A8%E6%80%81%E5%BA%93%E5%AF%B9%E6%AF%94_hu_1f9c82c984a73d64.png 1024w"
+	loading="lazy"
+	
+		alt="静态库与动态库对比"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="351"
+		data-flex-basis="844px"
+	
+></p>
+<h2 id="使用def导出库">使用.def导出库
+</h2><p>同样使用动态链接库项目，<code>def</code>导出可以<strong>隐藏函数名</strong></p>
+<p><code>pch.h</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">myMul</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>pch.cpp</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">myMul</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>test.def</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">EXPORTS</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">Mul</span> <span class="err">@</span><span class="mi">13</span>	<span class="n">NONAME</span>	<span class="c1">//13为该函数序号 NONAME表示没有名字，即隐藏函数名
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="/p/%E5%BA%93/def%E6%96%87%E4%BB%B6.png"
+	width="1136"
+	height="614"
+	srcset="/p/%E5%BA%93/def%E6%96%87%E4%BB%B6_hu_f3fc39bfbfb73385.png 480w, /p/%E5%BA%93/def%E6%96%87%E4%BB%B6_hu_57c717923e9ef6ab.png 1024w"
+	loading="lazy"
+	
+		alt="def文件"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="185"
+		data-flex-basis="444px"
+	
+></p>
+<p><code>配置属性 → 链接器 → 输入</code>中<code>模块定义文件</code>添加刚刚的<code>test.def</code></p>
+<p><img src="/p/%E5%BA%93/def%E6%A8%A1%E5%9D%97%E5%AE%9A%E4%B9%89.png"
+	width="1569"
+	height="1078"
+	srcset="/p/%E5%BA%93/def%E6%A8%A1%E5%9D%97%E5%AE%9A%E4%B9%89_hu_c4129f6527b4825e.png 480w, /p/%E5%BA%93/def%E6%A8%A1%E5%9D%97%E5%AE%9A%E4%B9%89_hu_5d4b1af1e657798d.png 1024w"
+	loading="lazy"
+	
+		alt="def模块定义"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="145"
+		data-flex-basis="349px"
+	
+></p>
+<p>选择<code>“生成” -&gt; “生成解决方案”</code>（Ctrl+Shift+B），显示调用代码为</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;windows.h&gt;</span><span class="cp">    </span><span class="c1">//使用LoadLibrary函数必须包含此头文件
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">typedef</span> <span class="nf">int</span><span class="p">(</span><span class="o">*</span><span class="n">lpMul</span><span class="p">)(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="p">);</span>    <span class="c1">//定义函数指针
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">lpMul</span> <span class="n">myMul</span><span class="p">;</span>    <span class="c1">//声明函数指针变量                     //动态加载dll到内存
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">HINSTANCE</span> <span class="n">hModule</span> <span class="o">=</span> <span class="n">LoadLibrary</span><span class="p">(</span><span class="sa">L</span><span class="s">&#34;TestDll2.dll&#34;</span><span class="p">);</span>   <span class="c1">//L -&gt; 宽字符版本 -&gt; 现代Windows兼容 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">myMul</span> <span class="o">=</span> <span class="p">(</span><span class="n">lpMul</span><span class="p">)</span><span class="n">GetProcAddress</span><span class="p">(</span><span class="n">hModule</span><span class="p">,</span> <span class="n">MAKEINTRESOURCEA</span><span class="p">(</span><span class="mi">13</span><span class="p">));</span>	<span class="c1">//通过序号获取函数地址
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;2*1=&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">myMul</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>通过序号调用可隐藏函数名~</p>
+<p><strong>参考</strong></p>
+<p><a class="link" href="https://blog.csdn.net/yy_xzz/article/details/146541350?ops_request_misc=%257B%2522request%255Fid%2522%253A%252214ac637b55b7b09d89361739db8035e4%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&amp;request_id=14ac637b55b7b09d89361739db8035e4&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-2-146541350-null-null.142%5ev102%5epc_search_result_base4&amp;utm_term=vs%E9%9D%99%E6%80%81%E5%BA%93%E7%9A%84%E5%88%9B%E5%BB%BA%E4%B8%8E%E4%BD%BF%E7%94%A8&amp;spm=1018.2226.3001.4187"  target="_blank" rel="noopener"
+    >Visual Studio 2022静态库与动态库创建及使用完全指南</a></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/">
+        
+        
+            <div class="article-image">
+                <img src="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E6%AF%8D%E7%A5%9E%E5%82%A9.1cbfec7fd9f434b2e7ce94c863f98c71_hu_5bf0474e753d4b86.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post PE文件结构"
+                        
+                        data-hash="md5-HL/sf9n0NLLnzpTIY/mMcQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PE文件结构</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E6%B1%87%E7%BC%96/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E6%B1%87%E7%BC%96/%E8%9C%98%E8%9B%9B.0a867634743b3823929b7c4bcb69cd3c_hu_a28985ae574a8cb4.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 汇编"
+                        
+                        data-hash="md5-CoZ2NHQ7OCOSm3xLy2nNPA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">汇编</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "hugo-theme-stack" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2025 liuhuaqing
+    </section>
+    
+    <section class="powerby">
+        
+            人生若只如初见 <br/>
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

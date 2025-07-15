@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://567liuhuaqing.github.io/</loc>
-    <lastmod>2025-07-04T00:00:00+00:00</lastmod>
+    <lastmod>2025-07-15T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -16,7 +16,7 @@
                 />
   </url><url>
     <loc>https://567liuhuaqing.github.io/categories/</loc>
-    <lastmod>2025-07-04T00:00:00+00:00</lastmod>
+    <lastmod>2025-07-15T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -28,17 +28,20 @@
                 href="https://567liuhuaqing.github.io/categories/"
                 />
   </url><url>
-    <loc>https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/</loc>
-    <lastmod>2025-07-04T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://567liuhuaqing.github.io/post/</loc>
-    <lastmod>2025-07-04T00:00:00+00:00</lastmod>
+    <lastmod>2025-07-15T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://567liuhuaqing.github.io/categories/reverse/</loc>
-    <lastmod>2025-07-04T00:00:00+00:00</lastmod>
+    <lastmod>2025-07-15T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://567liuhuaqing.github.io/p/%E5%BA%93/</loc>
+    <lastmod>2025-07-15T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://567liuhuaqing.github.io/categories/%E7%9F%A5%E8%AF%86%E7%82%B9%E5%AD%A6%E4%B9%A0/</loc>
-    <lastmod>2025-07-04T00:00:00+00:00</lastmod>
+    <lastmod>2025-07-15T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/</loc>
+    <lastmod>2025-07-06T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://567liuhuaqing.github.io/p/%E6%B1%87%E7%BC%96/</loc>
     <lastmod>2025-05-12T00:00:00+00:00</lastmod>
@@ -51,9 +54,6 @@
   </url><url>
     <loc>https://567liuhuaqing.github.io/p/python_rev/</loc>
     <lastmod>2025-02-27T22:50:04+08:00</lastmod>
-  </url><url>
-    <loc>https://567liuhuaqing.github.io/p/rev/</loc>
-    <lastmod>2025-02-27T22:16:38+08:00</lastmod>
   </url><url>
     <loc>https://567liuhuaqing.github.io/tags/emoji/</loc>
     <lastmod>2025-02-27T10:55:18+08:00</lastmod>
