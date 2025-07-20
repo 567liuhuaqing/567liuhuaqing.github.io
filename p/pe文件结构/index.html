@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="PE结构概述 程序入口地址OEP\nPE分节 节省硬盘空间 节省内存空间 PEloader-&gt;PE加载 根据SizeOfImage的大小，开辟一块缓冲区（ImageBuffer） 根据SizeOfHeader的大小，将头信息从FileBuffer拷贝到ImageBuffer 根据节表中的信息循环将FileBuffer中的节拷贝到ImageBuffer中 ">
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="PE结构概述 程序入口地址OEP\nPE格式是 Windows下最常用的可执行文件格式\nPE分节 节省硬盘空间 节省内存空间 PEloader-&gt;PE加载 根据SizeOfImage的大小，开辟一块缓冲区（ImageBuffer） 根据SizeOfHeader的大小，将头信息从FileBuffer拷贝到ImageBuffer 根据节表中的信息循环将FileBuffer中的节拷贝到ImageBuffer中 ">
 <title>PE文件结构</title>
 
 <link rel='canonical' href='https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/'>
 
 <link rel="stylesheet" href="/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="PE文件结构">
-<meta property='og:description' content="PE结构概述 程序入口地址OEP\nPE分节 节省硬盘空间 节省内存空间 PEloader-&gt;PE加载 根据SizeOfImage的大小，开辟一块缓冲区（ImageBuffer） 根据SizeOfHeader的大小，将头信息从FileBuffer拷贝到ImageBuffer 根据节表中的信息循环将FileBuffer中的节拷贝到ImageBuffer中 ">
+<meta property='og:description' content="PE结构概述 程序入口地址OEP\nPE格式是 Windows下最常用的可执行文件格式\nPE分节 节省硬盘空间 节省内存空间 PEloader-&gt;PE加载 根据SizeOfImage的大小，开辟一块缓冲区（ImageBuffer） 根据SizeOfHeader的大小，将头信息从FileBuffer拷贝到ImageBuffer 根据节表中的信息循环将FileBuffer中的节拷贝到ImageBuffer中 ">
 <meta property='og:url' content='https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/'>
 <meta property='og:site_name' content='liuhuaqing'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2025-07-06T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-07-06T00:00:00&#43;00:00'/><meta property='og:image' content='https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E6%AF%8D%E7%A5%9E%E5%82%A9.jpg' />
 <meta name="twitter:title" content="PE文件结构">
-<meta name="twitter:description" content="PE结构概述 程序入口地址OEP\nPE分节 节省硬盘空间 节省内存空间 PEloader-&gt;PE加载 根据SizeOfImage的大小，开辟一块缓冲区（ImageBuffer） 根据SizeOfHeader的大小，将头信息从FileBuffer拷贝到ImageBuffer 根据节表中的信息循环将FileBuffer中的节拷贝到ImageBuffer中 "><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="PE结构概述 程序入口地址OEP\nPE格式是 Windows下最常用的可执行文件格式\nPE分节 节省硬盘空间 节省内存空间 PEloader-&gt;PE加载 根据SizeOfImage的大小，开辟一块缓冲区（ImageBuffer） 根据SizeOfHeader的大小，将头信息从FileBuffer拷贝到ImageBuffer 根据节表中的信息循环将FileBuffer中的节拷贝到ImageBuffer中 "><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://567liuhuaqing.github.io/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E6%AF%8D%E7%A5%9E%E5%82%A9.jpg' />
     <link rel="shortcut icon" href="/favicon.ico" />
 
@@ -329,6 +329,22 @@
         <li><a href="#扩大节-合并节-数据目录">扩大节-合并节-数据目录</a></li>
       </ol>
     </li>
+    <li><a href="#数据目录表">数据目录表</a>
+      <ol>
+        <li><a href="#导出表">导出表</a></li>
+        <li><a href="#重定位表">重定位表</a></li>
+        <li><a href="#移动导出表---重定位表">移动导出表 - 重定位表</a>
+          <ol>
+            <li><a href="#移动导出表">移动导出表</a></li>
+            <li><a href="#移动重定位表">移动重定位表</a></li>
+          </ol>
+        </li>
+        <li><a href="#iat表">IAT表</a></li>
+        <li><a href="#导入表">导入表</a></li>
+        <li><a href="#绑定导入表">绑定导入表</a></li>
+        <li><a href="#导入表注入">导入表注入</a></li>
+      </ol>
+    </li>
   </ol>
 </nav>
         </div>
@@ -363,7 +379,7 @@
                 知识点学习
             </a>
         
-            <a href="/categories/reverse/" >
+            <a href="/categories/reverse/" style="background-color: #2a9d8f; color: #fff;">
                 Reverse
             </a>
         
@@ -409,7 +425,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 7 分钟
+                    阅读时长: 25 分钟
                 </time>
             </div>
         
@@ -426,6 +442,21 @@
     
     <h2 id="pe结构概述">PE结构概述
 </h2><p><strong>程序入口地址OEP</strong></p>
+<p>PE格式是 Windows下最常用的可执行文件格式</p>
+<p><img src="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/PE%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84.jpg"
+	width="1000"
+	height="500"
+	srcset="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/PE%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84_hu_227fd3c1f0fe9f74.jpg 480w, /p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/PE%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84_hu_4740a8367c21492d.jpg 1024w"
+	loading="lazy"
+	
+		alt="PE文件结构"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="200"
+		data-flex-basis="480px"
+	
+></p>
 <h3 id="pe分节">PE分节
 </h3><ol>
 <li>节省硬盘空间</li>
@@ -521,7 +552,7 @@
 	
 ></p>
 <h3 id="dos头">DOS头
-</h3><p>文件开始的地方</p>
+</h3><p>PE文件开始的地方</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -548,23 +579,23 @@
 </span><span class="lnt">22
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="mi">1</span>	<span class="n">DOS头</span>												   <span class="c1">//滴水				//我自己
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="mi">1</span>	<span class="n">DOS头</span>													<span class="c1">//滴水				//我自己
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">typedef</span> <span class="k">struct</span> <span class="nc">_IMAGE_DOS_HEADER</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">	<span class="n">WORD</span> <span class="n">e_magic</span><span class="p">;</span> <span class="o">*</span>		<span class="c1">//Magic number(MZ);					//5A4D
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_cblp</span><span class="p">;</span>		<span class="c1">//Bytes on last page of file		//0090
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_cp</span><span class="p">;</span>          <span class="c1">//Pages in file						//0003
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_crlc</span><span class="p">;</span>        <span class="c1">//Relocations						//0000
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_cp</span><span class="p">;</span>			<span class="c1">//Pages in file						//0003
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_crlc</span><span class="p">;</span>		<span class="c1">//Relocations						//0000
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_cparhdr</span><span class="p">;</span>		<span class="c1">//Size of header in paragraphs		//0004
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_minalloc</span><span class="p">;</span>    <span class="c1">//Minimum extra paragraphs needed	//0000
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_minalloc</span><span class="p">;</span>	<span class="c1">//Minimum extra paragraphs needed	//0000
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_maxalloc</span><span class="p">;</span>	<span class="c1">//Maximum extra paragraphs needed	//FFFF
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_ss</span><span class="p">;</span>          <span class="c1">//Initial (relative) SS value		//0000
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_ss</span><span class="p">;</span>			<span class="c1">//Initial (relative) SS value		//0000
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_sp</span><span class="p">;</span>			<span class="c1">//Initial SP value					//00B8
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_csum</span><span class="p">;</span>		<span class="c1">//Checksum							//0000
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_ip</span><span class="p">;</span>			<span class="c1">//Initial IP value					//0000
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_cs</span><span class="p">;</span>			<span class="c1">//Initial (relative) CS value		//0000
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_lfarlc</span><span class="p">;</span>		<span class="c1">//File address of relocation table	//0040
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_ovno</span><span class="p">;</span>		<span class="c1">//Overlay number					//0000
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_res</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>		<span class="c1">//Reserved words	 //0000 0000 0000 0000
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_res</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>		<span class="c1">//Reserved words		//0000 0000 0000 0000
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_oemid</span><span class="p">;</span>		<span class="c1">//OEM identifier (for e_oeminfo)	//0000
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_oeminfo</span><span class="p">;</span>		<span class="c1">//OEM information; e_oemid specific	//0000
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">WORD</span> <span class="n">e_res2</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>	<span class="c1">//Reserved words	//0000 0000 0000 0000 0000 0000 0000 0000 0000 0000
@@ -574,7 +605,7 @@
 </div>
 </div><h3 id="nt头pe头">NT头/PE头
 </h3><p><strong>NT头 = PE标志+ 标准PE头 + 可选PE头</strong></p>
-<p>DOS头字段e_lfanew为PE头开始的地方</p>
+<p>DOS头字段e_lfanew为标准PE头开始的地方</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -808,8 +839,8 @@ MessageBox()函数：功能是弹出一个标准的Windows对话框；它不是C
 <h3 id="任意节空白区添加代码">任意节空白区添加代码
 </h3><h3 id="新增节添加代码">新增节添加代码
 </h3><ol>
-<li>SizeOfHeader - (DOS + 垃圾数据 + PE标记 + 标准PE头 + 可选PE头 + 已存在的节表) &gt;= 2个节表的大小</li>
-<li>需要修改的数据</li>
+<li><code>SizeOfHeader - (DOS + 垃圾数据 + PE标记 + 标准PE头 + 可选PE头 + 已存在的节表) &gt;= 2个节表的大小</code></li>
+<li><code>需要修改的数据</code></li>
 </ol>
 <p>1）添加一个新的节</p>
 <p>2）在新增节后面，填充一个节大小的000</p>
@@ -853,6 +884,967 @@ MessageBox()函数：功能是弹出一个标准的Windows对话框；它不是C
 <p>修改节的数量为1</p>
 </li>
 </ol>
+<p><strong>数据目录</strong></p>
+<h2 id="数据目录表">数据目录表
+</h2><p>可选PE头最后一个属性就是<code>DataDirectory[16]</code>结构体数组，该结构体中<strong>VirtualAddress属性是在内存中的偏移RVA</strong>，若要在FileBuffer中定位，则需将RVA转换成FOA</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#define IMAGE_NUMBEROF_DIRECTORY_ENTRIES 16
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="k">typedef</span> <span class="k">struct</span> <span class="nc">_IMAGE_DATA_DIRECTORY</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">DWORD</span> <span class="n">VirtualAddress</span><span class="p">;</span>	<span class="c1">//内存偏移
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span> <span class="n">Size</span><span class="p">;</span>				<span class="c1">//大小
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span> <span class="n">IMAGE_DATA_DIRECTORY</span><span class="p">,</span> <span class="o">*</span><span class="n">PIMAGE_DATA_DIRECTORY</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>16个数据目录的大小一样，都是<strong>8字节</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#define IMAGE_DIRECTORY_ENTRY_EXPORT          0   </span><span class="c1">// Export Directory  导出表:动态链接库导出的函数会显示在这里
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#define IMAGE_DIRECTORY_ENTRY_IMPORT          1   </span><span class="c1">// Import Directory  导入表:写程序时调用的动态链接库会显示在这里
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#define IMAGE_DIRECTORY_ENTRY_RESOURCE        2   </span><span class="c1">// Resource Directory  资源表:图片,图标,字符串,嵌入的程序都在这里
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#define IMAGE_DIRECTORY_ENTRY_EXCEPTION       3   </span><span class="c1">// Exception Directory  异常目录表:保存文件中异常处理相关的数据
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#define IMAGE_DIRECTORY_ENTRY_SECURITY        4   </span><span class="c1">// Security Directory  安全目录:存放数字签名和安全证书之类的东西
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#define IMAGE_DIRECTORY_ENTRY_BASERELOC       5   </span><span class="c1">// Base Relocation Table  基础重定位表:保存需要执行重定位的代码偏移
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#define IMAGE_DIRECTORY_ENTRY_DEBUG           6   </span><span class="c1">// Debug Directory  调试表
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#define IMAGE_DIRECTORY_ENTRY_COPYRIGHT       7   </span><span class="c1">// (X86 usage)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#define IMAGE_DIRECTORY_ENTRY_ARCHITECTURE    7   </span><span class="c1">// Architecture Specific Data  缓存信息表:有一些保留字段必须是0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#define IMAGE_DIRECTORY_ENTRY_GLOBALPTR       8   </span><span class="c1">// RVA of GP  全局指针偏移目录
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#define IMAGE_DIRECTORY_ENTRY_TLS             9   </span><span class="c1">// TLS Directory  线程局部存储(暂时未知)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#define IMAGE_DIRECTORY_ENTRY_LOAD_CONFIG    10   </span><span class="c1">// Load Configuration Directory  载入配置
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#define IMAGE_DIRECTORY_ENTRY_BOUND_IMPORT   11   </span><span class="c1">// Bound Import Directory in headers 存储一些API的绑定输入信息
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#define IMAGE_DIRECTORY_ENTRY_IAT            12   </span><span class="c1">// Import Address Table 导入地址表：导入函数的地址
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#define IMAGE_DIRECTORY_ENTRY_DELAY_IMPORT   13   </span><span class="c1">// Delay Load Import Descriptors
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#define IMAGE_DIRECTORY_ENTRY_COM_DESCRIPTOR 14   </span><span class="c1">// COM Runtime descriptor com运行时的目录
+</span></span></span><span class="line"><span class="cl"><span class="c1">//最后一个保留
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="导出表">导出表
+</h3><blockquote>
+<p>当PE文件执行时 Windows装载器将文件装入内存并将导入表中登记的DLL文件一并装入，再根据DLL文件中函数的导出信息对可执行文件的导入表(IAT)进行修正。</p>
+<p>导出函数的DLL文件中，导出信息被保存在导出表，导出表就是记载着动态链接库的一些导出信息。通过导出表，DLL文件可以向系统提供导出函数的名称、序号和入口地址等信息，以便Windows装载器能够通过这些信息来完成动态链接的整个过程。</p>
+<p>导出函数存储在PE文件的导出表里，导出表的位置存放在PE文件头中的数据目录表中，与导出表对应的项目是数据目录中的首个IMAGE_DATA_DIRECTORY结构，从这个结构的VirtualAddress字段得到的就是导出表的RVA值，导出表同样可以使用函数名或序号这两种方法导出函数。</p></blockquote>
+<p>数据目录项的<strong>第一个结构</strong>，就是 <strong>Export 导出表</strong>，只有一个<code>IMAGE_EXPORT_DIRECTORY</code>结构，结构如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="nc">_IMAGE_EXPORT_DIRECTORY</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">DWORD</span>   <span class="n">Characteristics</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">DWORD</span>   <span class="n">TimeDateStamp</span><span class="p">;</span>  		<span class="c1">//时间戳
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">WORD</span>    <span class="n">MajorVersion</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">WORD</span>    <span class="n">MinorVersion</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">DWORD</span>   <span class="n">Name</span><span class="p">;</span>   				<span class="c1">//指向导出表文件名字符串
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span>   <span class="n">Base</span><span class="p">;</span>   				<span class="c1">//导出函数起始序号
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span>   <span class="n">NumberOfFunctions</span><span class="p">;</span>  	<span class="c1">//所有导出函数的个数（导出函数最大序号 - 起始序号 + 1）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span>   <span class="n">NumberOfNames</span><span class="p">;</span>  		<span class="c1">//以函数名字导出的函数的个数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span>   <span class="n">AddressOfFunctions</span><span class="p">;</span>     <span class="c1">//导出函数地址表的RVA
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span>   <span class="n">AddressOfNames</span><span class="p">;</span>         <span class="c1">//导出函数名称表的RVA
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span>   <span class="n">AddressOfNameOrdinals</span><span class="p">;</span>  <span class="c1">//导出函数序号表的RVA
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span> <span class="n">IMAGE_EXPORT_DIRECTORY</span><span class="p">,</span> <span class="o">*</span><span class="n">PIMAGE_EXPORT_DIRECTORY</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%AF%BC%E5%87%BA%E5%87%BD%E6%95%B0%E8%A1%A8.png"
+	width="895"
+	height="556"
+	srcset="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%AF%BC%E5%87%BA%E5%87%BD%E6%95%B0%E8%A1%A8_hu_f458c40404c3c2d6.png 480w, /p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%AF%BC%E5%87%BA%E5%87%BD%E6%95%B0%E8%A1%A8_hu_26fb2bbc0aaeabcf.png 1024w"
+	loading="lazy"
+	
+		alt="导出函数表"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="160"
+		data-flex-basis="386px"
+	
+></p>
+<p>导出函数查找</p>
+<blockquote>
+<p>名称导出：名字所在地址下标即序号地址下标，取出对应序号即函数地址下标</p>
+<p>序号导出：导出序号 - 起始序号 = 对应函数地址下标</p></blockquote>
+<p><img src="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%AF%BC%E5%87%BA%E8%A1%A8%E7%BB%93%E6%9E%84%E5%9B%BE.jpg"
+	width="1000"
+	height="517"
+	srcset="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%AF%BC%E5%87%BA%E8%A1%A8%E7%BB%93%E6%9E%84%E5%9B%BE_hu_a813149d901e28f1.jpg 480w, /p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%AF%BC%E5%87%BA%E8%A1%A8%E7%BB%93%E6%9E%84%E5%9B%BE_hu_49e45a1c23db8938.jpg 1024w"
+	loading="lazy"
+	
+		alt="导出表结构图"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="193"
+		data-flex-basis="464px"
+	
+></p>
+<p><strong>练习：</strong></p>
+<ol>
+<li>
+<p>编写程序打印导出表信息</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">VOID</span> <span class="nf">DisplayExportTable</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">	<span class="n">DWORD</span> <span class="n">dwSize</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">DWORD</span> <span class="n">dwFOA</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">DWORD</span> <span class="n">dwSizeOfDirectory</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">LPVOID</span> <span class="n">pFileBuffer</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">PIMAGE_DOS_HEADER</span> <span class="n">pDosHeader</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">	<span class="n">PIMAGE_NT_HEADERS</span> <span class="n">pNTHeader</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">PIMAGE_FILE_HEADER</span> <span class="n">pPEHeader</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">PIMAGE_DATA_DIRECTORY</span> <span class="n">pDataDirectory</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">PIMAGE_EXPORT_DIRECTORY</span> <span class="n">pExportDirectory</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">dwSize</span> <span class="o">=</span> <span class="n">ReadPEFile</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">pFileBuffer</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span><span class="p">(</span><span class="n">dwSize</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="o">!</span><span class="n">pFileBuffer</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">		<span class="n">printf</span><span class="p">(</span><span class="s">&#34;Fail to read file</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">isPE</span><span class="p">(</span><span class="n">pFileBuffer</span><span class="p">)){</span>
+</span></span><span class="line"><span class="cl">		<span class="n">printf</span><span class="p">(</span><span class="s">&#34;Is not PE file!</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="n">pDosHeader</span> <span class="o">=</span> <span class="p">(</span><span class="n">PIMAGE_DOS_HEADER</span><span class="p">)</span><span class="n">pFileBuffer</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">pNTHeader</span> <span class="o">=</span> <span class="p">(</span><span class="n">PIMAGE_NT_HEADERS</span><span class="p">)((</span><span class="n">BYTE</span><span class="o">*</span><span class="p">)</span><span class="n">pFileBuffer</span> <span class="o">+</span> <span class="n">pDosHeader</span><span class="o">-&gt;</span><span class="n">e_lfanew</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">pPEHeader</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">pNTHeader</span><span class="o">-&gt;</span><span class="n">FileHeader</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">pNTHeader</span><span class="o">-&gt;</span><span class="n">FileHeader</span><span class="p">.</span><span class="n">Machine</span> <span class="o">==</span> <span class="n">IMAGE_FILE_MACHINE_AMD64</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    	<span class="n">PIMAGE_OPTIONAL_HEADER64</span> <span class="n">pOptionHeader</span> <span class="o">=</span> <span class="p">(</span><span class="n">PIMAGE_OPTIONAL_HEADER64</span><span class="p">)</span><span class="o">&amp;</span><span class="n">pNTHeader</span><span class="o">-&gt;</span><span class="n">OptionalHeader</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    	<span class="n">dwSizeOfDirectory</span> <span class="o">=</span> <span class="n">pOptionHeader</span><span class="o">-&gt;</span><span class="n">NumberOfRvaAndSizes</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="n">pDataDirectory</span> <span class="o">=</span> <span class="n">pOptionHeader</span><span class="o">-&gt;</span><span class="n">DataDirectory</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    	<span class="n">PIMAGE_OPTIONAL_HEADER32</span> <span class="n">pOptionHeader</span> <span class="o">=</span> <span class="p">(</span><span class="n">PIMAGE_OPTIONAL_HEADER32</span><span class="p">)</span><span class="o">&amp;</span><span class="n">pNTHeader</span><span class="o">-&gt;</span><span class="n">OptionalHeader</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    	<span class="n">dwSizeOfDirectory</span> <span class="o">=</span> <span class="n">pOptionHeader</span><span class="o">-&gt;</span><span class="n">NumberOfRvaAndSizes</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="n">pDataDirectory</span> <span class="o">=</span> <span class="n">pOptionHeader</span><span class="o">-&gt;</span><span class="n">DataDirectory</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="n">dwFOA</span> <span class="o">=</span> <span class="n">RvaToFoa</span><span class="p">(</span><span class="n">pFileBuffer</span><span class="p">,</span> <span class="n">pDataDirectory</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">VirtualAddress</span><span class="p">);</span>	<span class="c1">//定位导出表
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">pExportDirectory</span> <span class="o">=</span> <span class="p">(</span><span class="n">PIMAGE_EXPORT_DIRECTORY</span><span class="p">)((</span><span class="n">BYTE</span><span class="o">*</span><span class="p">)</span><span class="n">pFileBuffer</span> <span class="o">+</span> <span class="n">dwFOA</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span><span class="p">(</span><span class="n">pExportDirectory</span><span class="o">-&gt;</span><span class="n">Name</span> <span class="o">==</span> <span class="nb">NULL</span> <span class="o">||</span> <span class="n">pExportDirectory</span><span class="o">-&gt;</span><span class="n">NumberOfFunctions</span> <span class="o">==</span> <span class="mi">0</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">		<span class="n">printf</span><span class="p">(</span><span class="s">&#34;ExportDirectory is NULL</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="n">printf</span><span class="p">(</span><span class="s">&#34;***************ExportDirectory***************</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">printf</span><span class="p">(</span><span class="s">&#34;导出表RVA:0x%x</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">pDataDirectory</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">VirtualAddress</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">printf</span><span class="p">(</span><span class="s">&#34;导出表大小:0x%x字节</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">pDataDirectory</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">Size</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">printf</span><span class="p">(</span><span class="s">&#34;导出表FOA：0x%x</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">dwFOA</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">printf</span><span class="p">(</span><span class="s">&#34;TimeDataStamp(经加密):0x%x</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">pExportDirectory</span><span class="o">-&gt;</span><span class="n">TimeDateStamp</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">printf</span><span class="p">(</span><span class="s">&#34;Name(导出表文件名字符串):%s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="p">(</span><span class="n">BYTE</span><span class="o">*</span><span class="p">)</span><span class="n">pFileBuffer</span> <span class="o">+</span> <span class="n">RvaToFoa</span><span class="p">(</span><span class="n">pFileBuffer</span><span class="p">,</span> <span class="n">pExportDirectory</span><span class="o">-&gt;</span><span class="n">Name</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">	<span class="n">printf</span><span class="p">(</span><span class="s">&#34;Base(函数起始序号)：%d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">pExportDirectory</span><span class="o">-&gt;</span><span class="n">Base</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">printf</span><span class="p">(</span><span class="s">&#34;NumberOfFunction(导出函数总数):0x%x</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">pExportDirectory</span><span class="o">-&gt;</span><span class="n">NumberOfFunctions</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">printf</span><span class="p">(</span><span class="s">&#34;NumberOfNames(以名称导出函数的总数)：0x%x</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">pExportDirectory</span><span class="o">-&gt;</span><span class="n">NumberOfNames</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">printf</span><span class="p">(</span><span class="s">&#34;AddressOfFunctions(导出函数地址表RVA)：0x%x</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">pExportDirectory</span><span class="o">-&gt;</span><span class="n">AddressOfFunctions</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">printf</span><span class="p">(</span><span class="s">&#34;AddressOfNames(导出函数名称表RVA)：0x%x</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">pExportDirectory</span><span class="o">-&gt;</span><span class="n">AddressOfNames</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">printf</span><span class="p">(</span><span class="s">&#34;AddressOfNameOrdinals(导出函数序号表RVA)：0x%x</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">pExportDirectory</span><span class="o">-&gt;</span><span class="n">AddressOfNameOrdinals</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">printf</span><span class="p">(</span><span class="s">&#34;-------AddressOfFunctions-------</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">PDWORD</span> <span class="n">AddressOfFunction</span> <span class="o">=</span> <span class="p">(</span><span class="n">PDWORD</span><span class="p">)((</span><span class="n">BYTE</span><span class="o">*</span><span class="p">)</span><span class="n">pFileBuffer</span> <span class="o">+</span> <span class="n">RvaToFoa</span><span class="p">(</span><span class="n">pFileBuffer</span><span class="p">,</span> <span class="n">pExportDirectory</span><span class="o">-&gt;</span><span class="n">AddressOfFunctions</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">pExportDirectory</span><span class="o">-&gt;</span><span class="n">NumberOfFunctions</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">		<span class="n">dwFOA</span> <span class="o">=</span> <span class="p">(</span><span class="n">DWORD</span><span class="p">)(</span><span class="n">RvaToFoa</span><span class="p">(</span><span class="n">pFileBuffer</span><span class="p">,</span> <span class="o">*</span><span class="n">AddressOfFunction</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">		<span class="n">printf</span><span class="p">(</span><span class="s">&#34;下标:%d</span><span class="se">\t</span><span class="s">函数地址RVA:0x%x</span><span class="se">\t</span><span class="s">FOA:0x%x</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="o">*</span><span class="p">(</span><span class="n">AddressOfFunction</span><span class="p">),</span> <span class="n">dwFOA</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="n">AddressOfFunction</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="n">printf</span><span class="p">(</span><span class="s">&#34;-------NameOfFunctions-------</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">PDWORD</span> <span class="n">AddressOfNames</span> <span class="o">=</span> <span class="p">(</span><span class="n">PDWORD</span><span class="p">)((</span><span class="n">BYTE</span><span class="o">*</span><span class="p">)</span><span class="n">pFileBuffer</span> <span class="o">+</span> <span class="n">RvaToFoa</span><span class="p">(</span><span class="n">pFileBuffer</span><span class="p">,</span> <span class="n">pExportDirectory</span><span class="o">-&gt;</span><span class="n">AddressOfNames</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">pExportDirectory</span><span class="o">-&gt;</span><span class="n">NumberOfNames</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">		<span class="kt">char</span><span class="o">*</span> <span class="n">name</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)((</span><span class="n">BYTE</span><span class="o">*</span><span class="p">)</span><span class="n">pFileBuffer</span> <span class="o">+</span> <span class="n">RvaToFoa</span><span class="p">(</span><span class="n">pFileBuffer</span><span class="p">,</span> <span class="o">*</span><span class="n">AddressOfNames</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">		<span class="n">printf</span><span class="p">(</span><span class="s">&#34;下标:%d</span><span class="se">\t</span><span class="s">函数名称：%s</span><span class="se">\t\t</span><span class="s">名称RVA:0x%x</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">AddressOfNames</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="n">AddressOfNames</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="n">printf</span><span class="p">(</span><span class="s">&#34;-------OrdinalsOfFunctions-------</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">PWORD</span> <span class="n">AddressOfNameOrdinals</span> <span class="o">=</span> <span class="p">(</span><span class="n">PWORD</span><span class="p">)((</span><span class="n">BYTE</span><span class="o">*</span><span class="p">)</span><span class="n">pFileBuffer</span> <span class="o">+</span> <span class="n">RvaToFoa</span><span class="p">(</span><span class="n">pFileBuffer</span><span class="p">,</span> <span class="n">pExportDirectory</span><span class="o">-&gt;</span><span class="n">AddressOfNameOrdinals</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">pExportDirectory</span><span class="o">-&gt;</span><span class="n">NumberOfNames</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">		<span class="n">printf</span><span class="p">(</span><span class="s">&#34;下标:%d</span><span class="se">\t</span><span class="s">函数序号(加Base)：%d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="o">*</span><span class="n">AddressOfNameOrdinals</span> <span class="o">+</span> <span class="n">pExportDirectory</span><span class="o">-&gt;</span><span class="n">Base</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">AddressOfNameOrdinals</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>按函数名获取函数地址GetFunctionAddrByName(函数名指针)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">DWORD</span> <span class="nf">GetFunctionAddrByName</span><span class="p">(</span><span class="n">IN</span> <span class="kt">char</span><span class="o">*</span> <span class="n">pFunctionName</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">	<span class="n">DWORD</span> <span class="n">dwSize</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">DWORD</span> <span class="n">dwFOA</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">DWORD</span> <span class="n">dwSizeOfDirectory</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">LPVOID</span> <span class="n">pFileBuffer</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">PIMAGE_DOS_HEADER</span> <span class="n">pDosHeader</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">	<span class="n">PIMAGE_NT_HEADERS</span> <span class="n">pNTHeader</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">PIMAGE_FILE_HEADER</span> <span class="n">pPEHeader</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">PIMAGE_DATA_DIRECTORY</span> <span class="n">pDataDirectory</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">PIMAGE_EXPORT_DIRECTORY</span> <span class="n">pExportDirectory</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">dwSize</span> <span class="o">=</span> <span class="n">ReadPEFile</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">pFileBuffer</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span><span class="p">(</span><span class="n">dwSize</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="o">!</span><span class="n">pFileBuffer</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">		<span class="n">printf</span><span class="p">(</span><span class="s">&#34;Fail to read file</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">isPE</span><span class="p">(</span><span class="n">pFileBuffer</span><span class="p">)){</span>
+</span></span><span class="line"><span class="cl">		<span class="n">printf</span><span class="p">(</span><span class="s">&#34;Is not PE file!</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="n">pDosHeader</span> <span class="o">=</span> <span class="p">(</span><span class="n">PIMAGE_DOS_HEADER</span><span class="p">)</span><span class="n">pFileBuffer</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">pNTHeader</span> <span class="o">=</span> <span class="p">(</span><span class="n">PIMAGE_NT_HEADERS</span><span class="p">)((</span><span class="n">BYTE</span><span class="o">*</span><span class="p">)</span><span class="n">pFileBuffer</span> <span class="o">+</span> <span class="n">pDosHeader</span><span class="o">-&gt;</span><span class="n">e_lfanew</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">pPEHeader</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">pNTHeader</span><span class="o">-&gt;</span><span class="n">FileHeader</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">pNTHeader</span><span class="o">-&gt;</span><span class="n">FileHeader</span><span class="p">.</span><span class="n">Machine</span> <span class="o">==</span> <span class="n">IMAGE_FILE_MACHINE_AMD64</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    	<span class="n">PIMAGE_OPTIONAL_HEADER64</span> <span class="n">pOptionHeader</span> <span class="o">=</span> <span class="p">(</span><span class="n">PIMAGE_OPTIONAL_HEADER64</span><span class="p">)</span><span class="o">&amp;</span><span class="n">pNTHeader</span><span class="o">-&gt;</span><span class="n">OptionalHeader</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    	<span class="n">dwSizeOfDirectory</span> <span class="o">=</span> <span class="n">pOptionHeader</span><span class="o">-&gt;</span><span class="n">NumberOfRvaAndSizes</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="n">pDataDirectory</span> <span class="o">=</span> <span class="n">pOptionHeader</span><span class="o">-&gt;</span><span class="n">DataDirectory</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    	<span class="n">PIMAGE_OPTIONAL_HEADER32</span> <span class="n">pOptionHeader</span> <span class="o">=</span> <span class="p">(</span><span class="n">PIMAGE_OPTIONAL_HEADER32</span><span class="p">)</span><span class="o">&amp;</span><span class="n">pNTHeader</span><span class="o">-&gt;</span><span class="n">OptionalHeader</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    	<span class="n">dwSizeOfDirectory</span> <span class="o">=</span> <span class="n">pOptionHeader</span><span class="o">-&gt;</span><span class="n">NumberOfRvaAndSizes</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="n">pDataDirectory</span> <span class="o">=</span> <span class="n">pOptionHeader</span><span class="o">-&gt;</span><span class="n">DataDirectory</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="n">dwFOA</span> <span class="o">=</span> <span class="n">RvaToFoa</span><span class="p">(</span><span class="n">pFileBuffer</span><span class="p">,</span> <span class="n">pDataDirectory</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">VirtualAddress</span><span class="p">);</span>	<span class="c1">//定位导出表
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">pExportDirectory</span> <span class="o">=</span> <span class="p">(</span><span class="n">PIMAGE_EXPORT_DIRECTORY</span><span class="p">)((</span><span class="n">BYTE</span><span class="o">*</span><span class="p">)</span><span class="n">pFileBuffer</span> <span class="o">+</span> <span class="n">dwFOA</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span><span class="p">(</span><span class="n">pExportDirectory</span><span class="o">-&gt;</span><span class="n">Name</span> <span class="o">==</span> <span class="nb">NULL</span> <span class="o">||</span> <span class="n">pExportDirectory</span><span class="o">-&gt;</span><span class="n">NumberOfFunctions</span> <span class="o">==</span> <span class="mi">0</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">		<span class="n">printf</span><span class="p">(</span><span class="s">&#34;ExportDirectory is NULL</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="n">DWORD</span> <span class="n">i</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">f</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">PDWORD</span> <span class="n">AddressOfNames</span> <span class="o">=</span> <span class="p">(</span><span class="n">PDWORD</span><span class="p">)((</span><span class="n">BYTE</span><span class="o">*</span><span class="p">)</span><span class="n">pFileBuffer</span> <span class="o">+</span> <span class="n">RvaToFoa</span><span class="p">(</span><span class="n">pFileBuffer</span><span class="p">,</span> <span class="n">pExportDirectory</span><span class="o">-&gt;</span><span class="n">AddressOfNames</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">pExportDirectory</span><span class="o">-&gt;</span><span class="n">NumberOfNames</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">		<span class="kt">char</span><span class="o">*</span> <span class="n">name</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)((</span><span class="n">BYTE</span><span class="o">*</span><span class="p">)</span><span class="n">pFileBuffer</span> <span class="o">+</span> <span class="n">RvaToFoa</span><span class="p">(</span><span class="n">pFileBuffer</span><span class="p">,</span> <span class="o">*</span><span class="n">AddressOfNames</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">strcmp</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">pFunctionName</span><span class="p">)){</span>
+</span></span><span class="line"><span class="cl">			<span class="n">f</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="n">AddressOfNames</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span><span class="p">(</span><span class="n">f</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">		<span class="n">printf</span><span class="p">(</span><span class="s">&#34;Notfound addr by name</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="n">PWORD</span> <span class="n">AddressOfNameOrdinals</span> <span class="o">=</span> <span class="p">(</span><span class="n">PWORD</span><span class="p">)((</span><span class="n">BYTE</span><span class="o">*</span><span class="p">)</span><span class="n">pFileBuffer</span> <span class="o">+</span> <span class="n">RvaToFoa</span><span class="p">(</span><span class="n">pFileBuffer</span><span class="p">,</span> <span class="n">pExportDirectory</span><span class="o">-&gt;</span><span class="n">AddressOfNameOrdinals</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">	<span class="n">idx</span> <span class="o">=</span> <span class="n">AddressOfNameOrdinals</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>	<span class="c1">//名称下标对应函数序号（真正导出序号 = idx + Base）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">PDWORD</span> <span class="n">AddressOfFunction</span> <span class="o">=</span> <span class="p">(</span><span class="n">PDWORD</span><span class="p">)((</span><span class="n">BYTE</span><span class="o">*</span><span class="p">)</span><span class="n">pFileBuffer</span> <span class="o">+</span> <span class="n">RvaToFoa</span><span class="p">(</span><span class="n">pFileBuffer</span><span class="p">,</span> <span class="n">pExportDirectory</span><span class="o">-&gt;</span><span class="n">AddressOfFunctions</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">AddressOfFunction</span><span class="p">[</span><span class="n">idx</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>按函数导出序号获取函数地址GetFunctionAddrByOrdinals(函数导出序号)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">DWORD</span> <span class="nf">GetFunctionAddrByOrdinals</span><span class="p">(</span><span class="n">IN</span> <span class="n">DWORD</span> <span class="n">pFunctionOrdinals</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">	<span class="n">DWORD</span> <span class="n">dwSize</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">DWORD</span> <span class="n">dwFOA</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">DWORD</span> <span class="n">dwSizeOfDirectory</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">LPVOID</span> <span class="n">pFileBuffer</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">PIMAGE_DOS_HEADER</span> <span class="n">pDosHeader</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">	<span class="n">PIMAGE_NT_HEADERS</span> <span class="n">pNTHeader</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">PIMAGE_FILE_HEADER</span> <span class="n">pPEHeader</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">PIMAGE_DATA_DIRECTORY</span> <span class="n">pDataDirectory</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">PIMAGE_EXPORT_DIRECTORY</span> <span class="n">pExportDirectory</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">dwSize</span> <span class="o">=</span> <span class="n">ReadPEFile</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">pFileBuffer</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span><span class="p">(</span><span class="n">dwSize</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="o">!</span><span class="n">pFileBuffer</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">		<span class="n">printf</span><span class="p">(</span><span class="s">&#34;Fail to read file</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">isPE</span><span class="p">(</span><span class="n">pFileBuffer</span><span class="p">)){</span>
+</span></span><span class="line"><span class="cl">		<span class="n">printf</span><span class="p">(</span><span class="s">&#34;Is not PE file!</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="n">pDosHeader</span> <span class="o">=</span> <span class="p">(</span><span class="n">PIMAGE_DOS_HEADER</span><span class="p">)</span><span class="n">pFileBuffer</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">pNTHeader</span> <span class="o">=</span> <span class="p">(</span><span class="n">PIMAGE_NT_HEADERS</span><span class="p">)((</span><span class="n">BYTE</span><span class="o">*</span><span class="p">)</span><span class="n">pFileBuffer</span> <span class="o">+</span> <span class="n">pDosHeader</span><span class="o">-&gt;</span><span class="n">e_lfanew</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">pPEHeader</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">pNTHeader</span><span class="o">-&gt;</span><span class="n">FileHeader</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">pNTHeader</span><span class="o">-&gt;</span><span class="n">FileHeader</span><span class="p">.</span><span class="n">Machine</span> <span class="o">==</span> <span class="n">IMAGE_FILE_MACHINE_AMD64</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    	<span class="n">PIMAGE_OPTIONAL_HEADER64</span> <span class="n">pOptionHeader</span> <span class="o">=</span> <span class="p">(</span><span class="n">PIMAGE_OPTIONAL_HEADER64</span><span class="p">)</span><span class="o">&amp;</span><span class="n">pNTHeader</span><span class="o">-&gt;</span><span class="n">OptionalHeader</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    	<span class="n">dwSizeOfDirectory</span> <span class="o">=</span> <span class="n">pOptionHeader</span><span class="o">-&gt;</span><span class="n">NumberOfRvaAndSizes</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="n">pDataDirectory</span> <span class="o">=</span> <span class="n">pOptionHeader</span><span class="o">-&gt;</span><span class="n">DataDirectory</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    	<span class="n">PIMAGE_OPTIONAL_HEADER32</span> <span class="n">pOptionHeader</span> <span class="o">=</span> <span class="p">(</span><span class="n">PIMAGE_OPTIONAL_HEADER32</span><span class="p">)</span><span class="o">&amp;</span><span class="n">pNTHeader</span><span class="o">-&gt;</span><span class="n">OptionalHeader</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    	<span class="n">dwSizeOfDirectory</span> <span class="o">=</span> <span class="n">pOptionHeader</span><span class="o">-&gt;</span><span class="n">NumberOfRvaAndSizes</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="n">pDataDirectory</span> <span class="o">=</span> <span class="n">pOptionHeader</span><span class="o">-&gt;</span><span class="n">DataDirectory</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="n">dwFOA</span> <span class="o">=</span> <span class="n">RvaToFoa</span><span class="p">(</span><span class="n">pFileBuffer</span><span class="p">,</span> <span class="n">pDataDirectory</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">VirtualAddress</span><span class="p">);</span>	<span class="c1">//定位导出表
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">pExportDirectory</span> <span class="o">=</span> <span class="p">(</span><span class="n">PIMAGE_EXPORT_DIRECTORY</span><span class="p">)((</span><span class="n">BYTE</span><span class="o">*</span><span class="p">)</span><span class="n">pFileBuffer</span> <span class="o">+</span> <span class="n">dwFOA</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span><span class="p">(</span><span class="n">pExportDirectory</span><span class="o">-&gt;</span><span class="n">Name</span> <span class="o">==</span> <span class="nb">NULL</span> <span class="o">||</span> <span class="n">pExportDirectory</span><span class="o">-&gt;</span><span class="n">NumberOfFunctions</span> <span class="o">==</span> <span class="mi">0</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">		<span class="n">printf</span><span class="p">(</span><span class="s">&#34;ExportDirectory is NULL</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="n">PDWORD</span> <span class="n">AddressOfFunction</span> <span class="o">=</span> <span class="p">(</span><span class="n">PDWORD</span><span class="p">)((</span><span class="n">BYTE</span><span class="o">*</span><span class="p">)</span><span class="n">pFileBuffer</span> <span class="o">+</span> <span class="n">RvaToFoa</span><span class="p">(</span><span class="n">pFileBuffer</span><span class="p">,</span> <span class="n">pExportDirectory</span><span class="o">-&gt;</span><span class="n">AddressOfFunctions</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span><span class="p">(</span><span class="n">pFunctionOrdinals</span> <span class="o">-</span> <span class="n">pExportDirectory</span><span class="o">-&gt;</span><span class="n">Base</span> <span class="o">&gt;=</span> <span class="n">pExportDirectory</span><span class="o">-&gt;</span><span class="n">NumberOfFunctions</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">		<span class="n">printf</span><span class="p">(</span><span class="s">&#34;The ordinals is wrong&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">AddressOfFunction</span><span class="p">[</span><span class="n">pFunctionOrdinals</span> <span class="o">-</span> <span class="n">pExportDirectory</span><span class="o">-&gt;</span><span class="n">Base</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ol>
+<p>相当于GetProAddress()</p>
+<h3 id="重定位表">重定位表
+</h3><p>1.程序加载过程</p>
+<blockquote>
+<p>一般情况下，exe可按照自身的ImageBase加载，有自己的4GB虚拟空间，而dll需加载到相应exe进程空间</p></blockquote>
+<p><em>模块对齐：10000h 即64K</em></p>
+<p><img src="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E7%A8%8B%E5%BA%8F%E5%8A%A0%E8%BD%BD.png"
+	width="1065"
+	height="631"
+	srcset="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E7%A8%8B%E5%BA%8F%E5%8A%A0%E8%BD%BD_hu_1acaba2eb1707354.png 480w, /p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E7%A8%8B%E5%BA%8F%E5%8A%A0%E8%BD%BD_hu_7d545de200ab9c07.png 1024w"
+	loading="lazy"
+	
+		alt="程序加载"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="168"
+		data-flex-basis="405px"
+	
+></p>
+<p>2.为什么要用重定位表</p>
+<blockquote>
+<p>全局变量编译时生成的地址 = <code>ImageBase + RVA</code>，这个地址直接写入文件中</p>
+<p>若没有加载到预定位置，则直接按文件地址会出错</p>
+<p>需要加载的dll所对应的ImageBase有可能相同，会被加载到其他地址</p>
+<p>因此，dll大多都有重定位表，而exe不一定有</p>
+<p>一旦某个模块没有按照自身ImageBase进行加载，那么类似上述地址都需要修正</p></blockquote>
+<p>3.重定位表的结构分析</p>
+<p>数据目录项<strong>第六个结构</strong>，就是<strong>重定位表</strong>，记录了<strong>需要重定位的函数地址的RVA</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="nc">_IMAGE_BASE_RELOCATION</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">DWORD</span>   <span class="n">VirtualAddress</span><span class="p">;</span>		<span class="c1">//RVA
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span>   <span class="n">SizeOfBlock</span><span class="p">;</span>		<span class="c1">//重定位块大小
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">//WORD    TypeOffset[1];	//虽然被注释，但仍存在，其16位大小，前四位为Type，后十二位为Offest
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span> <span class="n">IMAGE_BASE_RELOCATION</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">typedef</span> <span class="n">IMAGE_BASE_RELOCATION</span> <span class="n">UNALIGNED</span> <span class="o">*</span> <span class="n">PIMAGE_BASE_RELOCATION</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>通过<code>IMAGE_DATA_DIRECTORY</code>结构的VirtualAddress属性找到第一个<code>IMAGE_BASE_RELOCATION</code></li>
+<li>判断一共有几块数据：最后一个结构的<strong>VirtualAddress与SizeOfBlock均为0</strong></li>
+<li>具体项 <strong>宽度：2字节</strong></li>
+</ul>
+<blockquote>
+<p>内存中的页大小是1000h，也就是2的12次方就可以表示一个页内所有的偏移地址，具体项的宽度是16位，高四位代表类型：<strong>值为3代表需要修改的数据的RVA</strong>；值为0代表用于数据对齐的数据，可以不用修改</p></blockquote>
+<ul>
+<li><code>VirtualAddress</code> <strong>宽度：4字节</strong></li>
+</ul>
+<blockquote>
+<p>当前这一块的数据，每一个<strong>低12位的值 + VirtualAddress</strong>才是真正需要修复地址的RVA</p></blockquote>
+<ul>
+<li><code>SizeOfBlock</code> <strong>宽度：4字节</strong></li>
+</ul>
+<blockquote>
+<p>当前块总大小，具体项数目 = (SizeOfBlock - 8) / 2</p></blockquote>
+<p><img src="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E9%87%8D%E5%AE%9A%E4%BD%8D%E8%A1%A8.png"
+	width="567"
+	height="455"
+	srcset="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E9%87%8D%E5%AE%9A%E4%BD%8D%E8%A1%A8_hu_33e459dbe452f212.png 480w, /p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E9%87%8D%E5%AE%9A%E4%BD%8D%E8%A1%A8_hu_d12a7478200fa7d2.png 1024w"
+	loading="lazy"
+	
+		alt="重定位表"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="124"
+		data-flex-basis="299px"
+	
+></p>
+<p>4.打印重定位表</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">VOID</span> <span class="nf">DisplayRelocTable</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">	<span class="n">DWORD</span> <span class="n">dwSize</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">DWORD</span> <span class="n">dwFOA</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">DWORD</span> <span class="n">dwSizeOfDirectory</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">LPVOID</span> <span class="n">pFileBuffer</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">PWORD</span> <span class="n">pRelocData</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">PIMAGE_DOS_HEADER</span> <span class="n">pDosHeader</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">	<span class="n">PIMAGE_NT_HEADERS</span> <span class="n">pNTHeader</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">PIMAGE_FILE_HEADER</span> <span class="n">pPEHeader</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">PIMAGE_DATA_DIRECTORY</span> <span class="n">pDataDirectory</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">PIMAGE_BASE_RELOCATION</span> <span class="n">pRelocTable</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">dwSize</span> <span class="o">=</span> <span class="n">ReadPEFile</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">pFileBuffer</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span><span class="p">(</span><span class="n">dwSize</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="o">!</span><span class="n">pFileBuffer</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">		<span class="n">printf</span><span class="p">(</span><span class="s">&#34;Fail to read file</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">isPE</span><span class="p">(</span><span class="n">pFileBuffer</span><span class="p">)){</span>
+</span></span><span class="line"><span class="cl">		<span class="n">printf</span><span class="p">(</span><span class="s">&#34;Is not PE file!</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="n">pDosHeader</span> <span class="o">=</span> <span class="p">(</span><span class="n">PIMAGE_DOS_HEADER</span><span class="p">)</span><span class="n">pFileBuffer</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">pNTHeader</span> <span class="o">=</span> <span class="p">(</span><span class="n">PIMAGE_NT_HEADERS</span><span class="p">)((</span><span class="n">BYTE</span><span class="o">*</span><span class="p">)</span><span class="n">pFileBuffer</span> <span class="o">+</span> <span class="n">pDosHeader</span><span class="o">-&gt;</span><span class="n">e_lfanew</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">pPEHeader</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">pNTHeader</span><span class="o">-&gt;</span><span class="n">FileHeader</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">pNTHeader</span><span class="o">-&gt;</span><span class="n">FileHeader</span><span class="p">.</span><span class="n">Machine</span> <span class="o">==</span> <span class="n">IMAGE_FILE_MACHINE_AMD64</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    	<span class="n">PIMAGE_OPTIONAL_HEADER64</span> <span class="n">pOptionHeader</span> <span class="o">=</span> <span class="p">(</span><span class="n">PIMAGE_OPTIONAL_HEADER64</span><span class="p">)</span><span class="o">&amp;</span><span class="n">pNTHeader</span><span class="o">-&gt;</span><span class="n">OptionalHeader</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    	<span class="n">dwSizeOfDirectory</span> <span class="o">=</span> <span class="n">pOptionHeader</span><span class="o">-&gt;</span><span class="n">NumberOfRvaAndSizes</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="n">pDataDirectory</span> <span class="o">=</span> <span class="n">pOptionHeader</span><span class="o">-&gt;</span><span class="n">DataDirectory</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    	<span class="n">PIMAGE_OPTIONAL_HEADER32</span> <span class="n">pOptionHeader</span> <span class="o">=</span> <span class="p">(</span><span class="n">PIMAGE_OPTIONAL_HEADER32</span><span class="p">)</span><span class="o">&amp;</span><span class="n">pNTHeader</span><span class="o">-&gt;</span><span class="n">OptionalHeader</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    	<span class="n">dwSizeOfDirectory</span> <span class="o">=</span> <span class="n">pOptionHeader</span><span class="o">-&gt;</span><span class="n">NumberOfRvaAndSizes</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="n">pDataDirectory</span> <span class="o">=</span> <span class="n">pOptionHeader</span><span class="o">-&gt;</span><span class="n">DataDirectory</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="n">dwFOA</span> <span class="o">=</span> <span class="n">RvaToFoa</span><span class="p">(</span><span class="n">pFileBuffer</span><span class="p">,</span> <span class="n">pDataDirectory</span><span class="p">[</span><span class="mi">5</span><span class="p">].</span><span class="n">VirtualAddress</span><span class="p">);</span>	<span class="c1">//定位重定位表
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">pRelocTable</span> <span class="o">=</span> <span class="p">(</span><span class="n">PIMAGE_BASE_RELOCATION</span><span class="p">)((</span><span class="n">BYTE</span><span class="o">*</span><span class="p">)</span><span class="n">pFileBuffer</span> <span class="o">+</span> <span class="n">dwFOA</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">printf</span><span class="p">(</span><span class="s">&#34;***************BaseRelocation***************</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">while</span> <span class="p">(</span><span class="n">pRelocTable</span><span class="o">-&gt;</span><span class="n">VirtualAddress</span> <span class="o">!=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">pRelocTable</span><span class="o">-&gt;</span><span class="n">SizeOfBlock</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">){</span>	<span class="c1">//遍历重定位表
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="n">printf</span><span class="p">(</span><span class="s">&#34;RelocTable[%d]</span><span class="se">\t</span><span class="s">RVA:%0X, Size:%0X</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">pRelocTable</span><span class="o">-&gt;</span><span class="n">VirtualAddress</span><span class="p">,</span> <span class="n">pRelocTable</span><span class="o">-&gt;</span><span class="n">SizeOfBlock</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="n">DWORD</span> <span class="n">dwItems</span> <span class="o">=</span> <span class="p">((</span><span class="n">pRelocTable</span><span class="o">-&gt;</span><span class="n">SizeOfBlock</span> <span class="o">-</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">IMAGE_BASE_RELOCATION</span><span class="p">))</span> <span class="o">/</span> <span class="mi">2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="n">printf</span><span class="p">(</span><span class="s">&#34;项目数:%X h / %d d</span><span class="se">\r\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">dwItems</span><span class="p">,</span> <span class="n">dwItems</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="n">pRelocData</span> <span class="o">=</span> <span class="p">(</span><span class="n">PWORD</span><span class="p">)((</span><span class="n">BYTE</span><span class="o">*</span><span class="p">)</span><span class="n">pRelocTable</span> <span class="o">+</span> <span class="mh">0x8</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">dwItems</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span> <span class="p">){</span>
+</span></span><span class="line"><span class="cl">			<span class="k">if</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">pRelocData</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">12</span> <span class="o">==</span> <span class="n">IMAGE_REL_BASED_HIGHLOW</span><span class="p">){</span>	<span class="c1">//IMAGE_REL_BASED_HIGHLOW = 3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>				<span class="n">DWORD</span> <span class="n">dwRva</span> <span class="o">=</span> <span class="p">((</span><span class="o">*</span><span class="p">(</span><span class="n">pRelocData</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x0fff</span><span class="p">)</span> <span class="o">+</span> <span class="n">pRelocTable</span><span class="o">-&gt;</span><span class="n">VirtualAddress</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">				<span class="n">DWORD</span> <span class="n">dwFoa</span> <span class="o">=</span> <span class="n">RvaToFoa</span><span class="p">(</span><span class="n">pFileBuffer</span><span class="p">,</span> <span class="n">dwRva</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">				<span class="n">DWORD</span> <span class="n">dwFarCall</span> <span class="o">=</span> <span class="o">*</span><span class="p">(</span><span class="n">DWORD</span><span class="o">*</span><span class="p">)(</span><span class="n">pFileBuffer</span> <span class="o">+</span> <span class="n">dwFoa</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">				<span class="n">printf</span><span class="p">(</span><span class="s">&#34;RVA:0x%X</span><span class="se">\t</span><span class="s">FOA:0x%X</span><span class="se">\t</span><span class="s">FarCall:0x%X</span><span class="se">\t</span><span class="s">(HIGHLOW)</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">dwRva</span><span class="p">,</span> <span class="n">dwFoa</span><span class="p">,</span> <span class="n">dwFarCall</span><span class="p">);</span>	<span class="c1">//需要重定位的函数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>			<span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="n">printf</span><span class="p">(</span><span class="s">&#34;-(ABSLUTE)</span><span class="se">\r\n</span><span class="s">&#34;</span><span class="p">);</span>	<span class="c1">//类型非3的提示
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>			<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="n">pRelocTable</span> <span class="o">=</span> <span class="p">(</span><span class="n">PIMAGE_BASE_RELOCATION</span><span class="p">)((</span><span class="n">BYTE</span><span class="o">*</span><span class="p">)</span><span class="n">pRelocTable</span> <span class="o">+</span> <span class="n">pRelocTable</span><span class="o">-&gt;</span><span class="n">SizeOfBlock</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="n">i</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="移动导出表---重定位表">移动导出表 - 重定位表
+</h3><blockquote>
+<p><strong>为什么要移动各种表</strong></p>
+<p>1.这些表是编译器生成的，里面存储了非常重要的信息</p>
+<p>2.在程序启动的时候，系统会根据这些表做初始化的工作：比如，将用到的dll中的函数地址存储到IAT表中</p>
+<p>3.为了保护程序，可以对.exe的二进制代码进行加密操作，但若各种表的信息与客户的代码和数据混在一起，进行加密，系统初始化会出问题</p>
+<p>4.学会移动各种表，是对程序加密/破解的基础</p></blockquote>
+<h4 id="移动导出表">移动导出表
+</h4><ol>
+<li>在dll中新增节，并返回FOA</li>
+<li>依次复制AddressOfFunctions、AddressOfNameOrdinals、AddressOfNames</li>
+<li>复制所有函数名，复制时修复AddressOfNames</li>
+<li>复制IMAGE_EXPORT_DIRECTORY，并修复AddressOfFunctions、AddressOfNameOrdinals、AddressOfNames</li>
+<li>修复目录项中的值，指向新的IMAGE_EXPORT_DIRECTORY</li>
+</ol>
+<h4 id="移动重定位表">移动重定位表
+</h4><p>循环遍历重定位表的大小，复制到新增节，然后修改目录项中VirtualAddress的值</p>
+<p>附加：</p>
+<p><strong>！！修改dll的ImageBase，根据重定位表修正，然后存盘！！</strong></p>
+<h3 id="iat表">IAT表
+</h3><p>重定位表（<code>Relocation Table</code>）和导入地址表（<code>IAT - Import Address Table</code>）在 Windows PE 文件格式中都扮演着关键角色，但它们处理的是不同阶段、不同类型的地址问题。它们之间的关系可以概括为：<strong>重定位表负责修正模块（DLL/EXE）内部代码和数据对自身地址的引用，而 IAT 负责存储模块调用其他模块（DLLs）中函数的实际地址。更重要的是，IAT 表项本身所在的内存地址，在模块被加载到非首选基址时，就需要通过重定位表来修正。</strong></p>
+<p>理解重定位表如何帮助程序找到调用函数的地址，需要结合<strong>导入地址表</strong>一起来看。核心思想是：<strong>重定位表修正指向IAT项的指针，IAT项本身存储着最终的函数地址。</strong></p>
+<p>以下是详细步骤：</p>
+<ol>
+<li><strong>编译与链接时的假设：</strong>
+<ul>
+<li>编译器在生成调用外部DLL函数（如<code>MessageBoxA</code>）的代码时，并不知道这个函数最终会加载到内存的哪个地址。</li>
+<li>它生成一条间接调用指令，例如：<code>call dword ptr [0x00403000]</code>（32位示例）。</li>
+<li>这里的<code>0x00403000</code>是一个<strong>硬编码的地址</strong>，是编译器/链接器<strong>假设</strong>的DLL加载基址（称为<code>ImageBase</code>）加上一个固定偏移量（<code>.idata</code>节或IAT的RVA）。在这个例子中，<code>0x00403000</code>指向<strong>导入地址表</strong>中的一个位置。</li>
+</ul>
+</li>
+<li><strong>导入地址表的角色：</strong>
+<ul>
+<li>IAT是PE文件中一个专门的数据结构（通常在<code>.idata</code>节）。</li>
+<li>在程序<strong>加载完成之前</strong>，IAT中存储的并不是函数的真实地址，而是：
+<ul>
+<li><strong>函数名</strong>的指针（用于按名称导入）。</li>
+<li>或者函数的<strong>序号</strong>（用于按序号导入）。</li>
+</ul>
+</li>
+<li>它的目的是在运行时被<strong>Windows加载器</strong>填充。</li>
+</ul>
+</li>
+<li><strong>加载时的挑战：</strong>
+<ul>
+<li>程序启动时，Windows加载器尝试将DLL加载到它的<code>ImageBase</code>（例如<code>0x10000000</code>）。</li>
+<li>如果这个地址<strong>没有被其他模块占用</strong>，加载成功。DLL的代码和数据就位于预期的地址。</li>
+<li>但是，如果<code>ImageBase</code>地址<strong>已被占用</strong>（很常见），加载器必须将DLL<strong>重定位</strong>到另一个空闲的基地址（例如<code>0x15000000</code>）。</li>
+<li>重定位意味着DLL中所有<strong>基于<code>ImageBase</code>的绝对地址引用</strong>（代码和数据中的指针）都<strong>不再正确</strong>，它们需要被调整一个差值 <code>Delta = ActualBase - ImageBase</code>（例如 <code>0x15000000 - 0x10000000 = 0x05000000</code>）。</li>
+</ul>
+</li>
+<li><strong>重定位表的作用：</strong>
+<ul>
+<li>重定位表（<code>.reloc</code>节）就是告诉加载器：<strong>“我的DLL代码和数据中，哪些位置存储的是需要根据加载基址调整的绝对指针”</strong>。</li>
+<li>它包含一系列条目，每个条目指定一个内存页（4KB对齐）和该页内所有需要修正的偏移量列表。</li>
+<li><strong>关键点：</strong> 指向IAT项的指针（比如例子中<code>call dword ptr [0x00403000]</code>里的<code>0x00403000</code>）就是<strong>需要被修正的绝对地址之一</strong>！它是在编译时基于<code>ImageBase</code>计算出来的，如果DLL被重定位了，这个值就错了。</li>
+</ul>
+</li>
+<li><strong>加载器如何修正调用函数的地址：</strong>
+<ol>
+<li><strong>解析IAT (填充函数真实地址)：</strong> 无论DLL是否被重定位，加载器首先都会解析所有导入函数。它找到目标DLL（可能也需要重定位），加载它，找到<code>MessageBoxA</code>的实际内存地址（例如<code>0x15012345</code>），然后<strong>将这个真实地址写回主程序的IAT中对应的位置</strong>（假设这个位置在IAT中的偏移是固定的，由链接器确定）。</li>
+<li><strong>应用重定位 (修正指向IAT的指针)：</strong>
+<ul>
+<li>加载器检查主程序是否需要重定位（如果主程序的<code>ImageBase</code>被占用）。</li>
+<li>如果需要，加载器读取主程序的<strong>重定位表</strong>。</li>
+<li>在重定位表中，它会找到像<code>0x00403000</code>这样的地址（位于某个<code>.reloc</code>条目指定的页内）。</li>
+<li>加载器计算<code>Delta</code>（实际加载基址 - <code>ImageBase</code>）。</li>
+<li><strong>加载器将这个<code>Delta</code>值加到存储在<code>0x00403000</code>这个内存位置的值上吗？不对！</strong></li>
+<li><strong>正确的操作是：</strong> 加载器将<code>Delta</code>值加到<strong>指向IAT项的指针本身</strong>，也就是加到<code>0x00403000</code>这个地址上（更准确地说，是加到包含<code>0x00403000</code>这个地址值的那个内存位置的内容上）。<code>0x00403000</code>这个地址值本身是基于<code>ImageBase</code>计算出来的，它指向IAT中的一个槽位。重定位后，主程序的实际基址变了，这个指向IAT槽位的指针<code>0x00403000</code>也必须加上<code>Delta</code>才能指向正确的内存位置（即新的IAT槽位地址）。</li>
+</ul>
+</li>
+<li><strong>间接调用生效：</strong>
+<blockquote>
+<ul>
+<li>假设主程序被重定位到<code>0x00450000</code>（原<code>ImageBase</code>是<code>0x00400000</code>，<code>Delta = 0x00050000</code>）。</li>
+<li>指向IAT项的原指针是<code>0x00403000</code>。</li>
+<li>加载器通过重定位表找到这个指针的位置（假设是主程序代码段中的<code>0x00401023</code>处存储着值<code>0x00403000</code>，即<strong>0x00401023 = [0x00403000]</strong>，重定位表中存的是0x00400000 + 0x1023这个RVA）。</li>
+<li>加载器将存储在<code>0x00401023</code>处的值修改为 <code>0x00403000 + 0x00050000 = 0x00453000</code>。</li>
+<li>现在，调用指令<code>call dword ptr [0x00453000]</code> 就能正确执行了：
+<ul>
+<li>它去<code>0x00453000</code>（这是重定位后IAT中<code>MessageBoxA</code>条目所在的<strong>新地址</strong>）读取内容。</li>
+<li>这个新地址<code>0x00453000</code>处的内容，在步骤1中<strong>已经被加载器填充</strong>为<code>MessageBoxA</code>的真实地址<code>0x15012345</code>。</li>
+<li>因此，CPU执行<code>call [0x00453000]</code>（中间有个<code>jmp dword ptr [0x15012345]</code>）最终会跳转到<code>0x15012345</code>，即<code>MessageBoxA</code>函数的入口点。</li>
+</ul>
+</li>
+</ul></blockquote>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="导入表">导入表
+</h3><p>实现：</p>
+<p>1.使用OD打开一个发布版的exe程序，定位到某个dll的API</p>
+<p>2.在没有加载的exe中找到这个位置，观察加载前后的区别</p>
+<p>数据目录项的<strong>第二个结构</strong>，就是 <strong>Import 导入表</strong>，从IMAGE_DATA_DIRECTORY字段得到的是导入表的RVA值，如果在内存中查找导入表，那么将RVA值加上PE文件装入的基址就是实际的地址。</p>
+<p>找到了数据目录结构，既能够找到导入表，导入表由一系列的IMAGE_IMPORT_DESCRIPTOR结构组成，结构的数量取决于程序需要使用的DLL文件数量，每个结构对应一个DLL文件，在所有结构的最后，由一个内容全为0的IMAGE_IMPORT_DESCRIPTOR结构作为结束标志，表结构定义如下：</p>
+<p>（有几个dll就有几个导入表）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="nc">_IMAGE_IMPORT_DESCRIPTOR</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">union</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">DWORD</span>   <span class="n">Characteristics</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">DWORD</span>   <span class="n">OriginalFirstThunk</span><span class="p">;</span> <span class="o">*</span>	<span class="c1">// 包含指向IMAGE_THUNK_DATA(导入名称表INT)结构数组的RVA
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span> <span class="n">DUMMYUNIONNAME</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">DWORD</span>   <span class="n">TimeDateStamp</span><span class="p">;</span>              <span class="c1">// 时间戳：当可执行文件不与被输入的DLL进行绑定时，此字段为0 若绑定，则为-1（0xffffffff）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span>   <span class="n">ForwarderChain</span><span class="p">;</span>             <span class="c1">// 第一个被转向的API的索引
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span>   <span class="n">Name</span><span class="p">;</span>                       <span class="c1">// 指向被输入的DLL的ASCII字符串的RVA
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span>   <span class="n">FirstThunk</span><span class="p">;</span> <span class="o">*</span>               <span class="c1">// 指向导入地址表(IAT)的RVA
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span> <span class="n">IMAGE_IMPORT_DESCRIPTOR</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">typedef</span> <span class="n">IMAGE_IMPORT_DESCRIPTOR</span> <span class="n">UNALIGNED</span> <span class="o">*</span> <span class="n">IMAGE_IMPORT_DESCRIPTOR</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>OriginalFirstThunk和FirstThunk字段是相同的，他们都指向一个包含IMAGE_THUNK_DATA结构的数组，数组中每个IMAGE_THUNK_DATA结构定义了一个导入函数的具体信息，数组的最后以一个内容全为0的IMAGE_THUNK_DATA结构作为结束，该结构的定义如下：</p>
+<p>判断最高位是否为1 如果是 那么去除最高位的值就是函数的导出序号；如果不是，那么这个值是一个RVA指向IMAGE_IMPORT_BY_NAME</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="nc">_IMAGE_THUNK_DATA32</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">union</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">DWORD</span> <span class="n">ForwarderString</span><span class="p">;</span>      <span class="c1">// PBYTE 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">DWORD</span> <span class="n">Function</span><span class="p">;</span>             <span class="c1">// PDWORD
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">DWORD</span> <span class="n">Ordinal</span><span class="p">;</span>				<span class="c1">// 导出序号
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">PIMAGE_IMPORT_BY_NAME</span> <span class="n">AddressOfData</span><span class="p">;</span>        <span class="c1">// 指向IMAGE_IMPORT_BY_NAME的RVA（指针都是4字节）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span> <span class="n">u1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">IMAGE_THUNK_DATA32</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">typedef</span> <span class="n">IMAGE_THUNK_DATA32</span> <span class="o">*</span> <span class="n">PIMAGE_THUNK_DATA32</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>从上方的结构定义不难看出，这是一个双字共用体结构，当结构的最高位为1时，表示函数是以序号的方式导入的，这时<strong>双字的低位就是函数的序号</strong>，当双字最高位为0时，表示函数以函数名方式导入，这时双字的值是一个RVA，指向一个用来定义导入函数名称的IMAGE_IMPORT_BY_NAME结构，此结构定义如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="nc">_IMAGE_IMPORT_BY_NAME</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">WORD</span>    <span class="n">Hint</span><span class="p">;</span>          <span class="c1">// 函数序号
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">CHAR</span>   <span class="n">Name</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>        <span class="c1">// 导入函数的名称
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span> <span class="n">IMAGE_IMPORT_BY_NAME</span><span class="p">,</span> <span class="o">*</span><span class="n">PIMAGE_IMPORT_BY_NAME</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>PE加载前</p>
+<p><img src="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%AF%BC%E5%85%A5%E8%A1%A8%EF%BC%88PE%E5%8A%A0%E8%BD%BD%E5%89%8D%EF%BC%89.jpg"
+	width="1048"
+	height="314"
+	srcset="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%AF%BC%E5%85%A5%E8%A1%A8%EF%BC%88PE%E5%8A%A0%E8%BD%BD%E5%89%8D%EF%BC%89_hu_ef37abc1d865fcf4.jpg 480w, /p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%AF%BC%E5%85%A5%E8%A1%A8%EF%BC%88PE%E5%8A%A0%E8%BD%BD%E5%89%8D%EF%BC%89_hu_d2d89c2f9368f10f.jpg 1024w"
+	loading="lazy"
+	
+		alt="导入表（PE加载前）"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="333"
+		data-flex-basis="801px"
+	
+></p>
+<p>PE加载后，GetProcAddr()</p>
+<p><img src="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%AF%BC%E5%85%A5%E8%A1%A8%EF%BC%88PE%E5%8A%A0%E8%BD%BD%E5%90%8E%EF%BC%89.jpg"
+	width="1059"
+	height="507"
+	srcset="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%AF%BC%E5%85%A5%E8%A1%A8%EF%BC%88PE%E5%8A%A0%E8%BD%BD%E5%90%8E%EF%BC%89_hu_5bc7ae8df454e5af.jpg 480w, /p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%AF%BC%E5%85%A5%E8%A1%A8%EF%BC%88PE%E5%8A%A0%E8%BD%BD%E5%90%8E%EF%BC%89_hu_4e3491a675f2c803.jpg 1024w"
+	loading="lazy"
+	
+		alt="导入表（PE加载后）"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="208"
+		data-flex-basis="501px"
+	
+></p>
+<p>打印导入表</p>
+<p>1.定位导入表</p>
+<p>2.输出dll名字</p>
+<p>3.遍历OriginalFirstThunk</p>
+<p>4.遍历FirstThunk</p>
+<h3 id="绑定导入表">绑定导入表
+</h3><p>PE加载exe相关dll时，首先会根据IMAGE_IMPORT_DESCRIPTOR结构中的TimeDateStamp来判断是否要重新计算IAT</p>
+<p>TimeDateStamp为0则未绑定；若TimeDateStamp为-1则已绑定 而真正绑定时间为IMAGE_BOUND_IMPORT_DESCRIPTOR的TimeDateStamp</p>
+<p><strong>绑定导入表</strong>位于数据目录项的<strong>第12项</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">_IMAGE_BOUND_IMPORT_DESCRIPTOR</span><span class="p">{</span>						
+</span></span><span class="line"><span class="cl">    <span class="n">DWORD</span> <span class="n">TimeDateStamp</span><span class="p">;</span>	<span class="c1">//时间戳					
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">WORD</span> <span class="n">OffsetModuleName</span><span class="p">;</span>	<span class="c1">//DLL的名字RVA（加第一个结构中RVA才是字符串真正RVA，详见下面）	
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">WORD</span> <span class="n">NumberOfModuleForwarderRefs</span><span class="p">;</span>  <span class="c1">//这个绑定导入表结构后面还有几个_IMAGE_BOUND_FORWARDER_REF这种结构					
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span> <span class="n">IMAGE_BOUND_IMPORT_DESCRIPTOR</span><span class="p">,</span> <span class="o">*</span><span class="n">PIMAGE_BOUND_IMPORT_DESCRIPTOR</span><span class="p">;</span>  <span class="c1">//绑定导入表有很多这种结构或者_IMAGE_BOUND_FORWARDER_REF这种结构，最后如果有sizeof(_IMAGE_BOUND_IMPORT_DESCRIPTOR)个0，表示绑定导入表结束	
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>1）TimeDateStamp
+绑定导入表的时间戳：表示程序使用到的DLL中的函数绝对地址真正绑定到IAT表中的时间
+作用：系统通过程序使用到的DLL对应的<strong>绑定导入表结构中TimeDateStamp和该DLL的标准PE头中的TimeDateStamp</strong>对比
+如果两个时间戳一样：表明DLL的创建时间和把DLL中的函数绝对地址绑定到IAT表的时间是一样，则在绑定以后，DLL没有更新或者修改
+如果两个时间戳不一样：表明在绑定以后，此DLL又被更新或者修改了，那么绑定到IAT表中的地址可能不准确了！（因为DLL中的函数地址可能变了，但绑定到IAT中的数据可能是以前的函数地址）</p>
+<p>2）OffsetModuleName
+对应DLL的名字：因为一个程序的导入表结构对应一个使用到的DLL；一个程序的绑定导入表结构也对应一个程序使用到的DLL，这个绑定导入表结构记录了该DLL中函数绝对地址绑定到IAT表的时间戳、该DLL的名字、还有该DLL使用到别的DLL的个数</p>
+<p>注意：不管是_IMAGE_BOUND_IMPORT_DESCRIPTOR结构中的OffsetModuleName、还是后面要讲的_IMAGE_BOUND_FORWARDER_REF 结构中的OffsetModuleName，都==必须加上绑定导入表起始RVA值==，才是这个结构对应DLL名字的真正RVA</p>
+<p>3）NumberOfModuleForwarderRefs
+因为一个DLL可能还会使用到别的DLL中的函数，所以NumberOfModuleForwarderRefs字段的值是多少，就表明当前绑定导入表对应的DLL还使用了多少个别的DLL，同样表示这个绑定导入表结构后面跟了多少个_IMAGE_BOUND_FORWARDER_REF这种结构</p></blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">_IMAGE_BOUND_FORWARDER_REF</span> <span class="p">{</span>			
+</span></span><span class="line"><span class="cl">    <span class="n">DWORD</span> <span class="n">TimeDateStamp</span><span class="p">;</span>	<span class="c1">//时间戳		
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">WORD</span> <span class="n">OffsetModuleName</span><span class="p">;</span>  <span class="c1">//对应DLL的名字
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">WORD</span> <span class="n">Reserved</span><span class="p">;</span>  <span class="c1">//保留（未使用）	
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span> <span class="n">IMAGE_BOUND_FORWARDER_REF</span><span class="p">,</span> <span class="o">*</span><span class="n">PIMAGE_BOUND_FORWARDER_REF</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="导入表注入">导入表注入
+</h3><p>导入表注入原理：</p>
+<p>当exe被加载时，系统会根据exe导入表信息来加载需要用到的dll，导入表注入的原理就是修改exe导入表，将自己的dll添加到exe的导入表中，这样exe运行时可以将自己的dll加载到exe的进程空间</p>
+<p>导入表注入的实现步骤：</p>
+<p>1.根据目录项得到导入表信息：VirtualAddress和Size</p>
+<p>2.A：导入表（20B），B：INT表、IAT表（最少8+8B），C：DLL名字符串（dll名称长度+1），D：序号函数名（函数名+1+2B）</p>
+<p>判断哪一个节区空白 &gt; Size（原表大小）+ 20 + A + B + C + D（若空间不够可将C/D存储在其他空白区）</p>
+<p>即空白区 &gt; Size + 0x20</p>
+<p>3.将原导入表Copy到空白区</p>
+<p>4.在新的导入表后面，追加一个空导入表</p>
+<p>5.追加8BINT表、8BIAT表</p>
+<p>6.追加一个IMAGE_IMPORT_BY_NAME结构，前两个字节为0，后面是函数名字符串</p>
+<p>7.将IMAGE_IMPORT_BY_NAME结构的RVA赋值给INT表和IAT表第一项</p>
+<p>8.分配空间存储dll名称字符串，并将该RVA赋值给Name属性</p>
+<p>9.修正IMAGE_DATA_DIRECTORY结构的VirtualAddress和Size</p>
+<p><strong>参考</strong></p>
+<p><a class="link" href="https://blog.csdn.net/lyshark_csdn/article/details/127866128"  target="_blank" rel="noopener"
+    >手写PE结构解析工具</a></p>
 
 </section>
 
@@ -889,23 +1881,23 @@ MessageBox()函数：功能是弹出一个标准的Windows对话框；它不是C
             
                 
 <article class="has-image">
-    <a href="/p/%E5%BA%93/">
+    <a href="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/">
         
         
             <div class="article-image">
-                <img src="/p/%E5%BA%93/%E7%93%B7%E5%BF%83%E5%82%80%E5%84%A1.0e5722349be2d5ff48ed253308a2870c_hu_a410de36e9ef9798.jpg" 
+                <img src="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E7%93%B7%E5%BF%83%E5%82%80%E5%84%A1.a01753e234e91b5b60d15e20f6ab3d39_hu_da4ff1af95136a83.jpg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
-                        alt="Featured image of post 库"
+                        alt="Featured image of post 静态/动态链接库"
                         
-                        data-hash="md5-DlciNJvi1f9I7SUzCKKHDA==">
+                        data-hash="md5-oBdT4jTpG1tg0V4g9qs9OQ==">
                 
             </div>
         
 
         <div class="article-details">
-            <h2 class="article-title">库</h2>
+            <h2 class="article-title">静态/动态链接库</h2>
         </div>
     </a>
 </article>

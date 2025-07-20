@@ -2,18 +2,18 @@
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="在C++开发中，库（Library）是代码复用的重要方式，库的存在形式本质上来说库是一种可执行代码的二进制，分为静态库（.lib、.a）和动态库（.dll、.so）\n">
-<title>库</title>
+<title>静态/动态链接库</title>
 
-<link rel='canonical' href='https://567liuhuaqing.github.io/p/%E5%BA%93/'>
+<link rel='canonical' href='https://567liuhuaqing.github.io/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/'>
 
-<link rel="stylesheet" href="/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="库">
+<link rel="stylesheet" href="/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="静态/动态链接库">
 <meta property='og:description' content="在C++开发中，库（Library）是代码复用的重要方式，库的存在形式本质上来说库是一种可执行代码的二进制，分为静态库（.lib、.a）和动态库（.dll、.so）\n">
-<meta property='og:url' content='https://567liuhuaqing.github.io/p/%E5%BA%93/'>
+<meta property='og:url' content='https://567liuhuaqing.github.io/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/'>
 <meta property='og:site_name' content='liuhuaqing'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2025-07-15T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-07-15T00:00:00&#43;00:00'/><meta property='og:image' content='https://567liuhuaqing.github.io/p/%E5%BA%93/%E7%93%B7%E5%BF%83%E5%82%80%E5%84%A1.jpg' />
-<meta name="twitter:title" content="库">
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2025-07-15T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-07-15T00:00:00&#43;00:00'/><meta property='og:image' content='https://567liuhuaqing.github.io/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E7%93%B7%E5%BF%83%E5%82%80%E5%84%A1.jpg' />
+<meta name="twitter:title" content="静态/动态链接库">
 <meta name="twitter:description" content="在C++开发中，库（Library）是代码复用的重要方式，库的存在形式本质上来说库是一种可执行代码的二进制，分为静态库（.lib、.a）和动态库（.dll、.so）\n"><meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content='https://567liuhuaqing.github.io/p/%E5%BA%93/%E7%93%B7%E5%BF%83%E5%82%80%E5%84%A1.jpg' />
+    <meta name="twitter:image" content='https://567liuhuaqing.github.io/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E7%93%B7%E5%BF%83%E5%82%80%E5%84%A1.jpg' />
     <link rel="shortcut icon" href="/favicon.ico" />
 
     </head>
@@ -335,13 +335,13 @@
     <article class="has-image main-article">
     <header class="article-header">
         <div class="article-image">
-            <a href="/p/%E5%BA%93/">
-                <img src="/p/%E5%BA%93/%E7%93%B7%E5%BF%83%E5%82%80%E5%84%A1_hu_31cc0e2e84c24286.jpg"
-                        srcset="/p/%E5%BA%93/%E7%93%B7%E5%BF%83%E5%82%80%E5%84%A1_hu_31cc0e2e84c24286.jpg 800w, /p/%E5%BA%93/%E7%93%B7%E5%BF%83%E5%82%80%E5%84%A1_hu_b12100e88ae010fe.jpg 1600w"
+            <a href="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/">
+                <img src="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E7%93%B7%E5%BF%83%E5%82%80%E5%84%A1_hu_160cbb42d62bbd7e.jpg"
+                        srcset="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E7%93%B7%E5%BF%83%E5%82%80%E5%84%A1_hu_160cbb42d62bbd7e.jpg 800w, /p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E7%93%B7%E5%BF%83%E5%82%80%E5%84%A1_hu_5fd78937000dcab7.jpg 1600w"
                         width="800" 
-                        height="1422" 
+                        height="729" 
                         loading="lazy"
-                        alt="Featured image of post 库" />
+                        alt="Featured image of post 静态/动态链接库" />
                 
             </a>
         </div>
@@ -355,7 +355,7 @@
                 知识点学习
             </a>
         
-            <a href="/categories/reverse/" >
+            <a href="/categories/reverse/" style="background-color: #2a9d8f; color: #fff;">
                 Reverse
             </a>
         
@@ -364,7 +364,7 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/p/%E5%BA%93/">库</a>
+            <a href="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/">静态/动态链接库</a>
         </h2>
     
         
@@ -426,13 +426,13 @@
 </h2><p>这里以Visual Studio 2022为例</p>
 <h3 id="方法一">方法一：
 </h3><ul>
-<li>首先创建新项目模板为**”静态库“**</li>
+<li>首先创建新项目模板为**“静态库”**</li>
 </ul>
 <p>也可以在项目属性页修改配置类型</p>
-<p><img src="/p/%E5%BA%93/%E9%85%8D%E7%BD%AE%E7%B1%BB%E5%9E%8B.png"
+<p><img src="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E9%85%8D%E7%BD%AE%E7%B1%BB%E5%9E%8B.png"
 	width="1567"
 	height="1078"
-	srcset="/p/%E5%BA%93/%E9%85%8D%E7%BD%AE%E7%B1%BB%E5%9E%8B_hu_7a678403c1b4746b.png 480w, /p/%E5%BA%93/%E9%85%8D%E7%BD%AE%E7%B1%BB%E5%9E%8B_hu_f8b1da8a36f11005.png 1024w"
+	srcset="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E9%85%8D%E7%BD%AE%E7%B1%BB%E5%9E%8B_hu_7a678403c1b4746b.png 480w, /p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E9%85%8D%E7%BD%AE%E7%B1%BB%E5%9E%8B_hu_f8b1da8a36f11005.png 1024w"
 	loading="lazy"
 	
 		alt="配置类型"
@@ -465,10 +465,10 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p><img src="/p/%E5%BA%93/%E9%9D%99%E6%80%81%E5%BA%93%E5%A4%B4%E6%96%87%E4%BB%B6.png"
+</div><p><img src="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E9%9D%99%E6%80%81%E5%BA%93%E5%A4%B4%E6%96%87%E4%BB%B6.png"
 	width="2583"
 	height="899"
-	srcset="/p/%E5%BA%93/%E9%9D%99%E6%80%81%E5%BA%93%E5%A4%B4%E6%96%87%E4%BB%B6_hu_5ae6e45290f48c31.png 480w, /p/%E5%BA%93/%E9%9D%99%E6%80%81%E5%BA%93%E5%A4%B4%E6%96%87%E4%BB%B6_hu_ca142d48df8e31e8.png 1024w"
+	srcset="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E9%9D%99%E6%80%81%E5%BA%93%E5%A4%B4%E6%96%87%E4%BB%B6_hu_5ae6e45290f48c31.png 480w, /p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E9%9D%99%E6%80%81%E5%BA%93%E5%A4%B4%E6%96%87%E4%BB%B6_hu_ca142d48df8e31e8.png 1024w"
 	loading="lazy"
 	
 		alt="静态库头文件"
@@ -512,10 +512,10 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p><img src="/p/%E5%BA%93/%E9%9D%99%E6%80%81%E5%BA%93%E6%BA%90%E6%96%87%E4%BB%B6.png"
+</div><p><img src="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E9%9D%99%E6%80%81%E5%BA%93%E6%BA%90%E6%96%87%E4%BB%B6.png"
 	width="2164"
 	height="668"
-	srcset="/p/%E5%BA%93/%E9%9D%99%E6%80%81%E5%BA%93%E6%BA%90%E6%96%87%E4%BB%B6_hu_cca40e162516aab.png 480w, /p/%E5%BA%93/%E9%9D%99%E6%80%81%E5%BA%93%E6%BA%90%E6%96%87%E4%BB%B6_hu_2c40ee5e31ad458b.png 1024w"
+	srcset="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E9%9D%99%E6%80%81%E5%BA%93%E6%BA%90%E6%96%87%E4%BB%B6_hu_cca40e162516aab.png 480w, /p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E9%9D%99%E6%80%81%E5%BA%93%E6%BA%90%E6%96%87%E4%BB%B6_hu_2c40ee5e31ad458b.png 1024w"
 	loading="lazy"
 	
 		alt="静态库源文件"
@@ -528,10 +528,10 @@
 ></p>
 <p>选择<code>“生成” -&gt; “生成解决方案”</code>（Ctrl+Shift+B）</p>
 <p>在<code>“x64” -&gt; “Debug”</code>中生成lib文件如下</p>
-<p><img src="/p/%E5%BA%93/%E7%94%9F%E6%88%90%E7%9A%84%E9%9D%99%E6%80%81%E5%BA%93.png"
+<p><img src="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E7%94%9F%E6%88%90%E7%9A%84%E9%9D%99%E6%80%81%E5%BA%93.png"
 	width="927"
 	height="402"
-	srcset="/p/%E5%BA%93/%E7%94%9F%E6%88%90%E7%9A%84%E9%9D%99%E6%80%81%E5%BA%93_hu_d2c00e0477e36ca6.png 480w, /p/%E5%BA%93/%E7%94%9F%E6%88%90%E7%9A%84%E9%9D%99%E6%80%81%E5%BA%93_hu_c2de3c7bfc01d423.png 1024w"
+	srcset="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E7%94%9F%E6%88%90%E7%9A%84%E9%9D%99%E6%80%81%E5%BA%93_hu_d2c00e0477e36ca6.png 480w, /p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E7%94%9F%E6%88%90%E7%9A%84%E9%9D%99%E6%80%81%E5%BA%93_hu_c2de3c7bfc01d423.png 1024w"
 	loading="lazy"
 	
 		alt="生成的静态库"
@@ -546,10 +546,10 @@
 <li>然后创建一个新项目**“控制台应用”**</li>
 </ul>
 <p>将刚刚生成的lib文件和头文件打包复制到新项目文件夹</p>
-<p><img src="/p/%E5%BA%93/%E5%AF%BC%E5%85%A5%E6%96%87%E4%BB%B6.png"
+<p><img src="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E5%AF%BC%E5%85%A5%E6%96%87%E4%BB%B6.png"
 	width="1064"
 	height="729"
-	srcset="/p/%E5%BA%93/%E5%AF%BC%E5%85%A5%E6%96%87%E4%BB%B6_hu_1560f813e369b787.png 480w, /p/%E5%BA%93/%E5%AF%BC%E5%85%A5%E6%96%87%E4%BB%B6_hu_4bd14b7d4f457a64.png 1024w"
+	srcset="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E5%AF%BC%E5%85%A5%E6%96%87%E4%BB%B6_hu_1560f813e369b787.png 480w, /p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E5%AF%BC%E5%85%A5%E6%96%87%E4%BB%B6_hu_4bd14b7d4f457a64.png 1024w"
 	loading="lazy"
 	
 		alt="导入文件"
@@ -572,10 +572,10 @@
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>这样就成功导入静态链接库啦，可以使用静态库中的类与方法</p>
-<p><img src="/p/%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B.png"
+<p><img src="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B.png"
 	width="1783"
 	height="665"
-	srcset="/p/%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B_hu_d6f79242fa4d0242.png 480w, /p/%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B_hu_cebd4d8ef7c0d58a.png 1024w"
+	srcset="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B_hu_d6f79242fa4d0242.png 480w, /p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B_hu_cebd4d8ef7c0d58a.png 1024w"
 	loading="lazy"
 	
 		alt="程序示例"
@@ -590,10 +590,10 @@
 </h3><p>刚刚的指定需要链接的库文件代码不添加</p>
 <p>将头文件和库文件打包在同一个文件夹，将该文件夹路径添加到<code>项目属性 → VC++目录 → 包含目录和库目录</code>，注意前面要加; （<strong>如果是方法一中直接复制文件到新项目就跳过此步</strong>）</p>
 <p>项目属性中设置：<code>打开项目属性 → 链接器 → 输入</code>，在<code>&quot;附加依赖项&quot;</code>中添加 <code>TestLib.lib</code></p>
-<p><img src="/p/%E5%BA%93/%E6%B7%BB%E5%8A%A0%E9%9D%99%E6%80%81%E5%BA%93.png"
+<p><img src="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E6%B7%BB%E5%8A%A0%E9%9D%99%E6%80%81%E5%BA%93.png"
 	width="1557"
 	height="1061"
-	srcset="/p/%E5%BA%93/%E6%B7%BB%E5%8A%A0%E9%9D%99%E6%80%81%E5%BA%93_hu_955f4d975b9176d5.png 480w, /p/%E5%BA%93/%E6%B7%BB%E5%8A%A0%E9%9D%99%E6%80%81%E5%BA%93_hu_9d194107c51d3b41.png 1024w"
+	srcset="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E6%B7%BB%E5%8A%A0%E9%9D%99%E6%80%81%E5%BA%93_hu_955f4d975b9176d5.png 480w, /p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E6%B7%BB%E5%8A%A0%E9%9D%99%E6%80%81%E5%BA%93_hu_9d194107c51d3b41.png 1024w"
 	loading="lazy"
 	
 		alt="添加静态库"
@@ -605,10 +605,10 @@
 	
 ></p>
 <p>或者<code>打开项目属性 → 链接器 → 命令行</code>，在<code>“其他选项”</code>中添加 <code>TestLib.lib</code></p>
-<p><img src="/p/%E5%BA%93/%E8%AE%BE%E7%BD%AE%E7%BB%A7%E6%89%BF.png"
+<p><img src="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E8%AE%BE%E7%BD%AE%E7%BB%A7%E6%89%BF.png"
 	width="1569"
 	height="1073"
-	srcset="/p/%E5%BA%93/%E8%AE%BE%E7%BD%AE%E7%BB%A7%E6%89%BF_hu_f74d85ba1b6045af.png 480w, /p/%E5%BA%93/%E8%AE%BE%E7%BD%AE%E7%BB%A7%E6%89%BF_hu_558535f34d4f9907.png 1024w"
+	srcset="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E8%AE%BE%E7%BD%AE%E7%BB%A7%E6%89%BF_hu_f74d85ba1b6045af.png 480w, /p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E8%AE%BE%E7%BD%AE%E7%BB%A7%E6%89%BF_hu_558535f34d4f9907.png 1024w"
 	loading="lazy"
 	
 		alt="设置继承"
@@ -620,10 +620,10 @@
 	
 ></p>
 <p>点击<code>“应用” → “确定”</code>，和上述功能相同</p>
-<p><img src="/p/%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B2.png"
+<p><img src="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B2.png"
 	width="1775"
 	height="665"
-	srcset="/p/%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B2_hu_ff5177f8df432cdc.png 480w, /p/%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B2_hu_fdddd26089d9fa75.png 1024w"
+	srcset="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B2_hu_ff5177f8df432cdc.png 480w, /p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B2_hu_fdddd26089d9fa75.png 1024w"
 	loading="lazy"
 	
 		alt="程序示例2"
@@ -678,10 +678,10 @@
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p><img src="/p/%E5%BA%93/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93%E5%A4%B4%E6%96%87%E4%BB%B6.png"
+</div><p><img src="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93%E5%A4%B4%E6%96%87%E4%BB%B6.png"
 	width="2100"
 	height="622"
-	srcset="/p/%E5%BA%93/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93%E5%A4%B4%E6%96%87%E4%BB%B6_hu_e31b92abb2edeccd.png 480w, /p/%E5%BA%93/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93%E5%A4%B4%E6%96%87%E4%BB%B6_hu_7ea908c6287accfc.png 1024w"
+	srcset="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93%E5%A4%B4%E6%96%87%E4%BB%B6_hu_e31b92abb2edeccd.png 480w, /p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93%E5%A4%B4%E6%96%87%E4%BB%B6_hu_7ea908c6287accfc.png 1024w"
 	loading="lazy"
 	
 		alt="动态链接库头文件"
@@ -766,10 +766,10 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>选择<code>“生成” -&gt; “生成解决方案”</code>（Ctrl+Shift+B），会生成dll文件和lib</p>
-<p><img src="/p/%E5%BA%93/%E7%94%9F%E6%88%90%E7%9A%84%E5%8A%A8%E6%80%81%E5%BA%93.png"
+<p><img src="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E7%94%9F%E6%88%90%E7%9A%84%E5%8A%A8%E6%80%81%E5%BA%93.png"
 	width="934"
 	height="466"
-	srcset="/p/%E5%BA%93/%E7%94%9F%E6%88%90%E7%9A%84%E5%8A%A8%E6%80%81%E5%BA%93_hu_48145b9b3a9f7393.png 480w, /p/%E5%BA%93/%E7%94%9F%E6%88%90%E7%9A%84%E5%8A%A8%E6%80%81%E5%BA%93_hu_efd58f64815ed06.png 1024w"
+	srcset="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E7%94%9F%E6%88%90%E7%9A%84%E5%8A%A8%E6%80%81%E5%BA%93_hu_48145b9b3a9f7393.png 480w, /p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E7%94%9F%E6%88%90%E7%9A%84%E5%8A%A8%E6%80%81%E5%BA%93_hu_efd58f64815ed06.png 1024w"
 	loading="lazy"
 	
 		alt="生成的动态库"
@@ -793,10 +793,10 @@
 </span></span><span class="line"><span class="cl"><span class="k">extern</span> <span class="s">&#34;C&#34;</span> <span class="n">_declspec</span><span class="p">(</span><span class="n">dllimport</span><span class="p">)</span> <span class="kt">int</span> <span class="kr">__stdcall</span> <span class="n">mySub</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">);</span>	<span class="c1">//导入函数时要跟声明类型的一样
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><p><img src="/p/%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B3.png"
+</div><p><img src="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B3.png"
 	width="2131"
 	height="774"
-	srcset="/p/%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B3_hu_6f4994a0e5484d0b.png 480w, /p/%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B3_hu_9a20f3a7a001c604.png 1024w"
+	srcset="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B3_hu_6f4994a0e5484d0b.png 480w, /p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B3_hu_9a20f3a7a001c604.png 1024w"
 	loading="lazy"
 	
 		alt="程序示例3"
@@ -821,6 +821,7 @@
 </span><span class="lnt"> 8
 </span><span class="lnt"> 9
 </span><span class="lnt">10
+</span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;windows.h&gt;</span><span class="cp">    </span><span class="c1">//使用LoadLibrary函数必须包含此头文件
@@ -832,13 +833,14 @@
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">HINSTANCE</span> <span class="n">hModule</span> <span class="o">=</span> <span class="n">LoadLibrary</span><span class="p">(</span><span class="sa">L</span><span class="s">&#34;TestDll.dll&#34;</span><span class="p">);</span>    <span class="c1">//L -&gt; 宽字符版本 -&gt; 现代Windows兼容
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">mySub</span> <span class="o">=</span> <span class="p">(</span><span class="n">lpSub</span><span class="p">)</span><span class="n">GetProcAddress</span><span class="p">(</span><span class="n">hModule</span><span class="p">,</span> <span class="s">&#34;mySub&#34;</span><span class="p">);</span>    <span class="c1">//获取函数地址
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;2-1=&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">mySub</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>              <span class="c1">//若是32位程序，__stdcall类型则为_mySub@8
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">FreeLibrary</span><span class="p">(</span><span class="n">hModule</span><span class="p">);</span>	<span class="c1">//释放dll
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p><img src="/p/%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B4.png"
+</div><p><img src="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B4.png"
 	width="2681"
 	height="938"
-	srcset="/p/%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B4_hu_de9942dac23db2a0.png 480w, /p/%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B4_hu_11aadee96afbfffc.png 1024w"
+	srcset="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B4_hu_de9942dac23db2a0.png 480w, /p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E7%A8%8B%E5%BA%8F%E7%A4%BA%E4%BE%8B4_hu_11aadee96afbfffc.png 1024w"
 	loading="lazy"
 	
 		alt="程序示例4"
@@ -850,10 +852,10 @@
 	
 ></p>
 <h2 id="静态库与动态库对比">静态库与动态库对比
-</h2><p><img src="/p/%E5%BA%93/%E9%9D%99%E6%80%81%E5%BA%93%E4%B8%8E%E5%8A%A8%E6%80%81%E5%BA%93%E5%AF%B9%E6%AF%94.png"
+</h2><p><img src="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E9%9D%99%E6%80%81%E5%BA%93%E4%B8%8E%E5%8A%A8%E6%80%81%E5%BA%93%E5%AF%B9%E6%AF%94.png"
 	width="1914"
 	height="544"
-	srcset="/p/%E5%BA%93/%E9%9D%99%E6%80%81%E5%BA%93%E4%B8%8E%E5%8A%A8%E6%80%81%E5%BA%93%E5%AF%B9%E6%AF%94_hu_590b85b97dad75df.png 480w, /p/%E5%BA%93/%E9%9D%99%E6%80%81%E5%BA%93%E4%B8%8E%E5%8A%A8%E6%80%81%E5%BA%93%E5%AF%B9%E6%AF%94_hu_1f9c82c984a73d64.png 1024w"
+	srcset="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E9%9D%99%E6%80%81%E5%BA%93%E4%B8%8E%E5%8A%A8%E6%80%81%E5%BA%93%E5%AF%B9%E6%AF%94_hu_590b85b97dad75df.png 480w, /p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E9%9D%99%E6%80%81%E5%BA%93%E4%B8%8E%E5%8A%A8%E6%80%81%E5%BA%93%E5%AF%B9%E6%AF%94_hu_1f9c82c984a73d64.png 1024w"
 	loading="lazy"
 	
 		alt="静态库与动态库对比"
@@ -901,10 +903,10 @@
 </span></span><span class="line"><span class="cl"><span class="n">Mul</span> <span class="err">@</span><span class="mi">13</span>	<span class="n">NONAME</span>	<span class="c1">//13为该函数序号 NONAME表示没有名字，即隐藏函数名
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><p><img src="/p/%E5%BA%93/def%E6%96%87%E4%BB%B6.png"
+</div><p><img src="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/def%E6%96%87%E4%BB%B6.png"
 	width="1136"
 	height="614"
-	srcset="/p/%E5%BA%93/def%E6%96%87%E4%BB%B6_hu_f3fc39bfbfb73385.png 480w, /p/%E5%BA%93/def%E6%96%87%E4%BB%B6_hu_57c717923e9ef6ab.png 1024w"
+	srcset="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/def%E6%96%87%E4%BB%B6_hu_f3fc39bfbfb73385.png 480w, /p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/def%E6%96%87%E4%BB%B6_hu_57c717923e9ef6ab.png 1024w"
 	loading="lazy"
 	
 		alt="def文件"
@@ -916,10 +918,10 @@
 	
 ></p>
 <p><code>配置属性 → 链接器 → 输入</code>中<code>模块定义文件</code>添加刚刚的<code>test.def</code></p>
-<p><img src="/p/%E5%BA%93/def%E6%A8%A1%E5%9D%97%E5%AE%9A%E4%B9%89.png"
+<p><img src="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/def%E6%A8%A1%E5%9D%97%E5%AE%9A%E4%B9%89.png"
 	width="1569"
 	height="1078"
-	srcset="/p/%E5%BA%93/def%E6%A8%A1%E5%9D%97%E5%AE%9A%E4%B9%89_hu_c4129f6527b4825e.png 480w, /p/%E5%BA%93/def%E6%A8%A1%E5%9D%97%E5%AE%9A%E4%B9%89_hu_5d4b1af1e657798d.png 1024w"
+	srcset="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/def%E6%A8%A1%E5%9D%97%E5%AE%9A%E4%B9%89_hu_c4129f6527b4825e.png 480w, /p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/def%E6%A8%A1%E5%9D%97%E5%AE%9A%E4%B9%89_hu_5d4b1af1e657798d.png 1024w"
 	loading="lazy"
 	
 		alt="def模块定义"

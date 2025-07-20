@@ -254,7 +254,7 @@ DWORD AlignUp(DWORD value, DWORD alignment) {
     return (value + alignment - 1) & ~(alignment - 1);
 }
 BOOL AddSectionToImageBuffer(LPVOID* ppImageBuffer, char* sectionName, DWORD sectionSize, DWORD characteristics){
-    if (ppImageBuffer == NULL || *ppImageBuffer == NULL ) {//|| sectionSize == 0) {
+    if (ppImageBuffer == NULL || *ppImageBuffer == NULL ) {
         return FALSE;
     }
     LPVOID pImageBuffer = *ppImageBuffer;
@@ -512,6 +512,14 @@ BOOL MergeSectionsToFirst(LPVOID pImageBuffer) {
     printf("New Characteristics: 0x%X\n", newCharacteristics);
     return TRUE;
 }
+PIMAGE_NT_HEADERS GetNtHead(HANDLE ImageBase) {     //返回NT头指针
+    PIMAGE_DOS_HEADER pDosHead = NULL;
+    PIMAGE_NT_HEADERS pNtHead = NULL;
+    pDosHead = (PIMAGE_DOS_HEADER)ImageBase;
+    pNtHead = (PIMAGE_NT_HEADERS)((DWORD)pDosHead + pDosHead->e_lfanew);
+    return pNtHead;
+}
+
 int main() {
     //char szSrcFile[] = "C:\\Windows\\System32\\notepad.exe";
     //char szSrcFile[] = "D:\\code\\sublime\\111.exe";
@@ -640,7 +648,7 @@ DWORD RvaToFoa(IN LPVOID pFileBuffer, IN DWORD dwRva) {
     PIMAGE_DOS_HEADER pDosHeader = NULL;
     PIMAGE_NT_HEADERS pNTHeader = NULL;
     PIMAGE_FILE_HEADER pPEHeader = NULL;
-    PIMAGE_OPTIONAL_HEADER32 pOptionHeader = NULL;
+    //PIMAGE_OPTIONAL_HEADER32 pOptionHeader = NULL;
     PIMAGE_SECTION_HEADER pSectionHeader = NULL;
     // 1. 解析PE头
     pDosHeader = (PIMAGE_DOS_HEADER)pFileBuffer;
@@ -658,19 +666,25 @@ DWORD RvaToFoa(IN LPVOID pFileBuffer, IN DWORD dwRva) {
     }
     // 3. 遍历节表，查找RVA所在的节区
     pPEHeader = &pNTHeader->FileHeader;
-    pOptionHeader = (PIMAGE_OPTIONAL_HEADER32)((BYTE*)pPEHeader + sizeof(IMAGE_FILE_HEADER));
-    pSectionHeader = (PIMAGE_SECTION_HEADER)((BYTE*)pOptionHeader + pPEHeader->SizeOfOptionalHeader);
+    if (pNTHeader->FileHeader.Machine == IMAGE_FILE_MACHINE_AMD64) {
+        PIMAGE_OPTIONAL_HEADER64 pOptionHeader = (PIMAGE_OPTIONAL_HEADER64)&pNTHeader->OptionalHeader;
+        pSectionHeader = (PIMAGE_SECTION_HEADER)((BYTE*)pOptionHeader + pPEHeader->SizeOfOptionalHeader);
+    } else {
+        PIMAGE_OPTIONAL_HEADER32 pOptionHeader = (PIMAGE_OPTIONAL_HEADER32)&pNTHeader->OptionalHeader;
+        pSectionHeader = (PIMAGE_SECTION_HEADER)((BYTE*)pOptionHeader + pPEHeader->SizeOfOptionalHeader);
+    }
     WORD wNumberOfSections = pPEHeader->NumberOfSections;
     for (WORD i = 0; i < wNumberOfSections; i++) {
         DWORD dwVirtualAddress = pSectionHeader->VirtualAddress;
         // 使用 VirtualSize 来判断范围，因为这是节区在内存中的实际大小
-        DWORD dwVirtualSize = pSectionHeader->Misc.VirtualSize; 
+        DWORD dwVirtualSize = pSectionHeader->Misc.VirtualSize;
         if (dwRva >= dwVirtualAddress && dwRva < (dwVirtualAddress + dwVirtualSize)) {
             // 4. 在节区内找到，进行转换
             // 公式：FOA = RVA - 节区虚拟地址 + 节区文件偏移
             DWORD dwFoa = (dwRva - dwVirtualAddress) + pSectionHeader->PointerToRawData;
             return dwFoa;
         }
+        pSectionHeader++;
     }
     // 5. 如果遍历完所有节区都未找到，说明RVA无效
     return 0;
