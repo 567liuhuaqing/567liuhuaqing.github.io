@@ -1,0 +1,1755 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content=" Win32 是 Microsoft Windows 操作系统的核心应用程序编程接口（API），用于开发在 Windows 平台上运行的应用程序\nWin32 编码 Win32 字符编码体系\n编码类型 宽字符 (Unicode) 多字节字符 (ANSI) 字符大小 2字节（wchar_t） 1字节（char） 编码标准 UTF-16（小端序） 本地代码页（如GBK, Shift-JIS） API 后缀 W（如 MessageBoxW） A（如 MessageBoxA） 前缀标识 L（如 L&quot;文本&quot;） 无（如 &quot;文本&quot;） 适用场景 现代 Windows 应用（Win2000+） 兼容旧系统（Win9x） 推荐指数 ★★★★★（微软官方推荐） ★☆☆☆☆（已淘汰） 历史演进与技术替代\n">
+<title>Win32</title>
+
+<link rel='canonical' href='https://567liuhuaqing.github.io/p/win32/'>
+
+<link rel="stylesheet" href="/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="Win32">
+<meta property='og:description' content=" Win32 是 Microsoft Windows 操作系统的核心应用程序编程接口（API），用于开发在 Windows 平台上运行的应用程序\nWin32 编码 Win32 字符编码体系\n编码类型 宽字符 (Unicode) 多字节字符 (ANSI) 字符大小 2字节（wchar_t） 1字节（char） 编码标准 UTF-16（小端序） 本地代码页（如GBK, Shift-JIS） API 后缀 W（如 MessageBoxW） A（如 MessageBoxA） 前缀标识 L（如 L&quot;文本&quot;） 无（如 &quot;文本&quot;） 适用场景 现代 Windows 应用（Win2000+） 兼容旧系统（Win9x） 推荐指数 ★★★★★（微软官方推荐） ★☆☆☆☆（已淘汰） 历史演进与技术替代\n">
+<meta property='og:url' content='https://567liuhuaqing.github.io/p/win32/'>
+<meta property='og:site_name' content='liuhuaqing'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='og:image' content='https://567liuhuaqing.github.io/p/win32/%E8%88%B9%E9%95%BF.jpg' />
+<meta name="twitter:title" content="Win32">
+<meta name="twitter:description" content=" Win32 是 Microsoft Windows 操作系统的核心应用程序编程接口（API），用于开发在 Windows 平台上运行的应用程序\nWin32 编码 Win32 字符编码体系\n编码类型 宽字符 (Unicode) 多字节字符 (ANSI) 字符大小 2字节（wchar_t） 1字节（char） 编码标准 UTF-16（小端序） 本地代码页（如GBK, Shift-JIS） API 后缀 W（如 MessageBoxW） A（如 MessageBoxA） 前缀标识 L（如 L&quot;文本&quot;） 无（如 &quot;文本&quot;） 适用场景 现代 Windows 应用（Win2000+） 兼容旧系统（Win9x） 推荐指数 ★★★★★（微软官方推荐） ★☆☆☆☆（已淘汰） 历史演进与技术替代\n"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://567liuhuaqing.github.io/p/win32/%E8%88%B9%E9%95%BF.jpg' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_ebe7edef6fa87d8d.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🌌</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">liuhuaqing</a></h1>
+            <h2 class="site-description">lctf{reverse_is_c00l!}</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://www.bilibili.com'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-bilibili"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" /><path d="M8 3l2 3" /><path d="M16 3l-2 3" /><path d="M9 13v-2" /><path d="M15 11v2" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/CaiJimmy/hugo-theme-stack'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com'
+                        target="_blank"
+                        title="Twitter"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友情链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://567liuhuaqing.github.io/en/" >English</option>
+                                
+                                    <option value="https://567liuhuaqing.github.io/" selected>简体中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#win32-编码">Win32 编码</a>
+      <ol>
+        <li><a href="#宽字符-unicode">宽字符 Unicode</a>
+          <ol>
+            <li><a href="#unicode存储的实现方式">Unicode存储的实现方式</a></li>
+            <li><a href="#c语言中的宽字符">C语言中的宽字符</a></li>
+          </ol>
+        </li>
+        <li><a href="#win32-api">Win32 API</a>
+          <ol>
+            <li><a href="#什么是win32-api">什么是Win32 API</a></li>
+            <li><a href="#关键功能dll">关键功能DLL</a></li>
+            <li><a href="#win32-api编码">Win32 API编码</a></li>
+            <li><a href="#win32入口程序">Win32入口程序</a></li>
+            <li><a href="#win32程序中调试信息">Win32程序中调试信息</a></li>
+            <li><a href="#getlasterror的使用">GetLastError的使用</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#win32图形界面">Win32图形界面</a>
+      <ol>
+        <li><a href="#事件与消息">事件与消息</a></li>
+        <li><a href="#win32-gui">Win32 GUI</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/win32/">
+                <img src="/p/win32/%E8%88%B9%E9%95%BF_hu_4506ca195d24d196.jpg"
+                        srcset="/p/win32/%E8%88%B9%E9%95%BF_hu_4506ca195d24d196.jpg 800w, /p/win32/%E8%88%B9%E9%95%BF_hu_d35a24ccb61be13b.jpg 1600w"
+                        width="800" 
+                        height="461" 
+                        loading="lazy"
+                        alt="Featured image of post Win32" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E7%9F%A5%E8%AF%86%E7%82%B9%E5%AD%A6%E4%B9%A0/" >
+                知识点学习
+            </a>
+        
+            <a href="/categories/reverse/" style="background-color: #2a9d8f; color: #fff;">
+                Reverse
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/win32/">Win32</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 16 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <blockquote>
+<p><strong>Win32</strong> 是 <strong>Microsoft Windows 操作系统的核心应用程序编程接口（API）</strong>，用于开发在 Windows 平台上运行的应用程序</p></blockquote>
+<h2 id="win32-编码">Win32 编码
+</h2><blockquote>
+<p>Win32 字符编码体系</p></blockquote>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><strong>编码类型</strong></th>
+          <th style="text-align: left"><strong>宽字符 (Unicode)</strong></th>
+          <th style="text-align: left"><strong>多字节字符 (ANSI)</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>字符大小</strong></td>
+          <td style="text-align: left">2字节（wchar_t）</td>
+          <td style="text-align: left">1字节（char）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>编码标准</strong></td>
+          <td style="text-align: left">UTF-16（小端序）</td>
+          <td style="text-align: left">本地代码页（如GBK, Shift-JIS）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>API 后缀</strong></td>
+          <td style="text-align: left"><code>W</code>（如 <code>MessageBoxW</code>）</td>
+          <td style="text-align: left"><code>A</code>（如 <code>MessageBoxA</code>）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>前缀标识</strong></td>
+          <td style="text-align: left"><code>L</code>（如 <code>L&quot;文本&quot;</code>）</td>
+          <td style="text-align: left">无（如 <code>&quot;文本&quot;</code>）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>适用场景</strong></td>
+          <td style="text-align: left">现代 Windows 应用（Win2000+）</td>
+          <td style="text-align: left">兼容旧系统（Win9x）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>推荐指数</strong></td>
+          <td style="text-align: left">★★★★★（微软官方推荐）</td>
+          <td style="text-align: left">★☆☆☆☆（已淘汰）</td>
+      </tr>
+  </tbody>
+</table></div>
+<blockquote>
+<p>历史演进与技术替代</p></blockquote>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><strong>技术</strong></th>
+          <th style="text-align: left"><strong>出现时间</strong></th>
+          <th style="text-align: left"><strong>字符编码</strong></th>
+          <th style="text-align: left"><strong>现状</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">Win16 API</td>
+          <td style="text-align: left">1985</td>
+          <td style="text-align: left">ANSI</td>
+          <td style="text-align: left">完全淘汰</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Win32 API (A)</td>
+          <td style="text-align: left">1993</td>
+          <td style="text-align: left">ANSI</td>
+          <td style="text-align: left">遗留系统维护</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Win32 API (W)</td>
+          <td style="text-align: left">2000</td>
+          <td style="text-align: left">UTF-16</td>
+          <td style="text-align: left">主流使用</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">WinRT/UWP</td>
+          <td style="text-align: left">2012</td>
+          <td style="text-align: left">UTF-16 (兼容UTF-8)</td>
+          <td style="text-align: left">新一代应用</td>
+      </tr>
+  </tbody>
+</table></div>
+<h3 id="宽字符-unicode">宽字符 Unicode
+</h3><blockquote>
+<p>Unicode编码创建了一张包含世界上所有文字的编码表，只要世界上存在的文字符号，都会赋予一个唯一的编码。</p>
+<p>Unicode编码的范围是：0x0-0x10FFFF，其可以容纳100多万个符号，但是Unicode本身也存在问题，因为Unicode只是一个符号集，它只规定了符号的二进制代码，却没有规定这个二进制代码应该如何去存储。</p></blockquote>
+<h4 id="unicode存储的实现方式">Unicode存储的实现方式
+</h4><ul>
+<li><strong>UTF-8, UTF-16, UTF-32</strong>：它们就是将 Unicode 码点转换成计算机字节序列的具体规则。同一个 Unicode 码点，用这三种编码方式存储，得到的字节序列是不同的。</li>
+</ul>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">特性</th>
+          <th style="text-align: left">UTF-8</th>
+          <th style="text-align: left">UTF-16</th>
+          <th style="text-align: left">UTF-32</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>编码单元</strong></td>
+          <td style="text-align: left">1 字节 (8位)</td>
+          <td style="text-align: left">2 字节 (16位)</td>
+          <td style="text-align: left">4 字节 (32位)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>长度</strong></td>
+          <td style="text-align: left"><strong>变长</strong> (1-4字节)</td>
+          <td style="text-align: left"><strong>变长</strong> (2或4字节)</td>
+          <td style="text-align: left"><strong>定长</strong> (4字节)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>BOM标记</strong></td>
+          <td style="text-align: left">可选 (EF BB BF)</td>
+          <td style="text-align: left">必需 (FE FF 或 FF FE)</td>
+          <td style="text-align: left">可选 (00 00 FE FF)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>对ASCII的兼容性</strong></td>
+          <td style="text-align: left"><strong>完全兼容</strong></td>
+          <td style="text-align: left">不兼容</td>
+          <td style="text-align: left">不兼容</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>空间效率</strong></td>
+          <td style="text-align: left">对西文最高，对东亚文中等</td>
+          <td style="text-align: left">对东亚文最高，对西文中等</td>
+          <td style="text-align: left">最低，非常浪费空间</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>处理效率</strong></td>
+          <td style="text-align: left">长度不固定，计算字符数和索引较慢</td>
+          <td style="text-align: left">多数常用字符定长，处理较快</td>
+          <td style="text-align: left">定长，计算字符数和索引最快</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>字节序(Endianness)问题</strong></td>
+          <td style="text-align: left"><strong>无</strong></td>
+          <td style="text-align: left"><strong>有</strong> (需BOM区分)</td>
+          <td style="text-align: left"><strong>有</strong> (需BOM区分)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>应用场景</strong></td>
+          <td style="text-align: left"><strong>互联网、Web、操作系统文件系统</strong></td>
+          <td style="text-align: left"><strong>Windows内部、Java、.NET</strong></td>
+          <td style="text-align: left">学术研究、内存中临时处理</td>
+      </tr>
+  </tbody>
+</table></div>
+<blockquote>
+<ol>
+<li><strong>UTF-8</strong> (8-bit Unicode Transformation Format)</li>
+</ol></blockquote>
+<p>这是目前互联网上<strong>使用最广泛</strong>的Unicode编码方式。</p>
+<ul>
+<li><strong>核心思想：</strong> 用“前缀位”来表示一个字符需要用几个字节。</li>
+<li><strong>规则：</strong>
+<ul>
+<li><strong>单字节</strong>：<code>0xxxxxxx</code>。用于表示所有 <strong>ASCII 字符 (U+0000 到 U+007F)</strong>。这也是它完美兼容ASCII的原因。</li>
+<li><strong>双字节</strong>：<code>110xxxxx 10xxxxxx</code>。用于表示一些拉丁文、希腊文等。</li>
+<li><strong>三字节</strong>：<code>1110xxxx 10xxxxxx 10xxxxxx</code>。用于表示<strong>绝大多数常用汉字</strong>等中日韩字符。</li>
+<li><strong>四字节</strong>：<code>11110xxx 10xxxxxx 10xxxxxx 10xxxxxx</code>。用于表示不常用的字符和<strong>Emoji表情</strong>等。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<ol start="2">
+<li><strong>UTF-16</strong> (16-bit Unicode Transformation Format)</li>
+</ol></blockquote>
+<p>在很多系统内部，尤其是 Windows 和 Java，这是首选的编码方式。</p>
+<ul>
+<li><strong>核心思想：</strong> 尽量用2个字节表示一个字符，实在不行再用4个。</li>
+<li><strong>规则：</strong>
+<ul>
+<li>对于码点在 <code>U+0000</code> 到 <code>U+FFFF</code> 之间的字符（这个范围包含了几乎所有常用字符，包括大部分汉字），直接用<strong>2个字节</strong>存储。</li>
+<li>对于码点超出 <code>U+FFFF</code> 的字符（如Emoji），使用<strong>代理对 (Surrogate Pair)</strong> 的方式，用<strong>4个字节</strong>来表示。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<ol start="3">
+<li><strong>UTF-32</strong> (32-bit Unicode Transformation Format)</li>
+</ol></blockquote>
+<p>最简单直接，但也最浪费空间的编码方式。</p>
+<ul>
+<li><strong>核心思想：</strong> 不管什么字符，一律用4个字节（32位）来表示。</li>
+<li><strong>规则：</strong> 直接将Unicode码点的值用4个字节存储。</li>
+</ul>
+<h4 id="c语言中的宽字符">C语言中的宽字符
+</h4><p>1.宽字符使用</p>
+<blockquote>
+<p>“中”字编码：</p>
+<p>ASCII：<code>d6 d0</code></p>
+<p>UNICODE（UTF-16）：<code>4e 2d</code></p></blockquote>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><strong>数据类型</strong></th>
+          <th style="text-align: left">宽字符版本</th>
+          <th style="text-align: left">多字节版本</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">字符类型</td>
+          <td style="text-align: left"><code>wchar_t</code></td>
+          <td style="text-align: left"><code>char</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">字符串指针</td>
+          <td style="text-align: left"><code>LPCWSTR</code> (const wchar_t*)</td>
+          <td style="text-align: left"><code>LPCSTR</code> (const char*)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">可变字符串</td>
+          <td style="text-align: left"><code>LPWSTR</code> (wchar_t*)</td>
+          <td style="text-align: left"><code>LPSTR</code> (char*)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">通用字符类型</td>
+          <td style="text-align: left"><code>TCHAR</code>（根据配置变化）</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">通用字符串宏</td>
+          <td style="text-align: left"><code>LPTSTR</code>, <code>LPCTSTR</code></td>
+          <td style="text-align: left"></td>
+      </tr>
+  </tbody>
+</table></div>
+<p>字符和字符串</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="kt">char</span> <span class="n">x</span> <span class="o">=</span> <span class="sc">&#39;中&#39;</span><span class="p">;</span>	<span class="c1">//使用拓展ASCII编码
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">wchar_t</span> <span class="n">x1</span> <span class="o">=</span> <span class="sa">L</span><span class="sc">&#39;中&#39;</span><span class="p">;</span>	<span class="c1">//L指宽字符Unicode编码
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">char</span> <span class="n">x</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&#34;中国&#34;</span><span class="p">;</span>    <span class="c1">//A
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">wchar_t</span> <span class="n">x1</span><span class="p">[]</span> <span class="o">=</span> <span class="sa">L</span><span class="s">&#34;中国&#34;</span><span class="p">;</span>  <span class="c1">//W
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>2.打印宽字符</p>
+<p><em>包含头文件</em><code>#include &lt;locale.h&gt;</code></p>
+<p><em>主函数中添加</em></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">setlocale</span><span class="p">(</span><span class="n">LC_ALL</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">);</span>	<span class="c1">//默认本地操作系统地域
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">printf</span><span class="p">(</span><span class="s">&#34;%s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>	<span class="c1">//使用控制台默认编码
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">wprintf</span><span class="p">(</span><span class="sa">L</span><span class="s">&#34;%s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">x1</span><span class="p">);</span>	<span class="c1">//默认使用英文，可通过setlocale修改地域
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>3.字符串长度</p>
+<p><em>头文件</em><code>#include &lt;string.h&gt;</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">strlen</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>	<span class="c1">//取得多字符编码字符串长度
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">wcslen</span><span class="p">(</span><span class="n">x1</span><span class="p">);</span>	<span class="c1">//取得宽字符编码字符串长度
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>4.字符串操作</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="kt">char</span> <span class="n">x</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&#34;china&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">char</span> <span class="n">x1</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&#34;123&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">strcpy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">wchar_t</span> <span class="n">y</span><span class="p">[]</span> <span class="o">=</span> <span class="sa">L</span><span class="s">&#34;中国&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">wchar_t</span> <span class="n">y1</span><span class="p">[]</span> <span class="o">=</span> <span class="sa">L</span><span class="s">&#34;好&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">wcscpy</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y1</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>还有<code>wcscat</code>、<code>wcscmp</code>、<code>wcsstr</code>等</p>
+<h3 id="win32-api">Win32 API
+</h3><blockquote>
+<p>API（Application Programming Interface，应用程序编程接口）</p></blockquote>
+<h4 id="什么是win32-api">什么是Win32 API
+</h4><p><strong>Win32 API</strong> 是 <strong>Windows 操作系统底层的应用程序编程接口</strong>，为开发者提供直接访问操作系统核心功能的途径，其主要存放在C:\Windows\System32（存储的DLL是64位）、C:\Windows\SysWOW64（存储的DLL是32位）下面的所有DLL文件（几千个）</p>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><strong>特性</strong></th>
+          <th style="text-align: left"><strong>说明</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>接口类型</strong></td>
+          <td style="text-align: left">过程化 C 语言 API（非面向对象）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>架构层级</strong></td>
+          <td style="text-align: left">用户模式与内核模式间的桥梁</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>实现方式</strong></td>
+          <td style="text-align: left">通过 DLL 文件暴露函数（如 kernel32.dll, user32.dll）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>历史地位</strong></td>
+          <td style="text-align: left">Windows 95 至今的核心 API（Win64 是其在 64 位系统的扩展）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>不可替代性</strong></td>
+          <td style="text-align: left">所有 Windows 应用框架（.NET/WinUI）最终都调用 Win32 API</td>
+      </tr>
+  </tbody>
+</table></div>
+<p><img src="/p/win32/%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E6%9E%B6%E6%9E%84.png"
+	width="6148"
+	height="1296"
+	srcset="/p/win32/%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E6%9E%B6%E6%9E%84_hu_3fc33c84476685ff.png 480w, /p/win32/%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E6%9E%B6%E6%9E%84_hu_b121270f8fdd2504.png 1024w"
+	loading="lazy"
+	
+		alt="Win32 API 核心组件架构"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="474"
+		data-flex-basis="1138px"
+	
+></p>
+<h4 id="关键功能dll">关键功能DLL
+</h4><p>通过这些dll（三环）调用内核函数</p>
+<ol>
+<li><strong>系统服务</strong>（Kernel32.dll）</li>
+</ol>
+<ul>
+<li>进程/线程：<code>CreateProcess()</code>, <code>CreateThread()</code></li>
+<li>内存管理：<code>VirtualAlloc()</code>, <code>HeapAlloc()</code></li>
+<li>文件操作：<code>CreateFile()</code>, <code>ReadFile()</code></li>
+<li>同步对象：<code>CreateMutex()</code>, <code>WaitForSingleObject()</code></li>
+</ul>
+<ol start="2">
+<li><strong>用户界面</strong>（User32.dll）</li>
+</ol>
+<ul>
+<li>窗口管理：<code>CreateWindowEx()</code>, <code>ShowWindow()</code></li>
+<li>消息循环：<code>GetMessage()</code>, <code>DispatchMessage()</code></li>
+<li>控件操作：<code>CreateButton()</code>, <code>SetWindowText()</code></li>
+<li>资源管理：<code>LoadIcon()</code>, <code>LoadString()</code></li>
+</ul>
+<ol start="3">
+<li><strong>图形设备</strong>（GDI32.dll）</li>
+</ol>
+<ul>
+<li>绘图：<code>LineTo()</code>, <code>Rectangle()</code></li>
+<li>文本：<code>TextOut()</code>, <code>DrawText()</code></li>
+<li>位图：<code>CreateBitmap()</code>, <code>BitBlt()</code></li>
+<li>设备上下文：<code>GetDC()</code>, <code>ReleaseDC()</code></li>
+</ul>
+<ol start="4">
+<li><strong>高级服务</strong></li>
+</ol>
+<ul>
+<li>注册表：<code>RegOpenKeyEx()</code>, <code>RegSetValueEx()</code>（Advapi32.dll）</li>
+<li>网络：<code>WSAStartup()</code>, <code>socket()</code>（Ws2_32.dll）</li>
+<li>COM 组件：<code>CoInitialize()</code>, <code>CoCreateInstance()</code>（Ole32.dll）</li>
+<li>安全：<code>CryptAcquireContext()</code>, <code>CryptEncrypt()</code>（Crypt32.dll）</li>
+</ul>
+<h4 id="win32-api编码">Win32 API编码
+</h4><blockquote>
+<p>Windows是使用C语言开发的，<code>Win32 API</code>同时支持宽字符和多字节字符</p>
+<p>Windows下所有<strong>内核函数</strong>，涉及字符串均使用宽字节</p></blockquote>
+<p>Windows提供的类型如下：（包含头文件<code>Window.h</code>）</p>
+<p>1.字符类型</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">C</span>	<span class="o">--</span> <span class="n">Win32</span>
+</span></span><span class="line"><span class="cl"><span class="kt">char</span> <span class="o">--</span> <span class="n">CHAR</span>	<span class="c1">//F12可跟进查看类型
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">wchar_t</span> <span class="o">--</span> <span class="n">WCHAR</span>
+</span></span><span class="line"><span class="cl"><span class="err">宏</span> <span class="o">--</span> <span class="n">TCHAR</span>	<span class="c1">//若当前项目设置为ASCII编码，则相当于CHAR；若为Unicode编码，则相当于WCHAR，在Win32中推荐使用
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="c1">//用法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">CHAR</span> <span class="n">cha</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&#34;中国&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">WCHAR</span> <span class="n">chw</span><span class="p">[]</span> <span class="o">=</span> <span class="sa">L</span><span class="s">&#34;中国&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">TCHAR</span> <span class="n">cht</span><span class="p">[]</span> <span class="o">=</span> <span class="n">TEXT</span><span class="p">(</span><span class="s">&#34;中国&#34;</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>2.字符串指针</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">PSTR</span><span class="p">(</span><span class="n">LPSTR</span><span class="p">)</span>	<span class="c1">//指向多字节字符串
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">PWSTR</span><span class="p">(</span><span class="n">LPWSTR</span><span class="p">)</span>	<span class="c1">//指向宽字符串
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="err">宏</span> <span class="o">--</span> <span class="n">PTSTR</span><span class="p">(</span><span class="n">LPTSTR</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">//用法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">PSTR</span> <span class="n">pszC</span> <span class="o">=</span> <span class="s">&#34;China&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">PWSTR</span> <span class="n">pszWC</span> <span class="o">=</span> <span class="sa">L</span><span class="s">&#34;china&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">PTSTR</span> <span class="n">pszTC</span> <span class="o">=</span> <span class="n">TEXT</span><span class="p">(</span><span class="s">&#34;china&#34;</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Windows提供的API，若需要传递字符串参数，都会提供两个版本和一个宏，如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">MessageBoxA</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s">&#34;多字节&#34;</span><span class="p">,</span> <span class="s">&#34;标题&#34;</span><span class="p">,</span> <span class="n">MB_OK</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">MessageBoxW</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="sa">L</span><span class="s">&#34;宽字符&#34;</span><span class="p">,</span> <span class="sa">L</span><span class="s">&#34;标题&#34;</span><span class="p">,</span> <span class="n">MB_OK</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">MessageBox</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">TEXT</span><span class="p">(</span><span class="s">&#34;内容&#34;</span><span class="p">),</span> <span class="n">TEXT</span><span class="p">(</span><span class="s">&#34;标题&#34;</span><span class="p">),</span> <span class="n">MB_OK</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>从本质上来讲，Windows字符串都是宽字符的，所以<strong>使用MessageBoxW这种方式性能会更好一些</strong>，因为当你使用<code>MessageBoxA</code>的时候，在到内核的时候（系统底层）其会转化Unicode，弹窗调用如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">WCHAR</span> <span class="n">strTitle</span><span class="p">[]</span> <span class="o">=</span> <span class="sa">L</span><span class="s">&#34;Title&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">WCHAR</span> <span class="n">strContent</span><span class="p">[]</span> <span class="o">=</span> <span class="sa">L</span><span class="s">&#34;Hello World!&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">MessageBoxW</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">strContent</span><span class="p">,</span> <span class="n">strTitle</span><span class="p">,</span> <span class="n">MB_OK</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="win32入口程序">Win32入口程序
+</h4><p>VS创建项目<strong>Windows桌面应用程序</strong></p>
+<blockquote>
+<p><code>wWinMain</code> 是 <strong>Windows 图形用户界面（GUI）应用程序的入口点</strong>，它相当于 C/C++ 控制台程序中的 <code>main</code> 函数</p></blockquote>
+<p>当你在 Windows 系统上双击一个 <code>.exe</code> 文件的图标时，操作系统加载完程序后，第一个调用的就是这个函数（或者它的非宽字符版本 <code>WinMain</code>），<strong>函数签名</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">APIENTRY</span> <span class="n">wWinMain</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_In_</span>     <span class="n">HINSTANCE</span> <span class="n">hInstance</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_In_opt_</span> <span class="n">HINSTANCE</span> <span class="n">hPrevInstance</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_In_</span>     <span class="n">LPWSTR</span>    <span class="n">lpCmdLine</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_In_</span>     <span class="kt">int</span>       <span class="n">nCmdShow</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<ul>
+<li><strong><code>APIENTRY</code></strong>: 这是一个宏，通常被定义为 <code>__stdcall</code>，这是所有标准 Win32 API 函数使用的约定，所以你的入口点也必须遵守</li>
+</ul></blockquote>
+<ul>
+<li><code>wWinMain</code>:“Windows Main Function”
+<ul>
+<li>前缀 <strong><code>w</code></strong> 代表 <strong>Wide-character（宽字符）</strong>，这意味着这个版本的入口点接收的是**宽字符（UTF-16）**格式的命令行参数。与之对应的是 <code>WinMain</code>（没有<code>w</code>），它接收的是 ANSI（多字节）字符</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<ul>
+<li><code>HINSTANCE</code>: Handle to an Instance（实例句柄）
+<ul>
+<li><strong>句柄 (Handle)</strong>：在Windows中，句柄是一个唯一的数字，它代表了操作系统管理的某个资源（如窗口、文件、进程等）</li>
+<li><strong>实例句柄 (Instance Handle)</strong>：<code>hInstance</code> 是一个指向你程序被加载到内存中的那个<strong>模块 (module)</strong> 的句柄，通常，一个 <code>.exe</code> 文件就是一个模块。这个句柄非常重要，因为操作系统用它来唯一标识你的应用程序实例。</li>
+<li><strong>用途</strong>：你会在很多后续的 Win32 API 调用中用到它，比如加载图标、光标、字符串资源，或者创建窗口时告诉系统这个窗口属于哪个程序实例。</li>
+</ul>
+</li>
+</ul></blockquote>
+<ul>
+<li><code>HINSTANCE hPrevInstance</code>: Handle to a Previous Instance（前一个实例的句柄）。
+<ul>
+<li><strong>历史遗留物</strong>：在古老的16位Windows时代，这个参数用来判断是否已经有同一个程序的实例在运行。如果有，<code>hPrevInstance</code> 会是一个有效值。</li>
+<li><strong>在现代32位和64位Windows中，这个参数永远是 <code>NULL</code> (0)</strong>。因为现代操作系统为每个程序提供了独立的地址空间，一个程序无法轻易地知道另一个实例的存在。如果你需要实现“单实例”应用程序（即只允许程序运行一个），你需要使用其他更现代的方法，比如<strong>互斥体 (Mutex)</strong>。</li>
+<li><strong>结论</strong>：你可以<strong>完全忽略</strong>这个参数。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<ul>
+<li><code>lpCmdLine</code>: 这个参数包含了传递给程序的<strong>命令行参数</strong>
+<ul>
+<li>例如，如果你在命令行中运行 <code>my_program.exe /config &quot;settings.xml&quot; -debug</code>，那么 <code>lpCmdLine</code> 指向的字符串就是 <code>&quot;/config \&quot;settings.xml\&quot; -debug&quot;</code>。</li>
+<li><strong>注意</strong>：它不包含程序本身的名称。如果你需要获取程序自己的路径，应该使用 <code>GetModuleFileName</code> 函数。</li>
+</ul>
+</li>
+</ul></blockquote>
+<ul>
+<li><code>int nCmdShow</code>: 这个参数是一个整数，指定了程序的主窗口应该以<strong>何种状态显示</strong>
+<ul>
+<li>这个值是由启动你的程序的那个进程（比如 Windows 资源管理器）传递过来的。</li>
+<li>常见的值：
+<ul>
+<li><code>SW_SHOWNORMAL</code>: 正常显示窗口（不最大化也不最小化）。</li>
+<li><code>SW_SHOWMAXIMIZED</code>: 最大化显示。</li>
+<li><code>SW_SHOWMINIMIZED</code>: 最小化到任务栏。</li>
+</ul>
+</li>
+<li><strong>如何使用</strong>：在你创建完主窗口后，你应该将这个 <code>nCmdShow</code> 值传递给 <code>ShowWindow</code> 函数，作为它的第二个参数。这是为了尊重启动者的意图。例如，如果用户在另一个程序的快捷方式属性里设置了“以最大化方式运行”，那么操作系统就会通过 <code>nCmdShow</code> 告诉你应该这么做。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong><code>wWinMain</code> 的典型结构</strong></p>
+<p>一个经典的 <code>wWinMain</code> 函数内部通常会做以下几件事：</p>
+<ol>
+<li><strong>注册窗口类 (Register Window Class)</strong>：使用 <code>WNDCLASSEX</code> 结构体定义窗口的各种属性（如窗口过程函数、图标、光标、背景颜色等），然后调用 <code>RegisterClassEx</code> 告诉操作系统“我要创建一种这样的窗口”。</li>
+<li><strong>创建窗口 (Create Window)</strong>：调用 <code>CreateWindowEx</code> 函数，使用上一步注册的窗口类来创建一个具体的窗口实例。</li>
+<li><strong>显示和更新窗口 (Show and Update Window)</strong>：调用 <code>ShowWindow</code>（并传入 <code>nCmdShow</code>）和 <code>UpdateWindow</code>，让窗口显示在屏幕上并绘制其内容。</li>
+<li>进入消息循环 (Message Loop)：
+<ul>
+<li>这是一个 <code>while</code> 循环，不断调用 <code>GetMessage</code> 从程序的消息队列中获取消息（如鼠标点击、键盘按键、窗口重绘请求等）。</li>
+<li>调用 <code>TranslateMessage</code> 进行一些键盘消息的转换。</li>
+<li>调用 <code>DispatchMessage</code> 将消息分发给对应的窗口过程函数（WndProc）去处理。</li>
+</ul>
+</li>
+<li><strong>循环结束，返回</strong>：当 <code>GetMessage</code> 收到 <code>WM_QUIT</code> 消息时，它会返回 <code>FALSE</code>，循环结束，<code>wWinMain</code> 函数返回，程序退出。</li>
+</ol></blockquote>
+<h4 id="win32程序中调试信息">Win32程序中调试信息
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;windows.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 使用 OutputDebugString 输出调试信息
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span> <span class="nf">PrintDebugMessage</span><span class="p">(</span><span class="n">LPCWSTR</span> <span class="n">message</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">OutputDebugString</span><span class="p">(</span><span class="n">message</span><span class="p">);</span>  <span class="c1">// 在调试器输出窗口显示
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// OutputDebugString(L&#34;Debug message\n&#34;); // 示例
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 带格式化输出
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">void</span> <span class="nf">PrintDebugFormat</span><span class="p">(</span><span class="n">LPCWSTR</span> <span class="n">format</span><span class="p">,</span> <span class="p">...)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">wchar_t</span> <span class="n">buffer</span><span class="p">[</span><span class="mi">256</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="n">va_list</span> <span class="n">args</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">va_start</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">format</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">vswprintf_s</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="n">format</span><span class="p">,</span> <span class="n">args</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">va_end</span><span class="p">(</span><span class="n">args</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">OutputDebugString</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 使用示例：
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">PrintDebugFormat</span><span class="p">(</span><span class="sa">L</span><span class="s">&#34;鼠标位置: X=%d, Y=%d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">xPos</span><span class="p">,</span> <span class="n">yPos</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="getlasterror的使用">GetLastError的使用
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">MessageBox</span><span class="p">((</span><span class="n">HWND</span><span class="p">)</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">DWORD</span> <span class="n">erro</span> <span class="o">=</span> <span class="n">GetLastError</span><span class="p">();</span>	<span class="c1">//将改代码放在错误语句的后面，在其后设置断点，F5运行到断点，鼠标放在erro上查看错误值
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>VS提供错误查找工具</p>
+<p><img src="/p/win32/%E9%94%99%E8%AF%AF%E6%9F%A5%E6%89%BE.png"
+	width="1660"
+	height="902"
+	srcset="/p/win32/%E9%94%99%E8%AF%AF%E6%9F%A5%E6%89%BE_hu_fc4c909a7fce596a.png 480w, /p/win32/%E9%94%99%E8%AF%AF%E6%9F%A5%E6%89%BE_hu_7a599fd79cf9b0b.png 1024w"
+	loading="lazy"
+	
+		alt="错误查找"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="184"
+		data-flex-basis="441px"
+	
+></p>
+<p>输入刚刚的错误值查看错误信息</p>
+<p><img src="/p/win32/%E9%94%99%E8%AF%AF-1400.png"
+	width="562"
+	height="333"
+	srcset="/p/win32/%E9%94%99%E8%AF%AF-1400_hu_d968f3e6026d6d40.png 480w, /p/win32/%E9%94%99%E8%AF%AF-1400_hu_6f1543f663920f64.png 1024w"
+	loading="lazy"
+	
+		alt="错误-1400"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="168"
+		data-flex-basis="405px"
+	
+></p>
+<h2 id="win32图形界面">Win32图形界面
+</h2><h3 id="事件与消息">事件与消息
+</h3><blockquote>
+<p>在 Windows 中，<strong>事件 (Event Object)</strong> 是一种<strong>内核对象 (Kernel Object)</strong>，它与进程、线程、互斥体 (Mutex)、信号量 (Semaphore) 处于同一层面</p></blockquote>
+<p><strong>事件特征：</strong></p>
+<ol>
+<li><strong>用途</strong>：主要用于<strong>线程间的同步（Synchronization）</strong>。一个线程可以等待一个事件，而另一个线程可以触发这个事件，从而唤醒等待的线程。</li>
+<li><strong>状态</strong>：事件只有两种状态——<strong>已触发 (Signaled)</strong> 和 <strong>未触发 (Non-signaled)</strong>。</li>
+<li><strong>类型</strong>：
+<ul>
+<li><strong>手动重置事件 (Manual-reset Event)</strong>：一旦被触发，它会一直保持“已触发”状态，直到有代码明确地调用 <code>ResetEvent</code> 函数将其重置为“未触发”。它可以同时唤醒所有正在等待它的线程。</li>
+<li><strong>自动重置事件 (Auto-reset Event)</strong>：一旦被触发并成功唤醒一个等待的线程后，它会自动变回“未触发”状态。就像一个只能一个人通过的旋转门。</li>
+</ul>
+</li>
+<li><strong>操作函数</strong>：<code>CreateEvent</code>, <code>SetEvent</code> (触发), <code>ResetEvent</code> (重置), <code>WaitForSingleObject</code>, <code>WaitForMultipleObjects</code> (等待)。</li>
+<li><strong>可见性</strong>：可以是匿名的（只在当前进程内可见），也可以是命名的（可以跨进程共享和访问）</li>
+</ol>
+<blockquote>
+<p>在 Windows 中，<strong>消息 (Message)</strong> 是 <strong>GUI 子系统（USER32）</strong> 用来与应用程序窗口进行通信的<strong>数据结构</strong>，它驱动着整个 Windows 用户界面的交互</p></blockquote>
+<p><strong>消息特征：</strong></p>
+<ol>
+<li><strong>用途</strong>：用于<strong>通知应用程序发生了某个“有趣的事情”</strong>。这些事情大多与用户输入或窗口状态变化有关。</li>
+<li><strong>结构</strong>：一个消息通常是一个<code>MSG</code>结构体，包含以下关键信息：
+<ul>
+<li><code>hwnd</code>: 消息的目标<strong>窗口句柄</strong>。</li>
+<li><code>message</code>: 消息的<strong>类型</strong>（一个唯一的ID，如 <code>WM_KEYDOWN</code>, <code>WM_LBUTTONDOWN</code>, <code>WM_PAINT</code>）。</li>
+<li><code>wParam</code>: 附加信息1（具体含义取决于消息类型）。</li>
+<li><code>lParam</code>: 附加信息2（具体含义取决于消息类型）。</li>
+</ul>
+</li>
+<li><strong>来源</strong>：
+<ul>
+<li><strong>硬件输入</strong>：鼠标移动、点击，键盘按下等。操作系统捕获硬件中断，将其转化为消息。</li>
+<li><strong>系统通知</strong>：窗口需要重绘 (<code>WM_PAINT</code>)，窗口被销毁 (<code>WM_DESTROY</code>)。</li>
+<li><strong>程序内部</strong>：程序可以自己给自己或其他窗口发送/投递消息（使用 <code>SendMessage</code> 或 <code>PostMessage</code>）。</li>
+</ul>
+</li>
+<li>处理流程 (消息循环)：
+<ul>
+<li>操作系统将消息放入对应线程的<strong>消息队列 (Message Queue)</strong> 中。</li>
+<li>应用程序的<strong>消息循环 (<code>while (GetMessage(...))</code>)</strong> 从队列中取出消息。</li>
+<li><code>DispatchMessage</code> 将消息派发给目标窗口的<strong>窗口过程函数 (WndProc)</strong>。</li>
+<li><code>WndProc</code> 根据消息类型执行相应的处理代码</li>
+</ul>
+</li>
+</ol>
+<p><strong>两者对比</strong></p>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">特性</th>
+          <th style="text-align: left">事件 (Event)</th>
+          <th style="text-align: left">消息 (Message)</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>层面</strong></td>
+          <td style="text-align: left"><strong>内核层 (Kernel)</strong></td>
+          <td style="text-align: left"><strong>GUI/用户层 (USER32)</strong></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>本质</strong></td>
+          <td style="text-align: left"><strong>同步对象 (Synchronization Object)</strong></td>
+          <td style="text-align: left"><strong>数据结构 (Data Structure)</strong></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>目的</strong></td>
+          <td style="text-align: left"><strong>线程间同步</strong>，协调执行顺序</td>
+          <td style="text-align: left"><strong>通知窗口发生了某事</strong>，驱动UI响应</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>状态/内容</strong></td>
+          <td style="text-align: left">只有两种状态：<strong>已触发/未触发</strong></td>
+          <td style="text-align: left">包含丰富信息：<strong>目标窗口、类型、参数</strong></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>通信方</strong></td>
+          <td style="text-align: left"><strong>线程 vs 线程</strong> (或 进程 vs 进程)</td>
+          <td style="text-align: left"><strong>系统/用户 vs 窗口</strong> (或 窗口 vs 窗口)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>处理方式</strong></td>
+          <td style="text-align: left">线程通过 <code>WaitFor...</code> <strong>等待</strong>，然后继续执行</td>
+          <td style="text-align: left">窗口的 <code>WndProc</code> <strong>被动接收</strong>并处理</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>典型例子</strong></td>
+          <td style="text-align: left">一个线程完成下载后，触发一个事件，通知主线程可以更新UI了</td>
+          <td style="text-align: left">用户点击鼠标，系统向窗口发送 <code>WM_LBUTTONDOWN</code> 消息</td>
+      </tr>
+  </tbody>
+</table></div>
+<p><code>MSG</code><strong>结构体</strong>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="nc">tagMAG</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">HWND</span> <span class="n">hwnd</span><span class="p">;</span>	<span class="c1">//窗口句柄
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">UNIT</span> <span class="n">message</span><span class="p">;</span>	<span class="c1">//消息类型
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">WPARAM</span> <span class="n">wParam</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LPARAM</span> <span class="n">lParam</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">DWORD</span> <span class="n">time</span><span class="p">;</span>	<span class="c1">//事件什么时候发生
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">POINT</span> <span class="n">pt</span><span class="p">;</span>	<span class="c1">//坐标（鼠标位置）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span> <span class="n">MSG</span><span class="p">,</span> <span class="o">*</span><span class="n">PMSG</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>消息类型</strong></p>
+<blockquote>
+<p>首先，Windows 消息都以 <code>WM_</code>（Window Message）为前缀，这使得它们非常容易辨认。比如 <code>WM_CREATE</code>, <code>WM_PAINT</code>, <code>WM_KEYDOWN</code></p></blockquote>
+<ol>
+<li>窗口管理消息 (Window Management Messages)</li>
+<li>用户输入消息 (User Input Messages)</li>
+<li>键盘消息</li>
+<li>鼠标消息</li>
+<li>绘图消息 (Painting Messages)</li>
+<li>控件通知消息 (Control Notification Messages)</li>
+<li>用户自定义消息 (User-Defined Messages)</li>
+<li>剪贴板消息 (Clipboard Messages)</li>
+</ol>
+<p><strong>Windows 系统消息队列与应用程序消息队列</strong>：事件触发 -&gt; MSG -&gt;系统消息队列 -&gt; 应用消息队列 -&gt; 消息循环 -&gt; 处理消息</p>
+<p><img src="/p/win32/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97.png"
+	width="1930"
+	height="1340"
+	srcset="/p/win32/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97_hu_db3d31d0dddb2857.png 480w, /p/win32/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97_hu_422e9d3d86d1bfb5.png 1024w"
+	loading="lazy"
+	
+		alt="消息队列"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="144"
+		data-flex-basis="345px"
+	
+></p>
+<h3 id="win32-gui">Win32 GUI
+</h3><blockquote>
+<p>Java GUI 编程和 Win32 GUI 编程在<strong>最终目标</strong>（创建图形用户界面）上是相似的，但在<strong>实现方式、抽象层次、开发体验、跨平台性和底层机制</strong>上存在<strong>巨大差异</strong>，可以说是两种截然不同的范式</p></blockquote>
+<ol>
+<li><strong>抽象层次与直接性：</strong>
+<ul>
+<li>
+<blockquote>
+<p><strong>Win32 GUI：</strong> <strong>极其底层</strong>。开发者直接调用 Windows 操作系统提供的原生 API（主要是 <code>user32.dll</code> 和 <code>gdi32.dll</code>）。你需要：</p>
+<ul>
+<li>手动注册窗口类 (<code>RegisterClassEx</code>)。</li>
+<li>手动创建窗口 (<code>CreateWindowEx</code>)。</li>
+<li>编写庞大的消息循环 (<code>GetMessage</code>, <code>TranslateMessage</code>, <code>DispatchMessage</code>)。</li>
+<li>在复杂的窗口过程 (<code>WndProc</code>) 函数中处理大量的 Windows 消息 (<code>WM_CREATE</code>, <code>WM_PAINT</code>, <code>WM_COMMAND</code>, <code>WM_SIZE</code>, <code>WM_DESTROY</code> 等)。</li>
+<li>直接管理窗口句柄 (<code>HWND</code>)、设备上下文 (<code>HDC</code>)、画笔 (<code>HPEN</code>)、画刷 (<code>HBRUSH</code>) 等底层资源。</li>
+<li>显式处理资源释放和内存管理。</li>
+</ul></blockquote>
+</li>
+<li><strong>Java GUI (Swing/JavaFX)：</strong> <strong>高度抽象</strong>。开发者使用 Java 提供的 <strong>GUI 工具包</strong>：
+<ul>
+<li><strong>Swing：</strong> 基于 AWT，提供了一套纯 Java 实现的、可插拔外观的组件 (<code>JFrame</code>, <code>JButton</code>, <code>JTextField</code>, <code>JTable</code> 等)。开发者主要操作对象 (<code>JButton btn = new JButton(&quot;Click Me&quot;)</code>) 和事件监听器 (<code>btn.addActionListener(...)</code>)。Swing 内部处理了与原生系统的交互。</li>
+<li><strong>JavaFX：</strong> 更现代、功能更强大的 GUI 工具包，同样基于对象 (<code>Stage</code>, <code>Scene</code>, <code>Button</code>, <code>TextField</code>, <code>TableView</code> 等)。它使用场景图 (Scene Graph) 模型、CSS 样式、FXML 声明式布局、丰富的图形/媒体/3D 支持，以及绑定 (Binding) 等高级特性。开发者主要关注业务逻辑和界面描述，底层渲染细节由 JavaFX 引擎处理（可以使用硬件加速）。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>事件处理模型：</strong>
+<ul>
+<li>
+<blockquote>
+<p><strong>Win32 GUI：</strong> <strong>基于消息传递</strong>。所有用户交互（点击、按键、移动鼠标、重绘请求）都转化为特定的 <code>WM_*</code> 消息，被投递到应用程序的消息队列中。你的窗口过程 (<code>WndProc</code>) 必须检查每条消息 (<code>msg.message</code>)，使用巨大的 <code>switch-case</code> 或 <code>if-else</code> 结构来处理它们。处理逻辑与窗口创建代码紧密耦合。</p></blockquote>
+</li>
+<li><strong>Java GUI (Swing/JavaFX)：</strong> <strong>基于事件监听/回调</strong>。采用 <strong>观察者模式</strong>。
+<ul>
+<li>你为特定的 UI 组件 (<code>Button</code>, <code>TextField</code>) 注册事件监听器 (<code>ActionListener</code>, <code>MouseListener</code>, <code>KeyListener</code>, <code>ChangeListener</code> 等)。</li>
+<li>当用户与组件交互时（如点击按钮），组件会<strong>触发</strong>一个事件对象 (<code>ActionEvent</code>, <code>MouseEvent</code>)。</li>
+<li>你注册的监听器方法 (<code>actionPerformed(ActionEvent e)</code>, <code>mouseClicked(MouseEvent e)</code>) 会被<strong>自动调用</strong>，你只需在这些方法中编写响应事件的逻辑。事件源（哪个组件）和事件类型（点击、移动等）由事件对象携带。</li>
+<li>这种方式更符合面向对象思想，代码组织更清晰，将事件处理逻辑与 UI 构建逻辑解耦。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p><strong>Windows窗口实现</strong></p>
+<p>1.创建Windows应用程序，选择空项目</p>
+<p>2.在新建窗口中选C++代码文件，创建一个新的cpp</p>
+<p>3.在文件中添加：<code>#include &lt;Windows.h&gt;</code></p>
+<p>添加入口函数</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">CALLBACK</span> <span class="nf">WinMain</span><span class="p">(</span><span class="n">_In_</span> <span class="n">HINSTANCE</span> <span class="n">hInstance</span><span class="p">,</span>	<span class="c1">//#define CALLBACK	__stdcall
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                     <span class="n">_In_opt_</span> <span class="n">HINSTANCE</span> <span class="n">hPrevInstance</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                     <span class="n">_In_</span> <span class="n">LPWSTR</span>    <span class="n">lpCmdLine</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                     <span class="n">_In_</span> <span class="kt">int</span>       <span class="n">nCmdShow</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>4.设计窗口类</p>
+<p><code>WNDCLASS</code> 结构体的定义：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="nc">tagWNDCLASS</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">UINT</span>      <span class="n">style</span><span class="p">;</span>          <span class="c1">// 窗口类的样式
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">WNDPROC</span>   <span class="n">lpfnWndProc</span><span class="p">;</span>    <span class="c1">// 指向窗口过程函数的指针
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int</span>       <span class="n">cbClsExtra</span><span class="p">;</span>     <span class="c1">// 附加的类内存
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int</span>       <span class="n">cbWndExtra</span><span class="p">;</span>     <span class="c1">// 附加的窗口内存
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">HINSTANCE</span> <span class="n">hInstance</span><span class="p">;</span>      <span class="c1">// 拥有该类的实例句柄
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">HICON</span>     <span class="n">hIcon</span><span class="p">;</span>          <span class="c1">// 类图标的句柄
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">HCURSOR</span>   <span class="n">hCursor</span><span class="p">;</span>        <span class="c1">// 类光标的句柄
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">HBRUSH</span>    <span class="n">hbrBackground</span><span class="p">;</span>  <span class="c1">// 类背景画刷的句柄
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">LPCTSTR</span>   <span class="n">lpszMenuName</span><span class="p">;</span>   <span class="c1">// 菜单资源的名称
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">LPCTSTR</span>   <span class="n">lpszClassName</span><span class="p">;</span>  <span class="c1">// 窗口类的名称
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span> <span class="n">WNDCLASS</span><span class="p">,</span> <span class="o">*</span><span class="n">PWNDCLASS</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="/p/win32/%E6%B6%88%E6%81%AF%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B.png"
+	width="1501"
+	height="3210"
+	srcset="/p/win32/%E6%B6%88%E6%81%AF%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B_hu_18ae02071916d6c6.png 480w, /p/win32/%E6%B6%88%E6%81%AF%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B_hu_a00cd30449fb73d7.png 1024w"
+	loading="lazy"
+	
+		alt="消息处理流程"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="46"
+		data-flex-basis="112px"
+	
+></p>
+<p>代码实现</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;Windows.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="n">LRESULT</span> <span class="n">CALLBACK</span>    <span class="nf">WindowProc</span><span class="p">(</span><span class="n">HWND</span> <span class="n">hwnd</span><span class="p">,</span> <span class="n">UINT</span> <span class="n">uMsg</span><span class="p">,</span> <span class="n">WPARAM</span> <span class="n">wParam</span><span class="p">,</span> <span class="n">LPARAM</span> <span class="n">lParam</span><span class="p">);</span>	<span class="c1">//声明窗口过程函数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="n">APIENTRY</span> <span class="nf">wWinMain</span><span class="p">(</span><span class="n">_In_</span> <span class="n">HINSTANCE</span> <span class="n">hInstance</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                     <span class="n">_In_opt_</span> <span class="n">HINSTANCE</span> <span class="n">hPrevInstance</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                     <span class="n">_In_</span> <span class="n">LPWSTR</span>    <span class="n">lpCmdLine</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                     <span class="n">_In_</span> <span class="kt">int</span>       <span class="n">nCmdShow</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//定义并注册窗口类
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">TCHAR</span> <span class="n">CLASS_NAME</span><span class="p">[]</span> <span class="o">=</span> <span class="sa">L</span><span class="s">&#34;MyFisrtWindowC&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">WNDCLASS</span> <span class="n">wndclass</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span> <span class="p">};</span>	<span class="c1">//若不初始化所有成员则无法创建
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">wndclass</span><span class="p">.</span><span class="n">hbrBackground</span> <span class="o">=</span> <span class="p">(</span><span class="n">HBRUSH</span><span class="p">)</span><span class="n">COLOR_MENU</span><span class="p">;</span>    <span class="c1">//背景色
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">wndclass</span><span class="p">.</span><span class="n">lpfnWndProc</span> <span class="o">=</span> <span class="n">WindowProc</span><span class="p">;</span>  <span class="c1">//事件触发时由该函数处理(窗口过程函数)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">wndclass</span><span class="p">.</span><span class="n">lpszClassName</span> <span class="o">=</span> <span class="n">CLASS_NAME</span><span class="p">;</span> <span class="c1">//窗口类名
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">wndclass</span><span class="p">.</span><span class="n">hInstance</span> <span class="o">=</span> <span class="n">hInstance</span><span class="p">;</span> <span class="c1">//当前窗口绑定的应用程序(当前实例)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">wndclass</span><span class="p">.</span><span class="n">hCursor</span> <span class="o">=</span> <span class="n">LoadCursor</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="n">IDC_ARROW</span><span class="p">);</span> <span class="c1">// 箭头光标
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="n">RegisterClass</span><span class="p">(</span><span class="o">&amp;</span><span class="n">wndclass</span><span class="p">);</span>  <span class="c1">//注册窗口类
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//创建窗口
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">HWND</span> <span class="n">hwnd</span> <span class="o">=</span> <span class="n">CreateWindowEx</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="mi">0</span><span class="p">,</span>                      <span class="c1">// 扩展样式
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">CLASS_NAME</span><span class="p">,</span>             <span class="c1">// 注册的类名
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="sa">L</span><span class="s">&#34;我的Win32窗口&#34;</span><span class="p">,</span>        <span class="c1">// 窗口标题
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">WS_OVERLAPPEDWINDOW</span><span class="p">,</span>    <span class="c1">// 窗口样式
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// 位置和大小
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">CW_USEDEFAULT</span><span class="p">,</span> <span class="n">CW_USEDEFAULT</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="mi">400</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">NULL</span><span class="p">,</span>       <span class="c1">// 父窗口句柄
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="nb">NULL</span><span class="p">,</span>       <span class="c1">// 菜单
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">hInstance</span><span class="p">,</span>  <span class="c1">// 实例句柄
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="nb">NULL</span>        <span class="c1">// 附加数据
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">hwnd</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">//显示窗口
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">ShowWindow</span><span class="p">(</span><span class="n">hwnd</span><span class="p">,</span> <span class="n">nCmdShow</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">UpdateWindow</span><span class="p">(</span><span class="n">hwnd</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">//消息循环
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">MSG</span> <span class="n">msg</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">GetMessage</span><span class="p">(</span><span class="o">&amp;</span><span class="n">msg</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">TranslateMessage</span><span class="p">(</span><span class="o">&amp;</span><span class="n">msg</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">DispatchMessage</span><span class="p">(</span><span class="o">&amp;</span><span class="n">msg</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//实现窗口过程函数(回调函数)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">LRESULT</span> <span class="n">CALLBACK</span> <span class="nf">WindowProc</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">HWND</span> <span class="n">hwnd</span><span class="p">,</span>        <span class="c1">// 窗口句柄
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">UINT</span> <span class="n">uMsg</span><span class="p">,</span>        <span class="c1">// 消息类型
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">WPARAM</span> <span class="n">wParam</span><span class="p">,</span>    <span class="c1">// 附加信息
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">LPARAM</span> <span class="n">lParam</span><span class="p">)</span>    <span class="c1">// 附加信息
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">switch</span> <span class="p">(</span><span class="n">uMsg</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 处理关闭消息
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">case</span> <span class="nl">WM_DESTROY</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">PostQuitMessage</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>  <span class="c1">// 退出消息循环
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 处理绘制消息
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">case</span> <span class="nl">WM_PAINT</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">PAINTSTRUCT</span> <span class="n">ps</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">HDC</span> <span class="n">hdc</span> <span class="o">=</span> <span class="n">BeginPaint</span><span class="p">(</span><span class="n">hwnd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ps</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 在此处绘制内容（例如文字）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">TextOut</span><span class="p">(</span><span class="n">hdc</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="sa">L</span><span class="s">&#34;Hello, Win32!&#34;</span><span class="p">,</span> <span class="mi">13</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EndPaint</span><span class="p">(</span><span class="n">hwnd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ps</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">         <span class="c1">// 默认处理其他消息
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">default</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">DefWindowProc</span><span class="p">(</span><span class="n">hwnd</span><span class="p">,</span> <span class="n">uMsg</span><span class="p">,</span> <span class="n">wParam</span><span class="p">,</span> <span class="n">lParam</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="/p/win32/%E7%AA%97%E5%8F%A3%E5%AE%9E%E4%BE%8B.png"
+	width="2308"
+	height="1058"
+	srcset="/p/win32/%E7%AA%97%E5%8F%A3%E5%AE%9E%E4%BE%8B_hu_a120035125e0e58a.png 480w, /p/win32/%E7%AA%97%E5%8F%A3%E5%AE%9E%E4%BE%8B_hu_db422a1158b01654.png 1024w"
+	loading="lazy"
+	
+		alt="窗口实例"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="218"
+		data-flex-basis="523px"
+	
+></p>
+<p><strong>参考</strong></p>
+<p><a class="link" href="https://gh0st.cn/Binary-Learning/Win32.html"  target="_blank" rel="noopener"
+    >Win32 - 滴水逆向课程笔记</a></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E9%9D%99%E6%80%81/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/%E7%93%B7%E5%BF%83%E5%82%80%E5%84%A1.a01753e234e91b5b60d15e20f6ab3d39_hu_da4ff1af95136a83.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 静态/动态链接库"
+                        
+                        data-hash="md5-oBdT4jTpG1tg0V4g9qs9OQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">静态/动态链接库</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/">
+        
+        
+            <div class="article-image">
+                <img src="/p/pe%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E6%AF%8D%E7%A5%9E%E5%82%A9.1cbfec7fd9f434b2e7ce94c863f98c71_hu_5bf0474e753d4b86.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post PE文件结构"
+                        
+                        data-hash="md5-HL/sf9n0NLLnzpTIY/mMcQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PE文件结构</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E6%B1%87%E7%BC%96/">
+        
+        
+            <div class="article-image">
+                <img src="/p/%E6%B1%87%E7%BC%96/%E8%9C%98%E8%9B%9B.0a867634743b3823929b7c4bcb69cd3c_hu_a28985ae574a8cb4.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 汇编"
+                        
+                        data-hash="md5-CoZ2NHQ7OCOSm3xLy2nNPA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">汇编</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "hugo-theme-stack" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2025 liuhuaqing
+    </section>
+    
+    <section class="powerby">
+        
+            人生若只如初见 <br/>
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

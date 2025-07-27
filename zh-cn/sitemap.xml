@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://567liuhuaqing.github.io/</loc>
-    <lastmod>2025-07-15T00:00:00+00:00</lastmod>
+    <lastmod>2025-07-23T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -15,8 +15,11 @@
                 href="https://567liuhuaqing.github.io/"
                 />
   </url><url>
+    <loc>https://567liuhuaqing.github.io/p/c-/</loc>
+    <lastmod>2025-07-23T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://567liuhuaqing.github.io/categories/</loc>
-    <lastmod>2025-07-15T00:00:00+00:00</lastmod>
+    <lastmod>2025-07-23T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -29,7 +32,10 @@
                 />
   </url><url>
     <loc>https://567liuhuaqing.github.io/post/</loc>
-    <lastmod>2025-07-15T00:00:00+00:00</lastmod>
+    <lastmod>2025-07-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://567liuhuaqing.github.io/categories/%E7%AE%97%E6%B3%95/</loc>
+    <lastmod>2025-07-23T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://567liuhuaqing.github.io/categories/reverse/</loc>
     <lastmod>2025-07-15T00:00:00+00:00</lastmod>
@@ -128,7 +134,7 @@
     <loc>https://567liuhuaqing.github.io/p/emoji-support/</loc>
     <lastmod>2019-03-05T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://567liuhuaqing.github.io/p/</loc>
+    <loc>https://567liuhuaqing.github.io/p/win32/</loc>
   </url><url>
     <loc>https://567liuhuaqing.github.io/%E5%85%B3%E4%BA%8E/</loc>
   </url><url>
