@@ -426,7 +426,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 32 分钟
+                    阅读时长: 33 分钟
                 </time>
             </div>
         
@@ -3022,6 +3022,78 @@ MessageBox()函数：功能是弹出一个标准的Windows对话框；它不是C
 		data-flex-basis="408px"
 	
 ></p>
+<ol>
+<li>
+<p><strong>文件映射与PE头验证</strong>：</p>
+<ul>
+<li>使用内存映射操作PE文件</li>
+<li>验证DOS头和NT头有效性</li>
+</ul>
+</li>
+<li>
+<p><strong>导入表定位</strong>：</p>
+<ul>
+<li>通过数据目录表获取原导入表RVA和大小</li>
+<li>定位导入表所在节区</li>
+</ul>
+</li>
+<li>
+<p><strong>空间计算</strong>：</p>
+<ul>
+<li>新导入表所需空间 = 原大小 + 20字节（新描述符）</li>
+<li>总空间 = 新导入表大小 + 16字节（INT/IAT） + DLL名长度 + 函数名长度+3（Hint+字符串）</li>
+</ul>
+</li>
+<li>
+<p><strong>空白区域查找</strong>：</p>
+<ul>
+<li>优先使用各节末尾空白区</li>
+<li>空间不足时扩展文件末尾</li>
+</ul>
+</li>
+<li>
+<p><strong>新导入表构建</strong>：</p>
+<ul>
+<li>复制原导入表</li>
+<li>追加新描述符和结束标记</li>
+<li>构建INT/IAT双字指针数组</li>
+<li>写入DLL名称和函数名结构</li>
+</ul>
+</li>
+<li>
+<p><strong>地址设置</strong>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">pNewImport</span><span class="o">-&gt;</span><span class="n">OriginalFirstThunk</span> <span class="o">=</span> <span class="n">INT_RVA</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">pNewImport</span><span class="o">-&gt;</span><span class="n">Name</span> <span class="o">=</span> <span class="n">DLL_NAME_RVA</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">pNewImport</span><span class="o">-&gt;</span><span class="n">FirstThunk</span> <span class="o">=</span> <span class="n">IAT_RVA</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">*</span><span class="n">pINT</span> <span class="o">=</span> <span class="n">FUNC_NAME_RVA</span><span class="p">;</span> <span class="c1">// 指向IMAGE_IMPORT_BY_NAME
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p><strong>目录项更新</strong>：</p>
+<ul>
+<li>更新导入表VirtualAddress指向新位置</li>
+<li>设置新Size（原Size+20字节）</li>
+</ul>
+</li>
+</ol>
+<p><strong>注意事项</strong>：</p>
+<ol>
+<li>需要管理员权限操作文件</li>
+<li>目标文件需有足够扩展空间</li>
+<li>函数名结构包含2字节Hint+函数名字符串</li>
+<li>INT/IAT结构以NULL指针结束</li>
+<li>添加节区可写属性（IMAGE_SCN_MEM_WRITE）</li>
+<li>对齐处理使用PE文件对齐值</li>
+</ol>
 <p><strong>参考</strong></p>
 <p><a class="link" href="https://blog.csdn.net/lyshark_csdn/article/details/127866128"  target="_blank" rel="noopener"
     >手写PE结构解析工具</a></p>
@@ -3058,6 +3130,30 @@ MessageBox()函数：功能是弹出一个标准的Windows对话框；它不是C
     <h2 class="section-title">相关文章</h2>
     <div class="related-content">
         <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/win32/">
+        
+        
+            <div class="article-image">
+                <img src="/p/win32/%E8%88%B9%E9%95%BF.8e57161f1545a79c7de62c12b72a6c44_hu_69f27f18bcc20c69.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Win32"
+                        
+                        data-hash="md5-jlcWHxVFp5x95iwStypsRA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Win32</h2>
+        </div>
+    </a>
+</article>
+
             
                 
 <article class="has-image">
@@ -3102,30 +3198,6 @@ MessageBox()函数：功能是弹出一个标准的Windows对话框；它不是C
 
         <div class="article-details">
             <h2 class="article-title">汇编</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
-    <a href="/p/win32/">
-        
-        
-            <div class="article-image">
-                <img src="/p/win32/%E8%88%B9%E9%95%BF.8e57161f1545a79c7de62c12b72a6c44_hu_69f27f18bcc20c69.jpg" 
-                        width="250" 
-                        height="150" 
-                        loading="lazy"
-                        alt="Featured image of post Win32"
-                        
-                        data-hash="md5-jlcWHxVFp5x95iwStypsRA==">
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Win32</h2>
         </div>
     </a>
 </article>
